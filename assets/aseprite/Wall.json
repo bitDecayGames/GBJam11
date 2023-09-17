@@ -22,6 +22,10 @@
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
+   { "name": "Ball", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 12, "y": 6, "w": 30, "h": 30 } }] },
+   { "name": "Turret1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 3, "y": 73, "w": 20, "h": 18 } }] },
+   { "name": "Turret2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 100, "w": 20, "h": 18 } }] },
+   { "name": "GroundLaser", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 127, "w": 52, "h": 17 } }] }
   ]
  }
 }

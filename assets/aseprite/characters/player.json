@@ -433,8 +433,10 @@
   "frameTags": [
    { "name": "Run", "from": 6, "to": 11, "direction": "forward", "color": "#000000ff" },
    { "name": "RunningShoot", "from": 12, "to": 17, "direction": "forward", "color": "#000000ff" },
-   { "name": "Jump", "from": 18, "to": 24, "direction": "forward", "color": "#000000ff" },
-   { "name": "JumpingShoot", "from": 25, "to": 31, "direction": "forward", "color": "#000000ff" },
+   { "name": "Jump", "from": 18, "to": 21, "direction": "forward", "color": "#000000ff" },
+   { "name": "JumpFall", "from": 21, "to": 24, "direction": "forward", "color": "#000000ff" },
+   { "name": "JumpShoot", "from": 25, "to": 28, "direction": "forward", "color": "#000000ff" },
+   { "name": "JumpFallShoot", "from": 28, "to": 31, "direction": "forward", "color": "#000000ff" },
    { "name": "DeathFront", "from": 33, "to": 39, "direction": "forward", "color": "#000000ff" }
   ],
   "layers": [

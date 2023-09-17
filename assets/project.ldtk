@@ -377,18 +377,18 @@
 						},
 						{
 							"__identifier": "WallBoss",
-							"__grid": [37,0],
+							"__grid": [36,0],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#9C2229",
-							"__worldX": 296,
+							"__worldX": 288,
 							"__worldY": 0,
 							"iid": "88d3c440-3b70-11ee-b82a-c3dc2406d8c7",
 							"width": 48,
 							"height": 144,
 							"defUid": 8,
-							"px": [296,0],
+							"px": [288,0],
 							"fieldInstances": []
 						},
 						{

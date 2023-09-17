@@ -27,7 +27,7 @@ class WallBoss extends FlxTypedGroup<FlxSprite> {
 		// add everything to the playstate
 		ballTarget = new BallTarget(
 			x + sliceMap.get("Ball").keys[0].bounds.x,
-			y + sliceMap.get("Ball").keys[0].bounds.y);
+			y + sliceMap.get("Ball").keys[0].bounds.y + 1);
 		ballTarget.health = 30;
 		gunTurret1 = new Turret(
 			x + sliceMap.get("Turret1").keys[0].bounds.x,

@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.util.FlxTimer;
 import flixel.FlxG;
 import states.PlayState;
 import flixel.math.FlxMath;
@@ -86,6 +87,7 @@ class Player extends EchoSprite {
 	var echoTmp:Vector2 = new Vector2(0, 0);
 
 	var controlState:PlayerState = FALLING;
+	var intentState = new AnimationState();
 	var animState = new AnimationState();
 
 	public function new(x:Float, y:Float) {
@@ -126,6 +128,7 @@ class Player extends EchoSprite {
 	override public function update(delta:Float) {
 		super.update(delta);
 
+		intentState.reset();
 		animState.reset();
 
 		if (inControl) {
@@ -134,39 +137,78 @@ class Player extends EchoSprite {
 		}
 	}
 
-	function handleLeftRight() {
+	function handleDirectionIntent() {
 		var inputDir = InputCalcuator.getInputCardinal(playerNum);
-		if (inputDir != NONE) {
-			inputDir.asVector(tmp);
-			if (tmp.x != 0) {
-				if (!SimpleController.pressed(DOWN)) {
-					animState.add(RUNNING);
-					body.velocity.x = maxSpeed * (tmp.x < 0 ? -1 : 1);
-				} else {
-					// can't hold down and run
-					body.velocity.x = 0;
-				}
-			} else {
-				body.velocity.x = 0;
-			}
-		} else {
-			body.velocity.x = 0;
+		inputDir.asVector(tmp);
+		if (tmp.y < 0) {
+			intentState.add(UPPING);
+		} else if (tmp.y > 0) {
+			intentState.add(DOWNING);
 		}
 
-		if (body.velocity.x > 0) {
-			animState.add(MOVE_RIGHT);
-		} else if (body.acceleration.x < 0) {
-			animState.add(MOVE_LEFT);
+		if (tmp.x > 0) {
+			intentState.add(MOVE_RIGHT);
+		} else if (tmp.x < 0) {
+			intentState.add(MOVE_LEFT);
 		}
 	}
 
+	function handleMovement() {
+		if (intentState.has(MOVE_LEFT)) {
+			animState.add(RUNNING);
+			animState.add(MOVE_LEFT);
+			body.velocity.x = -maxSpeed;
+		} else if (intentState.has(MOVE_RIGHT)) {
+			animState.add(RUNNING);
+			animState.add(MOVE_RIGHT);
+			body.velocity.x = maxSpeed;
+		} else {
+			body.velocity.x = 0;
+		}
+	}
+
+	var shootTimer = new FlxTimer();
+
+	@:access(flixel.animation.FlxAnimation)
 	function handleShoot() {
 		if (SimpleController.just_pressed(B)) {
-			// TODO: Shoot stuff
+			var trajectory = FlxPoint.weak(BULLET_SPEED, 0);
+			var angleAdjust = 0;
+			if (intentState.has(MOVE_RIGHT)) {
+				if (intentState.has(UPPING)) {
+					angleAdjust = -45;
+				} else if (intentState.has(DOWNING)) {
+					angleAdjust = 45;
+				}
+			} else if (intentState.has(MOVE_LEFT)) {
+				angleAdjust = 180;
+				if (intentState.has(UPPING)) {
+					angleAdjust = -135;
+				} else if (intentState.has(DOWNING)) {
+					angleAdjust = 135;
+				}
+			} else {
+				if (intentState.has(UPPING)) {
+					angleAdjust = -90;
+				}
+			}
+
+			trajectory.rotateByDegrees(angleAdjust);
 			var bullet = BasicBullet.pool.recycle(BasicBullet);
-			trace('pool size: ${BasicBullet.pool.length}');
-			bullet.spawn(body.x, body.y, FlxPoint.weak(BULLET_SPEED * (flipX ? -1 : 1), 0));
+			bullet.spawn(body.x, body.y, trajectory);
 			PlayState.ME.addPlayerBullet(bullet);
+			if (animation.curAnim != null && !StringTools.endsWith(animation.curAnim.name, "Shoot")) {
+				var frame = animation.curAnim.curFrame;
+				var frameTime = animation.curAnim._frameTimer;
+				animation.curAnim = animation.getByName(animation.curAnim.name + "Shoot");
+				animation.curAnim.curFrame = frame;
+				animation.curAnim._frameTimer = frameTime;
+				shootTimer.start(0.05, (t) -> {
+					if (animation.curAnim != null && StringTools.endsWith(animation.curAnim.name, "Shoot")) {
+						animation.curAnim = animation.getByName(StringTools.replace(animation.curAnim.name, "Shoot", ""));
+					}
+				});
+			}
 		}
 	}
 
@@ -235,11 +277,12 @@ class Player extends EchoSprite {
 	}
 
 	function handleInput(delta:Float) {
+		handleDirectionIntent();
+
 		switch(controlState) {
 			case GROUNDED:
-				// handle running and initial jump
+				handleMovement();
 				handleShoot();
-				handleLeftRight();
 				updateGrounded();
 				if (!grounded) {
 					unGroundedTime = Math.min(unGroundedTime + delta, COYOTE_TIME);
@@ -273,8 +316,8 @@ class Player extends EchoSprite {
 				}
 			case JUMPING:
 				// handle air control
+				handleMovement();
 				handleShoot();
-				handleLeftRight();
 				// TODO: Holding jump for higher jump
 				jumpHigherTimer = Math.max(0, jumpHigherTimer - delta);
 				#if debug_player
@@ -290,8 +333,8 @@ class Player extends EchoSprite {
 				}
 				updateGrounded(); // is this needed for jumping?
 			case FALLING:
+				handleMovement();
 				handleShoot();
-				handleLeftRight();
 				body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 
 				if (SimpleController.just_pressed(DOWN)) {
@@ -365,56 +408,36 @@ class Player extends EchoSprite {
 	function updateCurrentAnimation() {
 		var nextAnim = animation.curAnim.name;
 
-		if (body.velocity.x > 0) {
+		if (intentState.has(MOVE_RIGHT)) {
 			flipX = false;
-		} else if (body.velocity.x < 0) {
+		} else if (intentState.has(MOVE_LEFT)) {
 			flipX = true;
 		}
 
 		if (animState.has(GROUNDED)) {
 			if (animState.has(RUNNING)) {
-				if ((animState.has(MOVE_LEFT) && body.velocity.x > 0) || (animState.has(MOVE_RIGHT) && body.velocity.x < 0)) {
-					if (animState.has(CROUCHED)) {
-						// nextAnim = anims.slide;
-					} else {
-						// FmodManager.PlaySoundOneShot(FmodSFX.PlayerSkidShort);
-						// nextAnim = anims.skid;
-					}
+				if (intentState.has(UPPING)) {
+					nextAnim = anims.RunUpward;
+				} else if (intentState.has(DOWNING)) {
+					nextAnim = anims.RunDownward;
 				} else {
-					// if (animState.has(CROUCHED)) {
-					// 	animation.play('crawl');
-					// }
 					nextAnim = anims.Run;
+
 				}
 			} else { 
-				if (animState.has(CROUCHED)) {
-					if (body.velocity.x != 0) {
-						// if (slideSoundId == ""){
-						// 	slideSoundId = FmodManager.PlaySoundWithReference(FmodSFX.PlayerSlide2);
-						// }
-						// FmodManager.PlaySoundOneShot(FmodSFX.PlayerSlide2);
-						// nextAnim = anims.slide;
-					} else {
-						// nextAnim = anims.crouch;
-					}
+				if (intentState.has(UPPING)) {
+					nextAnim = anims.IdleUp;
+				} else if (intentState.has(DOWNING)) {
+					nextAnim = anims.Prone;
 				} else {
-					if (body.velocity.x != 0) {
-						// FmodManager.PlaySoundOneShot(FmodSFX.PlayerSkidShort);
-						nextAnim = anims.Run;
-					} else {
-						nextAnim = anims.Idle;
-					}
+					nextAnim = anims.Idle;
 				}
 			}
 		} else {
-			if (animState.has(CROUCHED)) {
-				// nextAnim = anims.jumpCrouch;
+			if (body.velocity.y > 0) {
+				nextAnim = anims.JumpFall;
 			} else {
-				if (body.velocity.y > 0) {
-					nextAnim = anims.JumpFall;
-				} else {
-					nextAnim = anims.Jump;
-				}
+				nextAnim = anims.Jump;
 			}
 		}
 
@@ -422,7 +445,7 @@ class Player extends EchoSprite {
 	}
 
 	function playAnimIfNotAlready(name:String) {
-		if (animation.curAnim == null || animation.curAnim.name != name) {
+		if (animation.curAnim == null || (animation.curAnim.name != name && !StringTools.startsWith(animation.curAnim.name, name))) {
 			animation.play(name, true);
 		}
 	}

@@ -29,7 +29,7 @@ class PlayState extends FlxTransitionableState {
 
 	var lastLevel:String;
 
-	var player:Player;
+	public var player:Player;
 
 	public var level:levels.ldtk.Level;
 	public var levelTime = 0.0;
@@ -57,6 +57,7 @@ class PlayState extends FlxTransitionableState {
 		Lifecycle.startup.dispatch();
 
 		FlxG.camera.pixelPerfectRender = true;
+		FlxG.camera.bgColor = Constants.DARKEST;
 
 		FlxEcho.init({
 			width: FlxG.width,
@@ -316,6 +317,10 @@ class PlayState extends FlxTransitionableState {
 	public function addBGTerrain(b:FlxSprite) {
 		// TODO: Do we need a separate group for things we want the player to collide with, but bullets NOT to?
 		b.add_to_group(terrainGroup);
+	}
+
+	public function addEnemyBullet(b:FlxSprite) {
+		b.add_to_group(enemyBullets);
 	}
 
 	public function addPlayerBullet(b:FlxSprite) {

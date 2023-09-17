@@ -5,5 +5,6 @@ package debug;
 enum DebugLayers {
 	GENERAL;
 	RAYCAST;
+	PLAYER;
 	AUDIO;
 }

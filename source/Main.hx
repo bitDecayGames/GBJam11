@@ -1,5 +1,6 @@
 package;
 
+import progress.Collected;
 import debug.DebugLayers;
 import flixel.system.debug.log.LogStyle;
 import haxe.Timer;
@@ -44,9 +45,10 @@ class Main extends Sprite {
 			startingState = MainMenuState;
 		}
 		#end
-		addChild(new FlxGame(0, 0, startingState, 60, 60, true, false));
-
+		addChild(new FlxGame(160, 144, startingState, 60, 60, true, false));
 		FlxG.fixedTimestep = false;
+
+		Collected.initialize();
 
 		// Disable flixel volume controls as we don't use them because of FMOD
 		FlxG.sound.muteKeys = null;

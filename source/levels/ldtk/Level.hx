@@ -1,5 +1,6 @@
 package levels.ldtk;
 
+import entities.sensor.CameraTrigger;
 import entities.boss.WallBoss;
 import ldtk.Project;
 import states.PlayState;
@@ -27,6 +28,9 @@ class Level {
 	public var rawTerrainInts = new Array<Int>();
 	public var rawTerrainTilesWide = 0;
 	public var rawTerrainTilesTall = 0;
+
+	public var camTriggers:Array<CameraTrigger> = [];
+	public var camLockZones:Map<String, FlxRect> = [];
 
 	// public var rawCoarseTerrainInts = new Array<Int>();
 	// public var rawCoarseTerrainTilesWide = 0;
@@ -70,11 +74,26 @@ class Level {
 	// 	parseCameraAreas(level);
 	// 	parseCameraTransitions(level);
 		parseBosses(level);
+		parseCamLockZones(level);
+		parseCamTriggers(level);
 	}
 
 	function parseBosses(level:LDTKProject.LDTKProject_Level) {
 		for (boss in level.l_Entities.all_WallBoss) {
 			new WallBoss(boss.pixelX, boss.pixelY);
+		}
+	}
+
+	function parseCamLockZones(level:LDTKProject.LDTKProject_Level) {
+		for (lockZone in level.l_Entities.all_CameraLock) {
+			camLockZones.set(lockZone.iid, FlxRect.get(lockZone.pixelX, lockZone.pixelY, lockZone.width, lockZone.height));
+		}
+	}
+
+	function parseCamTriggers(level:LDTKProject.LDTKProject_Level) {
+		for (trigger in level.l_Entities.all_CamTrigger) {
+			var rect = FlxRect.weak(trigger.pixelX, trigger.pixelY, trigger.width, trigger.height);
+			camTriggers.push(new CameraTrigger(rect, trigger.f_Area.entityIid));
 		}
 	}
 

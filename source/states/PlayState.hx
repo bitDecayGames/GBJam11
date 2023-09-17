@@ -1,5 +1,7 @@
 package states;
 
+import flixel.FlxObject;
+import entities.sensor.Trigger;
 import entities.EchoSprite;
 import echo.Body;
 import echo.util.TileMap;
@@ -29,6 +31,7 @@ class PlayState extends FlxTransitionableState {
 
 	var player:Player;
 
+	public var level:levels.ldtk.Level;
 	public var levelTime = 0.0;
 
 	public var playerGroup = new FlxGroup();
@@ -38,6 +41,7 @@ class PlayState extends FlxTransitionableState {
 	public var playerBullets = new FlxGroup();
 	public var enemyBullets = new FlxGroup();
 	public var particles = new FlxGroup();
+	public var triggers = new FlxGroup();
 
 	public function new() {
 		super();
@@ -67,6 +71,7 @@ class PlayState extends FlxTransitionableState {
 		add(enemyBullets);
 		add(playerGroup);
 		add(particles);
+		add(triggers);
 
 		// QuickLog.error('Example error');
 
@@ -100,16 +105,28 @@ class PlayState extends FlxTransitionableState {
 		particles.forEach((f) -> f.destroy());
 		particles.clear();
 
+		triggers.forEach((f) -> f.destroy());
+		triggers.clear();
+
 		playerGroup.forEach((f) -> f.destroy());
 		playerGroup.clear();
 		player = null;
 
-		var level = new levels.ldtk.Level(levelID);
+		for (body in terrainBodies) {
+			FlxEcho.instance.world.remove(body);
+			body.dispose();
+		}
+
+		level = new levels.ldtk.Level(levelID);
 
 		camera.setScrollBoundsRect(0, 0, level.bounds.width, level.bounds.height);
 		FlxEcho.instance.world.set(0, 0, level.bounds.width, level.bounds.height);
 
 		terrainGroup.add(level.terrainGfx);
+
+		for (trigger in level.camTriggers) {
+			trigger.add_to_group(triggers);
+		}
 
 		// softFocusBounds = FlxRect.get(0, 0, level.bounds.width, level.bounds.height);
 		// baseTerrainCam.setScrollBoundsRect(0, 0, level.bounds.width, level.bounds.height);
@@ -217,6 +234,22 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
+		FlxEcho.listen(playerGroup, triggers, {
+			separate: false,
+			enter: (a, b, o) -> {
+				// Note: Pretty sure the order we listen in dictates what comes through as
+				// our `a` and `b`, but just in case, we'll check both sides
+				if (a.object is Trigger) {
+					var t:Trigger = cast a.object;
+					t.activate();
+				}
+				if (b.object is Trigger) {
+					var t:Trigger = cast b.object;
+					t.activate();
+				}
+			},
+		});
+
 		// FlxEcho.listen(playerGroup, lasers, {
 		// 	condition: Collide.colorBodiesInteract,
 		// 	enter: (a, b, o) -> {
@@ -275,6 +308,11 @@ class PlayState extends FlxTransitionableState {
 		DebugDraw.ME.drawWorldRect(10, 10, 140, 124, DebugLayers.RAYCAST, FlxColor.RED);
 	}
 
+	public function addTerrain(b:Body) {
+		terrainBodies.push(b);
+		FlxEcho.instance.world.add(b);
+	}
+
 	public function addBGTerrain(b:FlxSprite) {
 		// TODO: Do we need a separate group for things we want the player to collide with, but bullets NOT to?
 		b.add_to_group(terrainGroup);
@@ -284,7 +322,7 @@ class PlayState extends FlxTransitionableState {
 		b.add_to_group(playerBullets);
 	}
 
-	public function addObject(e:FlxSprite) {
+	public function addObject(e:FlxObject) {
 		e.add_to_group(objects);
 	}
 

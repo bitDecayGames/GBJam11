@@ -16,14 +16,18 @@ class Aseprite {
 	// a cache to prevent us from reparsing json multiple times
 	private static var atlasCache:Map<String, AseAtlas> = [];
 
-	// loads all animations from the atlas file onto the provided sprite
-	public static function loadAllAnimations(into:FlxSprite, data:String) {
+	public static function getAtlas(data:String):AseAtlas {
 		if (!atlasCache.exists(data)) {
 			var asAtlas:FlxJsonAsset<AseAtlas> = data;
 			atlasCache.set(data, asAtlas.getData());
 		}
 
-		var atlas = atlasCache.get(data);
+		return atlasCache.get(data);
+	}
+
+	// loads all animations from the atlas file onto the provided sprite
+	public static function loadAllAnimations(into:FlxSprite, data:String) {
+		var atlas = getAtlas(data);
 
 		var imgAsset = Path.join([Path.directory(data), atlas.meta.image]);
 
@@ -64,12 +68,7 @@ class Aseprite {
 
 	// loads the requested slice image from the atlas onto the provided sprite
 	public static function loadSlice(into:FlxSprite, data:String, sliceName:String) {
-		if (!atlasCache.exists(data)) {
-			var asAtlas:FlxJsonAsset<AseAtlas> = data;
-			atlasCache.set(data, asAtlas.getData());
-		}
-
-		var atlas = atlasCache.get(data);
+		var atlas = getAtlas(data);
 
 		var imgAsset = Path.join([Path.directory(data), atlas.meta.image]);
 
@@ -93,12 +92,7 @@ class Aseprite {
 	}
 
 	private static function loadAsepriteAtlas(data:String) {
-		if (!atlasCache.exists(data)) {
-			var asAtlas:FlxJsonAsset<AseAtlas> = data;
-			atlasCache.set(data, asAtlas.getData());
-		}
-
-		var atlas = atlasCache.get(data);
+		var atlas = getAtlas(data);
 
 		var imgAsset = Path.join([Path.directory(data), atlas.meta.image]);
 		var atlasData = FlxAtlasFrames.fromAseprite(imgAsset, data);

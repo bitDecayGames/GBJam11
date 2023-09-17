@@ -166,7 +166,7 @@ class Player extends EchoSprite {
 			var bullet = BasicBullet.pool.recycle(BasicBullet);
 			trace('pool size: ${BasicBullet.pool.length}');
 			bullet.spawn(body.x, body.y, FlxPoint.weak(BULLET_SPEED * (flipX ? -1 : 1), 0));
-			PlayState.ME.addBullet(bullet);
+			PlayState.ME.addPlayerBullet(bullet);
 		}
 	}
 

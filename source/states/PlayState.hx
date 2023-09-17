@@ -35,7 +35,8 @@ class PlayState extends FlxTransitionableState {
 	public var terrainGroup = new FlxGroup();
 	public var terrainBodies:Array<Body> = [];
 	public var objects = new FlxGroup();
-	public var bullets = new FlxGroup();
+	public var playerBullets = new FlxGroup();
+	public var enemyBullets = new FlxGroup();
 	public var particles = new FlxGroup();
 
 	public function new() {
@@ -62,7 +63,8 @@ class PlayState extends FlxTransitionableState {
 
 		add(terrainGroup);
 		add(objects);
-		add(bullets);
+		add(playerBullets);
+		add(enemyBullets);
 		add(playerGroup);
 		add(particles);
 
@@ -89,8 +91,11 @@ class PlayState extends FlxTransitionableState {
 		objects.forEach((f) -> f.destroy());
 		objects.clear();
 
-		bullets.forEach((f) -> f.destroy());
-		bullets.clear();
+		playerBullets.forEach((f) -> f.destroy());
+		playerBullets.clear();
+		
+		enemyBullets.forEach((f) -> f.destroy());
+		enemyBullets.clear();
 
 		particles.forEach((f) -> f.destroy());
 		particles.clear();
@@ -188,6 +193,30 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
+		FlxEcho.listen(playerBullets, objects, {
+			separate: false,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleEnter(a, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleExit(a);
+				}
+			}
+		});
+
 		// FlxEcho.listen(playerGroup, lasers, {
 		// 	condition: Collide.colorBodiesInteract,
 		// 	enter: (a, b, o) -> {
@@ -246,8 +275,17 @@ class PlayState extends FlxTransitionableState {
 		DebugDraw.ME.drawWorldRect(10, 10, 140, 124, DebugLayers.RAYCAST, FlxColor.RED);
 	}
 
-	public function addBullet(b:FlxSprite) {
-		bullets.add(b);
+	public function addBGTerrain(b:FlxSprite) {
+		// TODO: Do we need a separate group for things we want the player to collide with, but bullets NOT to?
+		b.add_to_group(terrainGroup);
+	}
+
+	public function addPlayerBullet(b:FlxSprite) {
+		b.add_to_group(playerBullets);
+	}
+
+	public function addObject(e:FlxSprite) {
+		e.add_to_group(objects);
 	}
 
 	override public function onFocusLost() {

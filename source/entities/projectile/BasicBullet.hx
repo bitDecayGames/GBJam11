@@ -1,5 +1,6 @@
 package entities.projectile;
 
+import echo.data.Data.CollisionData;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
@@ -28,7 +29,6 @@ class BasicBullet extends EchoSprite {
 	@:access(echo.FlxEcho)
 	public function spawn(x:Float, y:Float, velocity:FlxPoint) {
 		if (body == null) {
-			trace('making new body for sprite');
 			body = makeBody();
 		}
 
@@ -44,7 +44,7 @@ class BasicBullet extends EchoSprite {
 	}
 
 	override public function configSprite() {
-		makeGraphic(6, 6, Constants.LIGHT);
+		loadGraphic(AssetPaths.bullet__png);
 	}
 
 	override public function makeBody():Body {
@@ -54,9 +54,8 @@ class BasicBullet extends EchoSprite {
 			drag_x: 0,
 			shapes: [
 				{
-					type:RECT,
-					width: 6,
-					height: 6,
+					type:CIRCLE,
+					radius: 3,
 				},
 			],
 			kinematic: true,
@@ -67,10 +66,16 @@ class BasicBullet extends EchoSprite {
 		super.update(elapsed);
 
 		if (x + width < FlxG.camera.viewLeft || x > FlxG.camera.viewRight || y + height < 0 || y > FlxG.camera.viewBottom) {
-			trace('bullet off-screen. cleaning');
 			kill();
 			body.active = false;
+			body.velocity.set(0,0);
 		}
+	}
+
+	override function handleEnter(other:Body, data:Array<CollisionData>) {
+		super.handleEnter(other, data);
+
+		kill();
 	}
 
 	override function destroy() {

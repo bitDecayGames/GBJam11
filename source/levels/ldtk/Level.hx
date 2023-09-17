@@ -1,5 +1,7 @@
 package levels.ldtk;
 
+import entities.boss.WallBoss;
+import ldtk.Project;
 import states.PlayState;
 import bitdecay.flixel.spacial.Cardinal;
 import progress.Collected;
@@ -67,6 +69,13 @@ class Level {
 	// 	parseLaserStationary(level);
 	// 	parseCameraAreas(level);
 	// 	parseCameraTransitions(level);
+		parseBosses(level);
+	}
+
+	function parseBosses(level:LDTKProject.LDTKProject_Level) {
+		for (boss in level.l_Entities.all_WallBoss) {
+			new WallBoss(boss.pixelX, boss.pixelY);
+		}
 	}
 
 	// function parseLaserRails(level:LDTKProject_Level) {

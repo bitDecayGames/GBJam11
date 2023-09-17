@@ -11,8 +11,9 @@ newgrounds 2.0.0
 bitdecaybtree git https://github.com/bitDecayGames/BehaviorTree.git
 bitlytics git https://github.com/bitDecayGames/Bitlytics.git
 flixelutils git https://github.com/bitDecayGames/flixel-utils.git
-textpop git https://github.com/bitDecayGames/text-pop.git
 
 # misc deps
-dialog-manager git https://github.com/Tanz0rz/haxe-dialog-manager.git
+echo 4.2.2
+echo-flixel 0.0.1
 haxefmod git https://github.com/Tanz0rz/haxe-fmod.git
+ldtk-haxe-api 1.3.4-rc.1

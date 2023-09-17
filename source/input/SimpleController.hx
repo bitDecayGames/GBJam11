@@ -18,20 +18,20 @@ class SimpleController {
 			DOWN => [FlxKey.DOWN, FlxKey.S],
 			LEFT => [FlxKey.LEFT, FlxKey.A],
 			RIGHT => [FlxKey.RIGHT, FlxKey.D],
-			A => [FlxKey.V],
-			B => [FlxKey.C, FlxKey.B],
+			A => [FlxKey.J, FlxKey.SPACE],
+			B => [FlxKey.K, FlxKey.H],
 			START => [FlxKey.ENTER],
 			BACK => [FlxKey.ESCAPE],
 		],
 		// PLAYER TWO
-		[
-			UP => [FlxKey.U],
-			DOWN => [FlxKey.J],
-			LEFT => [FlxKey.H],
-			RIGHT => [FlxKey.K],
-			A => [FlxKey.PERIOD],
-			B => [FlxKey.SLASH],
-		],
+		// [
+		// 	UP => [FlxKey.U],
+		// 	DOWN => [FlxKey.J],
+		// 	LEFT => [FlxKey.H],
+		// 	RIGHT => [FlxKey.K],
+		// 	A => [FlxKey.PERIOD],
+		// 	B => [FlxKey.SLASH],
+		// ],
 	];
 
 	static var pad_bindings:Map<Button, Array<FlxGamepadInputID>> = [

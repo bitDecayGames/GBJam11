@@ -1,0 +1,217 @@
+{ "frames": [
+   {
+    "filename": "GroundLaser 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 1200
+   },
+   {
+    "filename": "GroundLaser 1.aseprite",
+    "frame": { "x": 53, "y": 0, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 2.aseprite",
+    "frame": { "x": 106, "y": 0, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 3.aseprite",
+    "frame": { "x": 159, "y": 0, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 4.aseprite",
+    "frame": { "x": 212, "y": 0, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 5.aseprite",
+    "frame": { "x": 0, "y": 17, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 6.aseprite",
+    "frame": { "x": 53, "y": 17, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 7.aseprite",
+    "frame": { "x": 106, "y": 17, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 8.aseprite",
+    "frame": { "x": 159, "y": 17, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 9.aseprite",
+    "frame": { "x": 212, "y": 17, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 10.aseprite",
+    "frame": { "x": 0, "y": 34, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 11.aseprite",
+    "frame": { "x": 53, "y": 34, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 12.aseprite",
+    "frame": { "x": 106, "y": 34, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 13.aseprite",
+    "frame": { "x": 159, "y": 34, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 14.aseprite",
+    "frame": { "x": 212, "y": 34, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 15.aseprite",
+    "frame": { "x": 0, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 16.aseprite",
+    "frame": { "x": 53, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 17.aseprite",
+    "frame": { "x": 106, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 18.aseprite",
+    "frame": { "x": 159, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 19.aseprite",
+    "frame": { "x": 212, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 20.aseprite",
+    "frame": { "x": 159, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   },
+   {
+    "filename": "GroundLaser 21.aseprite",
+    "frame": { "x": 106, "y": 51, "w": 53, "h": 17 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 17 },
+    "sourceSize": { "w": 53, "h": 17 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-rc6-x64",
+  "image": "GroundLaser.png",
+  "format": "RGBA8888",
+  "size": { "w": 265, "h": 68 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "ChargeShoot", "from": 0, "to": 21, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

@@ -2,21 +2,21 @@ package entities;
 
 import flixel.FlxG;
 import states.PlayState;
-import echo.Line;
 import flixel.math.FlxMath;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
-import animation.AnimationState;
+import flixel.math.FlxPoint;
+
+import echo.Line;
 import echo.util.AABB;
 import echo.data.Data.CollisionData;
-import flixel.math.FlxPoint;
-import bitdecay.flixel.debug.DebugDraw;
 import echo.Body;
 import echo.math.Vector2;
-import flixel.FlxSprite;
-import debug.DebugLayers;
-
 import echo.Shape;
+import bitdecay.flixel.debug.DebugDraw;
+
+import animation.AnimationState;
+import debug.DebugLayers;
 import input.InputCalcuator;
 import input.SimpleController;
 import loaders.Aseprite;
@@ -91,11 +91,11 @@ class Player extends EchoSprite {
 		// This call can be used once https://github.com/HaxeFlixel/flixel/pull/2860 is merged
 		// FlxAsepriteUtil.loadAseAtlasAndTags(this, AssetPaths.player__png, AssetPaths.player__json);
 		Aseprite.loadAllAnimations(this, AssetPaths.player__json);
-		animation.play(anims.right);
+		animation.play(anims.Jump);
 		animation.callback = (anim, frame, index) -> {
-			if (eventData.exists(index)) {
+			// if (eventData.exists(index)) {
 				// trace('frame $index has data ${eventData.get(index)}');
-			}
+			// }
 		};
 
 		mainBody = body.shapes[0];
@@ -114,15 +114,9 @@ class Player extends EchoSprite {
 				{
 					type:RECT,
 					width: 12,
-					height: 16,
-					offset_y: 8,
+					height: 20,
+					offset_y: 3,
 				},
-				// collision snag helpers
-				// {
-				// 	type:CIRCLE,
-				// 	radius: 4,
-				// 	offset_y: 12.1
-				// }
 			]
 		});
 	}
@@ -130,7 +124,12 @@ class Player extends EchoSprite {
 	override public function update(delta:Float) {
 		super.update(delta);
 
-		handleInput(delta);
+		animState.reset();
+
+		if (inControl) {
+			handleInput(delta);
+			updateCurrentAnimation();
+		}
 	}
 
 	function handleLeftRight() {
@@ -369,6 +368,71 @@ class Player extends EchoSprite {
 		
 		if (grounded) {
 			animState.add(GROUNDED);
+		}
+	}
+
+	function updateCurrentAnimation() {
+		var nextAnim = animation.curAnim.name;
+
+		if (body.velocity.x > 0) {
+			flipX = false;
+		} else if (body.velocity.x < 0) {
+			flipX = true;
+		}
+
+		if (animState.has(GROUNDED)) {
+			if (animState.has(RUNNING)) {
+				if ((animState.has(MOVE_LEFT) && body.velocity.x > 0) || (animState.has(MOVE_RIGHT) && body.velocity.x < 0)) {
+					if (animState.has(CROUCHED)) {
+						// nextAnim = anims.slide;
+					} else {
+						// FmodManager.PlaySoundOneShot(FmodSFX.PlayerSkidShort);
+						// nextAnim = anims.skid;
+					}
+				} else {
+					// if (animState.has(CROUCHED)) {
+					// 	animation.play('crawl');
+					// }
+					nextAnim = anims.Run;
+				}
+			} else { 
+				if (animState.has(CROUCHED)) {
+					if (body.velocity.x != 0) {
+						// if (slideSoundId == ""){
+						// 	slideSoundId = FmodManager.PlaySoundWithReference(FmodSFX.PlayerSlide2);
+						// }
+						// FmodManager.PlaySoundOneShot(FmodSFX.PlayerSlide2);
+						// nextAnim = anims.slide;
+					} else {
+						// nextAnim = anims.crouch;
+					}
+				} else {
+					if (body.velocity.x != 0) {
+						// FmodManager.PlaySoundOneShot(FmodSFX.PlayerSkidShort);
+						nextAnim = anims.Run;
+					} else {
+						nextAnim = anims.Idle;
+					}
+				}
+			}
+		} else {
+			if (animState.has(CROUCHED)) {
+				// nextAnim = anims.jumpCrouch;
+			} else {
+				if (body.velocity.y > 0) {
+					nextAnim = anims.JumpFall;
+				} else {
+					nextAnim = anims.Jump;
+				}
+			}
+		}
+
+		playAnimIfNotAlready(nextAnim);
+	}
+
+	function playAnimIfNotAlready(name:String) {
+		if (animation.curAnim == null || animation.curAnim.name != name) {
+			animation.play(name, true);
 		}
 	}
 

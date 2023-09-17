@@ -674,7 +674,7 @@
    { "name": "IdleDownward", "from": 7, "to": 7, "direction": "forward", "color": "#000000ff" },
    { "name": "IdleDownwardShoot", "from": 8, "to": 8, "direction": "forward", "color": "#000000ff" },
    { "name": "Run", "from": 9, "to": 14, "direction": "forward", "color": "#000000ff" },
-   { "name": "RunningShoot", "from": 15, "to": 20, "direction": "forward", "color": "#000000ff" },
+   { "name": "RunShoot", "from": 15, "to": 20, "direction": "forward", "color": "#000000ff" },
    { "name": "RunUpward", "from": 21, "to": 26, "direction": "forward", "color": "#000000ff" },
    { "name": "RunUpwardShoot", "from": 27, "to": 32, "direction": "forward", "color": "#000000ff" },
    { "name": "RunDownward", "from": 33, "to": 38, "direction": "forward", "color": "#000000ff" },

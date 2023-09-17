@@ -35,6 +35,7 @@ class PlayState extends FlxTransitionableState {
 	public var terrainGroup = new FlxGroup();
 	public var terrainBodies:Array<Body> = [];
 	public var objects = new FlxGroup();
+	public var bullets = new FlxGroup();
 	public var particles = new FlxGroup();
 
 	public function new() {
@@ -61,6 +62,7 @@ class PlayState extends FlxTransitionableState {
 
 		add(terrainGroup);
 		add(objects);
+		add(bullets);
 		add(playerGroup);
 		add(particles);
 
@@ -86,6 +88,9 @@ class PlayState extends FlxTransitionableState {
 
 		objects.forEach((f) -> f.destroy());
 		objects.clear();
+
+		bullets.forEach((f) -> f.destroy());
+		bullets.clear();
 
 		particles.forEach((f) -> f.destroy());
 		particles.clear();
@@ -239,6 +244,10 @@ class PlayState extends FlxTransitionableState {
 		var cam = FlxG.camera;
 		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
 		DebugDraw.ME.drawWorldRect(10, 10, 140, 124, DebugLayers.RAYCAST, FlxColor.RED);
+	}
+
+	public function addBullet(b:FlxSprite) {
+		bullets.add(b);
 	}
 
 	override public function onFocusLost() {

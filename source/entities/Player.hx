@@ -21,6 +21,7 @@ import input.InputCalcuator;
 import input.SimpleController;
 import loaders.Aseprite;
 import loaders.AsepriteMacros;
+import entities.projectile.BasicBullet;
 
 using echo.FlxEcho;
 
@@ -61,6 +62,7 @@ class Player extends EchoSprite {
 	var INITIAL_JUMP_STRENGTH = -11.5 * Constants.BLOCK_SIZE;
 	var MAX_JUMP_RELEASE_VELOCITY = -5 * Constants.BLOCK_SIZE;
 	var FAST_FALL_SPEED = 20 * Constants.BLOCK_SIZE;
+	var BULLET_SPEED = 15 * Constants.BLOCK_SIZE;
 
 	var bonkedHead = false;
 	var jumping = false;
@@ -158,6 +160,16 @@ class Player extends EchoSprite {
 		}
 	}
 
+	function handleShoot() {
+		if (SimpleController.just_pressed(B)) {
+			// TODO: Shoot stuff
+			var bullet = BasicBullet.pool.recycle(BasicBullet);
+			trace('pool size: ${BasicBullet.pool.length}');
+			bullet.spawn(body.x, body.y, FlxPoint.weak(BULLET_SPEED * (flipX ? -1 : 1), 0));
+			PlayState.ME.addBullet(bullet);
+		}
+	}
+
 	function updateGrounded() {
 		groundedCastLeft = false;
 		groundedCastMiddle = false;
@@ -226,6 +238,7 @@ class Player extends EchoSprite {
 		switch(controlState) {
 			case GROUNDED:
 				// handle running and initial jump
+				handleShoot();
 				handleLeftRight();
 				updateGrounded();
 				if (!grounded) {
@@ -260,14 +273,14 @@ class Player extends EchoSprite {
 				}
 			case JUMPING:
 				// handle air control
+				handleShoot();
 				handleLeftRight();
 				// TODO: Holding jump for higher jump
 				jumpHigherTimer = Math.max(0, jumpHigherTimer - delta);
 				#if debug_player
 				FlxG.watch.addQuick('jump timer: ', jumpHigherTimer);
 				#end
-				if (!SimpleController.pressed(A) || bonkedHead || body.velocity.y > 0) {
-					// jumping = false;
+				if (!SimpleController.pressed(A) || bonkedHead || body.velocity.y > 0 || jumpHigherTimer <= 0) {
 					controlState = FALLING;
 					body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 				}
@@ -277,6 +290,7 @@ class Player extends EchoSprite {
 				}
 				updateGrounded(); // is this needed for jumping?
 			case FALLING:
+				handleShoot();
 				handleLeftRight();
 				body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 
@@ -290,6 +304,7 @@ class Player extends EchoSprite {
 				}
 			case FASTFALL:
 				// options while fast falling? Just shooting?
+				handleShoot();
 				body.velocity.y = FAST_FALL_SPEED;
 				updateGrounded();
 				if (grounded) {
@@ -299,23 +314,12 @@ class Player extends EchoSprite {
 
 		FlxG.watch.addQuick("Player State:", controlState.getName());
 
-		// if (jumping) {
-		// 	jumpHigherTimer = Math.max(0, jumpHigherTimer - delta);
-		// 	#if debug_player
-		// 	FlxG.watch.addQuick('jump timer: ', jumpHigherTimer);
-		// 	#end
-		// 	if (!SimpleController.pressed(A) || bonkedHead) {
-		// 		jumping = false;
-		// 		body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
-		// 	}
-		// }
-
+		
+		#if debug_player
 		var velScaler = 20;
 		var color = jumping ? FlxColor.CYAN : FlxColor.MAGENTA;
-
-		#if debug_player
 		FlxG.watch.addQuick('Player y velocity: ', body.velocity.y);
-		#end
+
 		DebugDraw.ME.drawWorldLine(
 			body.x - 15,
 			body.y,
@@ -351,20 +355,7 @@ class Player extends EchoSprite {
 			MAX_VELOCITY / velScaler * 2,
 			PLAYER,
 			FlxColor.GRAY);
-
-		// TODO: Need to prevent running (x-accel) when crouching
-		// if (SimpleController.pressed(DOWN)) {
-		// 	animState.add(CROUCHED);
-		// 	// topShape.solid = false;
-		// 	if (grounded) {
-		// 		body.drag.x = decel;
-		// 	} else {
-		// 		body.drag.x = decel;
-		// 	}
-		// } else {
-		// 	// topShape.solid = true;
-		// 	body.drag.x = decel;
-		// }
+		#end
 		
 		if (grounded) {
 			animState.add(GROUNDED);

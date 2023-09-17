@@ -431,6 +431,8 @@
   "size": { "w": 330, "h": 186 },
   "scale": "1",
   "frameTags": [
+   { "name": "Idle", "from": 1, "to": 1, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleShoot", "from": 5, "to": 5, "direction": "forward", "color": "#000000ff" },
    { "name": "Run", "from": 6, "to": 11, "direction": "forward", "color": "#000000ff" },
    { "name": "RunningShoot", "from": 12, "to": 17, "direction": "forward", "color": "#000000ff" },
    { "name": "Jump", "from": 18, "to": 21, "direction": "forward", "color": "#000000ff" },

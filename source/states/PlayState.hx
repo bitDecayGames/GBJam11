@@ -1,5 +1,7 @@
 package states;
 
+import states.substate.SoldierIntro;
+import ui.font.BitmapText.Trooper;
 import flixel.FlxObject;
 import entities.sensor.Trigger;
 import entities.EchoSprite;
@@ -78,7 +80,11 @@ class PlayState extends FlxTransitionableState {
 
 		// QuickLog.error('Example error');
 
-		loadLevel("Level_0");
+		var cpLevel = Collected.getCheckpointLevel();
+		if (cpLevel == null) {
+			cpLevel = "Level_0";
+		}
+		loadLevel("Level_0", Collected.getCheckpointID());
 	}
 
 	@:access(echo.FlxEcho)
@@ -89,7 +95,7 @@ class PlayState extends FlxTransitionableState {
 		Collected.addTime(levelTime);
 		levelTime = 0;
 
-		Collected.setLastCheckpoint(levelID);
+		Collected.setLastCheckpoint(levelID, null);
 
 		FlxEcho.clear();
 
@@ -156,12 +162,13 @@ class PlayState extends FlxTransitionableState {
 		var extraSpawnLogic:Void->Void = null;
 		var spawnPoint = FlxPoint.get(50, 0);
 		if (entityID != null) {
+			var matches = level.raw.l_Entities.all_Checkpoint.filter((c) -> {return c.iid == entityID;});
 			// var matches = level.raw.l_Objects.all_Door.filter((d) -> {return d.iid == entityID;});
-			// if (matches.length != 1) {
-			// 	var msg = 'expected door in level ${levelID} with iid ${entityID}, but got ${matches.length} matches';
-			// 	QuickLog.critical(msg);
-			// }
-			// var spawn = matches[0];
+			if (matches.length != 1) {
+				var msg = 'expected checkpoint in level ${levelID} with iid ${entityID}, but got ${matches.length} matches';
+				QuickLog.critical(msg);
+			}
+			var spawn = matches[0];
 			// var t:Transition = null;
 			// for (o in objects) {
 			// 	if (o is Transition) {
@@ -174,12 +181,11 @@ class PlayState extends FlxTransitionableState {
 			// 	}
 			// }
 			// var spawnDir = CardinalMaker.fromString(spawn.f_access_dir.getName());
-			// spawnPoint.set(spawn.pixelX, spawn.pixelY);
-			// TODO: find a better way to calculate this offset
-			// spawnPoint.addPoint(spawnDir.asVector().scale(16));
 
-			FlxEcho.updates = false;
-			FlxEcho.instance.active = false;
+			spawnPoint.set(spawn.pixelX, spawn.pixelY);
+
+			// FlxEcho.updates = false;
+			// FlxEcho.instance.active = false;
 		} else if (level.raw.l_Entities.all_Player_spawn.length > 0) {
 			var rawSpawn = level.raw.l_Entities.all_Player_spawn[0];
 			spawnPoint.set(rawSpawn.pixelX, rawSpawn.pixelY);
@@ -187,6 +193,7 @@ class PlayState extends FlxTransitionableState {
 			QuickLog.critical('no spawn found, and no entity provided. Cannot spawn player');
 		}
 
+		// TODO: Spawn player with cutscene. Also enables re-spawning
 		player = new Player(spawnPoint.x, spawnPoint.y);
 		camera.follow(player);
 		player.add_to_group(playerGroup);
@@ -276,14 +283,32 @@ class PlayState extends FlxTransitionableState {
 				}
 			},
 		});
+
+		openSubState(new SoldierIntro());
 	}
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
 		var cam = FlxG.camera;
-		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
-		DebugDraw.ME.drawWorldRect(10, 10, 140, 124, DebugLayers.RAYCAST, FlxColor.RED);
+		for (cp in level.raw.l_Entities.all_Checkpoint) {
+			DebugDraw.ME.drawWorldCircle(cp.pixelX, cp.pixelY, 2, LEVEL);
+		}
+
+		tryUpdatingCheckpoint();
+	}
+
+	var nextCPCheck = 0;
+	function tryUpdatingCheckpoint() {
+		var cps = level.raw.l_Entities.all_Checkpoint;
+		for (i in nextCPCheck...cps.length) {
+			if (player.body.x > cps[i].pixelX) {
+				// SET!
+				trace('we got to checkpoint $i');
+				Collected.setLastCheckpoint(level.raw.iid, cps[i].iid);
+				nextCPCheck = i + 1;
+			}
+		}
 	}
 
 	public function killPlayer() {

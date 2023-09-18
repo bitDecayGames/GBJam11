@@ -23,6 +23,23 @@ abstract PressStart(BitmapText) to BitmapText {
 	}
 }
 
+@:forward
+abstract Trooper(BitmapText) to BitmapText {
+	static public var font(get, null):FlxBitmapFont = null;
+
+	inline public function new(x = 0.0, y = 0.0, text = "") {
+		this = new BitmapText(x, y, text.toUpperCase(), font);
+	}
+
+	inline static function get_font() {
+		if (font == null) {
+			@:privateAccess
+			font = BitmapText.createTrooperFont();
+		}
+		return font;
+	}
+}
+
 class BitmapText extends flixel.text.FlxBitmapText {
 	static var mainFont:FlxBitmapFont = null;
 
@@ -66,6 +83,37 @@ class BitmapText extends flixel.text.FlxBitmapText {
 			var code = chars.charCodeAt(i);
 			font.addCharFrame(code, FlxRect.get(x, 0, widths[i], height), FlxPoint.get(), widths[i]);
 			x += widths[i];
+		}
+
+		font.lineHeight = height;
+		font.spaceWidth = spaceWidth;
+		return font;
+	}
+
+	@:allow(PressStart)
+	static function createTrooperFont():FlxBitmapFont {
+		// Base font information
+		var path = AssetPaths.Font_Medium__png;
+		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,?!-1234567890";
+		var spaceWidth = 5;
+		var width = 8;
+		var height = 10;
+
+		var graphic = FlxG.bitmap.add(path);
+		var frame = graphic.imageFrame.frame;
+
+		var font = new FlxBitmapFont(frame);
+		var x = 0;
+		var y = 0;
+
+		for (i in 0...chars.length) {
+			var code = chars.charCodeAt(i);
+			font.addCharFrame(code, FlxRect.get(x, y, width, height), FlxPoint.get(), width);
+			x += width;
+			if (x > graphic.width) {
+				x = 0;
+				y += height;
+			}
 		}
 
 		font.lineHeight = height;

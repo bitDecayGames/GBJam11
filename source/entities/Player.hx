@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 import states.PlayState;
@@ -91,6 +92,11 @@ class Player extends EchoSprite {
 	var intentState = new AnimationState();
 	var animState = new AnimationState();
 
+	var awaitingDeath = false;
+	var deathStillnessTimer = 0.5;
+
+	var killable = true;
+
 	public function new(x:Float, y:Float) {
 		super(x, y);
 		// This call can be used once https://github.com/HaxeFlixel/flixel/pull/2860 is merged
@@ -128,10 +134,17 @@ class Player extends EchoSprite {
 				{
 					type:RECT,
 					width: 12,
-					height: 10,
-					offset_y: 13,
+					height: 7,
+					offset_y: 15.5,
 				}
 			]
+		});
+	}
+
+	public function invulnerable(duration:Float) {
+		killable = false;
+		FlxSpriteUtil.flicker(this, duration, (f) -> {
+			killable = true;
 		});
 	}
 
@@ -144,7 +157,18 @@ class Player extends EchoSprite {
 		if (inControl) {
 			handleInput(delta);
 			updateCurrentAnimation();
+		} else if (awaitingDeath) {
+			if (body.velocity.length == 0) {
+				deathStillnessTimer -= delta;
+
+				if (deathStillnessTimer <= 0) {
+					PlayState.ME.killPlayer();
+					active = false;
+				}
+			}
 		}
+
+		FlxG.watch.addQuick('player Vel:', body.velocity);
 	}
 
 	function handleDirectionIntent() {
@@ -539,6 +563,13 @@ class Player extends EchoSprite {
 			} else {
 				// FmodManager.PlaySoundOneShot(FmodSFX.PlayerBonkWall2);
 			}
+		}
+
+		if (killable && other.object is BasicBullet) {
+			inControl = false;
+			body.velocity.x = 0;
+			awaitingDeath = true;
+			playAnimIfNotAlready(anims.DeathFront);
 		}
 	}
 

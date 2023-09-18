@@ -38,6 +38,7 @@ class PlayState extends FlxTransitionableState {
 	public var terrainGroup = new FlxGroup();
 	public var terrainBodies:Array<Body> = [];
 	public var objects = new FlxGroup();
+	public var corpseGroup = new FlxGroup();
 	public var playerBullets = new FlxGroup();
 	public var enemyBullets = new FlxGroup();
 	public var particles = new FlxGroup();
@@ -67,10 +68,11 @@ class PlayState extends FlxTransitionableState {
 		});
 
 		add(terrainGroup);
+		add(corpseGroup);
 		add(objects);
+		add(playerGroup);
 		add(playerBullets);
 		add(enemyBullets);
-		add(playerGroup);
 		add(particles);
 		add(triggers);
 
@@ -96,6 +98,9 @@ class PlayState extends FlxTransitionableState {
 
 		objects.forEach((f) -> f.destroy());
 		objects.clear();
+
+		corpseGroup.forEach((f) -> f.destroy());
+		corpseGroup.clear();
 
 		playerBullets.forEach((f) -> f.destroy());
 		playerBullets.clear();
@@ -185,8 +190,6 @@ class PlayState extends FlxTransitionableState {
 		player = new Player(spawnPoint.x, spawnPoint.y);
 		camera.follow(player);
 		player.add_to_group(playerGroup);
-		// player.camera = objectCam;
-		// deltaModIgnorers.add(player);
 		if (extraSpawnLogic != null) {
 			extraSpawnLogic();
 		}
@@ -194,8 +197,7 @@ class PlayState extends FlxTransitionableState {
 		// We need to cache our non-interacting collisions to avoid glitchy
 		// physics if they change color after they overlap with a valid color
 		// match.
-		FlxEcho.instance.world.listen(player.get_body(), terrainBodies, {
-			// condition: Collide.colorBodiesDoNotInteract,
+		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(playerGroup), terrainBodies, {
 			separate: true,
 			enter: (a, b, o) -> {
 				if (a.object is EchoSprite) {
@@ -207,6 +209,30 @@ class PlayState extends FlxTransitionableState {
 				if (a.object is EchoSprite) {
 					var aSpr:EchoSprite = cast a.object;
 					aSpr.handleExit(b);
+				}
+			}
+		});
+
+		FlxEcho.listen(playerGroup, enemyBullets, {
+			separate: false,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleEnter(a, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleExit(a);
 				}
 			}
 		});
@@ -250,55 +276,6 @@ class PlayState extends FlxTransitionableState {
 				}
 			},
 		});
-
-		// FlxEcho.listen(playerGroup, lasers, {
-		// 	condition: Collide.colorBodiesInteract,
-		// 	enter: (a, b, o) -> {
-		// 		if (Std.isOfType(a.object, ColorCollideSprite)) {
-		// 			cast(a.object, ColorCollideSprite).handleEnter(b, o);
-		// 		}
-		// 		if (Std.isOfType(b.object, ColorCollideSprite)) {
-		// 			cast(b.object, ColorCollideSprite).handleEnter(a, o);
-		// 		}
-		// 	},
-		// 	stay: (a, b, o) -> {
-		// 		if (Std.isOfType(a.object, ColorCollideSprite)) {
-		// 			cast(a.object, ColorCollideSprite).handleStay(b, o);
-		// 		}
-		// 		if (Std.isOfType(b.object, ColorCollideSprite)) {
-		// 			cast(b.object, ColorCollideSprite).handleStay(a, o);
-		// 		}
-		// 	},
-		// });
-
-		// FlxEcho.listen(playerGroup, objects, {
-		// 	condition: Collide.colorBodiesInteract,
-		// 	correction_threshold: .025, // not sure if this actually helps, but it seems to result in less snagging
-		// 	enter: (a, b, o) -> {
-		// 		if (Std.isOfType(a.object, ColorCollideSprite)) {
-		// 			cast(a.object, ColorCollideSprite).handleEnter(b, o);
-		// 		}
-		// 		if (Std.isOfType(b.object, ColorCollideSprite)) {
-		// 			cast(b.object, ColorCollideSprite).handleEnter(a, o);
-		// 		}
-		// 	},
-		// 	stay: (a, b, o) -> {
-		// 		if (Std.isOfType(a.object, ColorCollideSprite)) {
-		// 			cast(a.object, ColorCollideSprite).handleStay(b, o);
-		// 		}
-		// 		if (Std.isOfType(b.object, ColorCollideSprite)) {
-		// 			cast(b.object, ColorCollideSprite).handleStay(a, o);
-		// 		}
-		// 	},
-		// 	exit: (a, b) -> {
-		// 		if (Std.isOfType(a.object, ColorCollideSprite)) {
-		// 			cast(a.object, ColorCollideSprite).handleExit(b);
-		// 		}
-		// 		if (Std.isOfType(b.object, ColorCollideSprite)) {
-		// 			cast(b.object, ColorCollideSprite).handleExit(a);
-		// 		}
-		// 	},
-		// });
 	}
 
 	override public function update(elapsed:Float) {
@@ -307,6 +284,22 @@ class PlayState extends FlxTransitionableState {
 		var cam = FlxG.camera;
 		DebugDraw.ME.drawCameraRect(cam.getCenterPoint().x - 5, cam.getCenterPoint().y - 5, 10, 10, DebugLayers.RAYCAST, FlxColor.RED);
 		DebugDraw.ME.drawWorldRect(10, 10, 140, 124, DebugLayers.RAYCAST, FlxColor.RED);
+	}
+
+	public function killPlayer() {
+		player.remove_from_group(playerGroup);
+		player.remove_object();
+
+		// force them to a rounded pixel position to avoid jitters
+		player.x = Math.round(player.x);
+		
+		corpseGroup.add(player);
+
+		// TODO: Make new player, do cutscene, etc
+		player = new Player(player.body.x, player.body.y - 50);
+		camera.follow(player);
+		player.add_to_group(playerGroup);
+		player.invulnerable(1);
 	}
 
 	public function addTerrain(b:Body) {

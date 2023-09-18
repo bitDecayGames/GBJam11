@@ -47,7 +47,7 @@ class CameraTrigger extends Trigger {
 				lockBody.x = FlxG.camera.scroll.x;
 			},
 			onComplete: (t) -> {
-
+				FlxG.camera.setScrollBounds(zone.left, zone.right, zone.top, zone.bottom);
 			}
 		});
 	}

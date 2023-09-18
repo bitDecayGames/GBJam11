@@ -28,15 +28,15 @@ class WallBoss extends FlxTypedGroup<FlxSprite> {
 		ballTarget = new BallTarget(
 			x + sliceMap.get("Ball").keys[0].bounds.x,
 			y + sliceMap.get("Ball").keys[0].bounds.y + 1);
-		ballTarget.health = 30;
+		ballTarget.health = 3;
 		gunTurret1 = new Turret(
 			x + sliceMap.get("Turret1").keys[0].bounds.x,
 			y + sliceMap.get("Turret1").keys[0].bounds.y);
-		gunTurret1.health = 30;
+		gunTurret1.health = 2;
 		gunTurret2 = new Turret(
 			x + sliceMap.get("Turret2").keys[0].bounds.x,
 			y + sliceMap.get("Turret2").keys[0].bounds.y);
-		gunTurret2.health = 30;
+		gunTurret2.health = 2;
 		groundLaser = new GroundLaser(x + sliceMap.get("GroundLaser").keys[0].bounds.x, y + sliceMap.get("GroundLaser").keys[0].bounds.y);
 		// TODO: We probably want to do this only once the player is close enough
 		spawn();

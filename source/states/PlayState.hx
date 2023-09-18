@@ -320,6 +320,10 @@ class PlayState extends FlxTransitionableState {
 		b.add_to_group(playerBullets);
 	}
 
+	public function addBasicParticle(p:FlxSprite) {
+		particles.add(p);
+	}
+
 	public function addObject(e:FlxObject) {
 		e.add_to_group(objects);
 	}

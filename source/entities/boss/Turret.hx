@@ -1,5 +1,7 @@
 package entities.boss;
 
+import flixel.math.FlxRect;
+import entities.particle.Explosion;
 import flixel.math.FlxAngle;
 import flixel.math.FlxPoint;
 import flixel.math.FlxMath;
@@ -132,6 +134,9 @@ class Turret extends EchoSprite {
 			if (health <= 0) {
 				body.active = false;
 				frameMod = 10;
+				Explosion.death(10, FlxRect.weak(x, y, width, height), () -> {
+
+				});
 			} else {
 				frameMod = 5;
 				damageTimer.start(damageBlinkDuration, (t) -> {

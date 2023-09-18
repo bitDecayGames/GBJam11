@@ -1,5 +1,8 @@
 package entities.boss;
 
+import bitdecay.flixel.debug.DebugDraw;
+import flixel.math.FlxRect;
+import entities.particle.Explosion;
 import flixel.util.FlxTimer;
 import entities.projectile.BasicBullet;
 import echo.data.Data.CollisionData;
@@ -57,6 +60,7 @@ class BallTarget extends EchoSprite {
 				} else {
 					// TODO: More animation around this?
 					animation.play(anims.Broken);
+					Explosion.death(15, FlxRect.weak(x, y, width, height), 3);
 				}
 			});
 		}

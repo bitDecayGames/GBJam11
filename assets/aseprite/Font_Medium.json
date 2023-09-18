@@ -1,0 +1,27 @@
+{ "frames": [
+   {
+    "filename": "Font_Medium.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 103, "h": 39 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 103, "h": 39 },
+    "sourceSize": { "w": 103, "h": 39 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-rc6-x64",
+  "image": "Font_Medium.png",
+  "format": "RGBA8888",
+  "size": { "w": 103, "h": 39 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

@@ -64,7 +64,7 @@
    },
    {
     "filename": "Faces 7.aseprite",
-    "frame": { "x": 0, "y": 80, "w": 44, "h": 40 },
+    "frame": { "x": 44, "y": 80, "w": 44, "h": 40 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 44, "h": 40 },
@@ -73,7 +73,7 @@
    },
    {
     "filename": "Faces 8.aseprite",
-    "frame": { "x": 0, "y": 80, "w": 44, "h": 40 },
+    "frame": { "x": 44, "y": 80, "w": 44, "h": 40 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 44, "h": 40 },

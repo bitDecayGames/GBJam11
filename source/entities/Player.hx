@@ -55,6 +55,7 @@ class Player extends EchoSprite {
 	var groundedCastRight:Bool = false;
 
 	public var mainBody:echo.Shape.Shape;
+	public var proneBody:echo.Shape.Shape;
 
 	// if we are playing it in debug, make it harder for us. Be nice to players
 	var COYOTE_TIME = #if debug 0.1 #else 0.2 #end;
@@ -103,7 +104,8 @@ class Player extends EchoSprite {
 		};
 
 		mainBody = body.shapes[0];
-		// groundCircle = body.shapes[1];
+		proneBody = body.shapes[1];
+		body.remove_shape(proneBody);
 	}
 
 	override function makeBody():Body {
@@ -115,12 +117,20 @@ class Player extends EchoSprite {
 			drag_x: 0,
 			mass: PLAYER_WEIGHT,
 			shapes: [
+				// Standard moving hitbox
 				{
 					type:RECT,
 					width: 12,
 					height: 20,
-					offset_y: 3,
+					offset_y: 8,
 				},
+				// Prone hitbox
+				{
+					type:RECT,
+					width: 12,
+					height: 10,
+					offset_y: 13,
+				}
 			]
 		});
 	}
@@ -169,11 +179,12 @@ class Player extends EchoSprite {
 
 	var shootTimer = new FlxTimer();
 
-	@:access(flixel.animation.FlxAnimation)
 	function handleShoot() {
 		if (SimpleController.just_pressed(B)) {
 			var trajectory = FlxPoint.weak(BULLET_SPEED, 0);
-			var angleAdjust = 0;
+			var vertOffset = 7;
+			var offset = FlxPoint.weak(12);
+			var angleAdjust = flipX ? 180 : 0;
 			if (intentState.has(MOVE_RIGHT)) {
 				if (intentState.has(UPPING)) {
 					angleAdjust = -45;
@@ -190,24 +201,23 @@ class Player extends EchoSprite {
 			} else {
 				if (intentState.has(UPPING)) {
 					angleAdjust = -90;
+				} else if (intentState.has(DOWNING)) {
+					offset.x = 18;
+					vertOffset = 13;
 				}
 			}
 
+			if (StringTools.startsWith(animation.curAnim.name, "Jump")) {
+				vertOffset -= 6;
+			}
+
 			trajectory.rotateByDegrees(angleAdjust);
+			offset.rotateByDegrees(angleAdjust);
 			var bullet = BasicBullet.pool.recycle(BasicBullet);
-			bullet.spawn(body.x, body.y, trajectory);
+			bullet.spawn(body.x + offset.x, body.y + offset.y + vertOffset, trajectory);
 			PlayState.ME.addPlayerBullet(bullet);
 			if (animation.curAnim != null && !StringTools.endsWith(animation.curAnim.name, "Shoot")) {
-				var frame = animation.curAnim.curFrame;
-				var frameTime = animation.curAnim._frameTimer;
-				animation.curAnim = animation.getByName(animation.curAnim.name + "Shoot");
-				animation.curAnim.curFrame = frame;
-				animation.curAnim._frameTimer = frameTime;
-				shootTimer.start(0.05, (t) -> {
-					if (animation.curAnim != null && StringTools.endsWith(animation.curAnim.name, "Shoot")) {
-						animation.curAnim = animation.getByName(StringTools.replace(animation.curAnim.name, "Shoot", ""));
-					}
-				});
+				muzzleFlashAnim(0.05);
 			}
 		}
 	}
@@ -434,10 +444,26 @@ class Player extends EchoSprite {
 				}
 			}
 		} else {
-			if (body.velocity.y > 0) {
-				nextAnim = anims.JumpFall;
-			} else {
-				nextAnim = anims.Jump;
+			if (animState.has(RUNNING)) {
+				if (intentState.has(UPPING)) {
+					nextAnim = anims.JumpUpward;
+				} else if (intentState.has(DOWNING)) {
+					nextAnim = anims.JumpDownward;
+				} else {
+					nextAnim = anims.Jump;
+				}
+			} else { 
+				if (intentState.has(UPPING)) {
+					nextAnim = anims.JumpUp;
+				} else if (intentState.has(DOWNING)) {
+					// no animation here as this is how you initiate fast-fall
+					nextAnim = anims.Jump;
+				} else {
+					nextAnim = anims.Jump;
+				}
+			}
+			if (body.velocity.y > 0 && !StringTools.endsWith(nextAnim, "Fall") && !StringTools.endsWith(nextAnim, "FallShoot")) {
+				nextAnim = nextAnim + "Fall";
 			}
 		}
 
@@ -445,9 +471,41 @@ class Player extends EchoSprite {
 	}
 
 	function playAnimIfNotAlready(name:String) {
-		if (animation.curAnim == null || (animation.curAnim.name != name && !StringTools.startsWith(animation.curAnim.name, name))) {
+		if (animation.curAnim == null || (animation.curAnim.name != name && animation.curAnim.name != name + "Shoot")) {
+			FlxG.watch.addQuick('playAnim:', name);
 			animation.play(name, true);
+
+			if (StringTools.contains(name, "Prone")) {
+				body.add_shape(proneBody);
+				body.remove_shape(mainBody);
+			} else {
+				body.add_shape(mainBody);
+				body.remove_shape(proneBody);
+			}
 		}
+	}
+
+	@:access(flixel.animation.FlxAnimation)
+	function muzzleFlashAnim(duration:Float) {
+		var restoreName = animation.curAnim.name;
+
+		inheretAnimation(animation.curAnim.name + "Shoot");
+		shootTimer.start(0.05, (t) -> {
+			if (animation.curAnim != null && StringTools.endsWith(animation.curAnim.name, "Shoot")) {
+				inheretAnimation(restoreName);
+			}
+		});
+	}
+
+	@:access(flixel.animation.FlxAnimation)
+	function inheretAnimation(name:String) {
+		FlxG.watch.addQuick('playAnim:', name);
+
+		var frame = animation.curAnim.curFrame;
+		var frameTime = animation.curAnim._frameTimer;
+		animation.curAnim = animation.getByName(name);
+		animation.curAnim.curFrame = frame;
+		animation.curAnim._frameTimer = frameTime;
 	}
 
 	@:access(echo.Shape)

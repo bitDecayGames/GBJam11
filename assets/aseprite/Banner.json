@@ -1,0 +1,27 @@
+{ "frames": [
+   {
+    "filename": "Banner.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 160, "h": 58 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 160, "h": 58 },
+    "sourceSize": { "w": 160, "h": 58 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3-rc6-x64",
+  "image": "Banner.png",
+  "format": "RGBA8888",
+  "size": { "w": 160, "h": 58 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

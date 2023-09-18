@@ -416,18 +416,18 @@
 					"entityInstances": [
 						{
 							"__identifier": "Player_spawn",
-							"__grid": [2,12],
+							"__grid": [5,7],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 48, "y": 1008, "w": 16, "h": 16 },
 							"__smartColor": "#BE4A2F",
-							"__worldX": 16,
-							"__worldY": 96,
+							"__worldX": 40,
+							"__worldY": 56,
 							"iid": "c1105d70-3b70-11ee-9619-23d6c3c05674",
 							"width": 16,
 							"height": 16,
 							"defUid": 4,
-							"px": [16,96],
+							"px": [40,56],
 							"fieldInstances": []
 						},
 						{
@@ -488,34 +488,34 @@
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [11,13],
+							"__grid": [11,8],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
 							"__worldX": 88,
-							"__worldY": 104,
+							"__worldY": 64,
 							"iid": "6f8e13f0-3b70-11ee-bc79-afc41b500053",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [88,104],
+							"px": [88,64],
 							"fieldInstances": []
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [19,12],
+							"__grid": [19,8],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
 							"__worldX": 152,
-							"__worldY": 96,
+							"__worldY": 64,
 							"iid": "7ad70640-3b70-11ee-bc79-1339f5d8099a",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [152,96],
+							"px": [152,64],
 							"fieldInstances": []
 						}
 					]

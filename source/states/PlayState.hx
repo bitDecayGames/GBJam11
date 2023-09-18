@@ -1,5 +1,10 @@
 package states;
 
+import flixel.util.FlxTimer;
+import flixel.tweens.FlxTween;
+import entities.SoldierPod;
+import flixel.effects.particles.FlxEmitter;
+import echo.Line;
 import states.substate.SoldierIntro;
 import ui.font.BitmapText.Trooper;
 import flixel.FlxObject;
@@ -43,6 +48,7 @@ class PlayState extends FlxTransitionableState {
 	public var corpseGroup = new FlxGroup();
 	public var playerBullets = new FlxGroup();
 	public var enemyBullets = new FlxGroup();
+	public var emitters = new FlxGroup();
 	public var particles = new FlxGroup();
 	public var triggers = new FlxGroup();
 
@@ -75,6 +81,7 @@ class PlayState extends FlxTransitionableState {
 		add(playerGroup);
 		add(playerBullets);
 		add(enemyBullets);
+		add(emitters);
 		add(particles);
 		add(triggers);
 
@@ -113,6 +120,9 @@ class PlayState extends FlxTransitionableState {
 		
 		enemyBullets.forEach((f) -> f.destroy());
 		enemyBullets.clear();
+
+		emitters.forEach((f) -> f.destroy());
+		emitters.clear();
 
 		particles.forEach((f) -> f.destroy());
 		particles.clear();
@@ -193,13 +203,19 @@ class PlayState extends FlxTransitionableState {
 			QuickLog.critical('no spawn found, and no entity provided. Cannot spawn player');
 		}
 
-		// TODO: Spawn player with cutscene. Also enables re-spawning
-		player = new Player(spawnPoint.x, spawnPoint.y);
-		camera.follow(player);
-		player.add_to_group(playerGroup);
-		if (extraSpawnLogic != null) {
-			extraSpawnLogic();
-		}
+
+		FlxEcho.add_group_bodies(playerGroup);
+		// player = new Player(spawnPoint.x, spawnPoint.y);
+		// camera.follow(player);
+		// player.add_to_group(playerGroup);
+		// if (extraSpawnLogic != null) {
+		// 	extraSpawnLogic();
+		// }
+
+		// give a slight delay before we start the action
+		new FlxTimer().start(1, (t) -> {
+			spawnPlayer(spawnPoint);
+		});
 
 		// We need to cache our non-interacting collisions to avoid glitchy
 		// physics if they change color after they overlap with a valid color
@@ -283,8 +299,32 @@ class PlayState extends FlxTransitionableState {
 				}
 			},
 		});
+	}
 
-		openSubState(new SoldierIntro());
+	function spawnPlayer(point:FlxPoint, cb:Void->Void = null) {
+		camera.focusOn(point);
+
+		// FlxEcho.instance.world.
+		var groundCast = Line.get(point.x, point.y, point.x, point.y + 144);
+		var ground = groundCast.linecast(terrainBodies);
+		if (ground != null) {
+			point.set(ground.closest.hit.x, ground.closest.hit.y);
+		}
+
+		var podAngle = FlxPoint.get(1, 0).rotateByDegrees(-80);
+		podAngle.scale(FlxG.height * 1.2);
+		podAngle.addPoint(point);
+
+		var pod = new SoldierPod(podAngle.x, podAngle.y);
+		particles.add(pod);
+		FlxTween.tween(pod, {x: point.x - 20, y: point.y - pod.height}, {
+			onComplete: (t) -> {
+			player = new Player(point.x, point.y);
+			camera.follow(player);
+			player.add_to_group(playerGroup);
+			if (cb != null) cb();
+			}
+		});
 	}
 
 	override public function update(elapsed:Float) {
@@ -300,6 +340,10 @@ class PlayState extends FlxTransitionableState {
 
 	var nextCPCheck = 0;
 	function tryUpdatingCheckpoint() {
+		if (player == null) {
+			return;
+		}
+
 		var cps = level.raw.l_Entities.all_Checkpoint;
 		for (i in nextCPCheck...cps.length) {
 			if (player.body.x > cps[i].pixelX) {
@@ -347,6 +391,10 @@ class PlayState extends FlxTransitionableState {
 
 	public function addBasicParticle(p:FlxSprite) {
 		particles.add(p);
+	}
+
+	public function addParticleEmitter(e:FlxEmitter) {
+		emitters.add(e);
 	}
 
 	public function addObject(e:FlxObject) {

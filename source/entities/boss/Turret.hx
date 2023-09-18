@@ -68,7 +68,9 @@ class Turret extends EchoSprite {
 
 		if (body.active) {
 			body.get_position(bVec);
-			PlayState.ME.player.body.get_position(pVec);
+			if (PlayState.ME.player != null) {
+				PlayState.ME.player.body.get_position(pVec);
+			}
 			
 			bVec = pVec - bVec;
 			

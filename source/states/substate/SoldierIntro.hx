@@ -17,16 +17,16 @@ class SoldierIntro extends FlxSubState {
 	override function create() {
 		super.create();
 
-		var banner = new FlxSprite(0, 10);
+		var banner = new FlxSprite(0, 10, AssetPaths.Banner__png);
 		banner.scrollFactor.set();
-		banner.makeGraphic(FlxG.width, cast (FlxG.height / 2), Constants.LIGHTEST);
-		FlxSpriteUtil.drawRect(banner, 0, 2, banner.width, banner.height - 4, Constants.DARKEST);
-		FlxSpriteUtil.drawRect(banner, 0, 5, banner.width, banner.height - 10, Constants.DARK);
-		FlxSpriteUtil.drawRect(banner, 0, 10, banner.width, banner.height - 20, Constants.LIGHT);
+		// banner.makeGraphic(FlxG.width, cast (FlxG.height / 2), Constants.LIGHTEST);
+		// FlxSpriteUtil.drawRect(banner, 0, 2, banner.width, banner.height - 4, Constants.DARKEST);
+		// FlxSpriteUtil.drawRect(banner, 0, 5, banner.width, banner.height - 10, Constants.DARK);
+		// FlxSpriteUtil.drawRect(banner, 0, 10, banner.width, banner.height - 20, Constants.LIGHT);
 
 		add(banner);
 
-		var portrait = new SoldierPortrait(10, banner.y + 16);
+		var portrait = new SoldierPortrait(3, banner.y + 9);
 		portrait.scrollFactor.set();
 		add(portrait);
 

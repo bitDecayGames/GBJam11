@@ -10,8 +10,13 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 
 class SoldierIntro extends FlxSubState {
-	public function new() {
+	var display:Float = 0;
+	var cb:Void->Void;
+
+	public function new(displayTime:Float, cb:Void->Void = null) {
 		super();
+		display = displayTime;
+		this.cb = cb;
 	}
 
 	override function create() {
@@ -40,8 +45,11 @@ class SoldierIntro extends FlxSubState {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (SimpleController.just_pressed(A)) {
+		display -= elapsed;
+
+		if (display <= 0) {
 			close();
+			if (cb != null) cb();
 		}
 	}
 }

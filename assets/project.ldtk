@@ -11,7 +11,7 @@
 	"iid": "ded66c40-3b70-11ee-9c97-21b787dfc698",
 	"jsonVersion": "1.3.4",
 	"appBuildId": 470178,
-	"nextUid": 15,
+	"nextUid": 16,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -301,7 +301,43 @@
 			"limitBehavior": "MoveLastOne",
 			"pivotX": 0,
 			"pivotY": 0,
-			"fieldDefs": []
+			"fieldDefs": [
+				{
+					"identifier": "Reset_Ents",
+					"doc": null,
+					"__type": "Array<EntityRef>",
+					"uid": 15,
+					"type": "F_EntityRef",
+					"isArray": true,
+					"canBeNull": false,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "RefLinkBetweenCenters",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "CurvedArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "Any",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
 		}
 	], "tilesets": [
 		{
@@ -416,18 +452,18 @@
 					"entityInstances": [
 						{
 							"__identifier": "Player_spawn",
-							"__grid": [5,7],
+							"__grid": [5,9],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 48, "y": 1008, "w": 16, "h": 16 },
 							"__smartColor": "#BE4A2F",
 							"__worldX": 40,
-							"__worldY": 56,
+							"__worldY": 72,
 							"iid": "c1105d70-3b70-11ee-9619-23d6c3c05674",
 							"width": 16,
 							"height": 16,
 							"defUid": 4,
-							"px": [40,56],
+							"px": [40,72],
 							"fieldInstances": []
 						},
 						{
@@ -488,35 +524,43 @@
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [11,8],
+							"__grid": [11,9],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
 							"__worldX": 88,
-							"__worldY": 64,
+							"__worldY": 72,
 							"iid": "6f8e13f0-3b70-11ee-bc79-afc41b500053",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [88,64],
-							"fieldInstances": []
+							"px": [88,72],
+							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [19,8],
+							"__grid": [19,9],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
 							"__worldX": 152,
-							"__worldY": 64,
+							"__worldY": 72,
 							"iid": "7ad70640-3b70-11ee-bc79-1339f5d8099a",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [152,64],
-							"fieldInstances": []
+							"px": [152,72],
+							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [{
+								"entityIid": "d0d9b440-3b70-11ee-b82a-8f28140990d7",
+								"layerIid": "8f184fd0-3b70-11ee-9619-99e4a233f6d5",
+								"levelIid": "06ad65c0-3b70-11ee-9c97-7906d1235cfd",
+								"worldIid": "ded66c41-3b70-11ee-9c97-27b856925a1e"
+							}], "__tile": null, "defUid": 15, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["d0d9b440-3b70-11ee-b82a-8f28140990d7"]
+							}] }]
 						}
 					]
 				},

@@ -96,7 +96,7 @@ class Level {
 	function parseCamTriggers(level:LDTKProject.LDTKProject_Level) {
 		for (trigger in level.l_Entities.all_CamTrigger) {
 			var rect = FlxRect.weak(trigger.pixelX, trigger.pixelY, trigger.width, trigger.height);
-			camTriggers.push(new CameraTrigger(rect, trigger.f_Area.entityIid));
+			camTriggers.push(new CameraTrigger(trigger.iid, rect, trigger.f_Area.entityIid));
 		}
 	}
 

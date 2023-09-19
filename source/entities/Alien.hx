@@ -1,5 +1,7 @@
 package entities;
 
+import flixel.util.FlxTimer;
+import entities.projectile.BasicBullet;
 import entities.Player.PlayerState;
 import bitdecay.flixel.debug.DebugDraw;
 import debug.DebugLayers;
@@ -19,26 +21,13 @@ import animation.AnimationState;
 
 using echo.FlxEcho;
 
-class Alien extends EchoSprite {
+class Alien extends BaseHumanoid {
 	public static var anims = AsepriteMacros.tagNames("assets/aseprite/characters/alien.json");
 
 	var source:AlienSpawner = null;
 
-	var groundedCastLeft:Bool = false;
-	var groundedCastMiddle:Bool = false;
-	var groundedCastRight:Bool = false;
-	var tmp:FlxPoint = FlxPoint.get();
-	var tmpAABB:AABB = AABB.get();
-	var echoTmp:Vector2 = new Vector2(0, 0);
-
 	var controlState:PlayerState = FALLING;
-	var intentState = new AnimationState();
-	var animState = new AnimationState();
 
-	// set to true to run a one-time grounded check
-	var checkGrounded = true;
-	public var grounded = false;
-	
 	public function new(x:Float, y:Float, source:AlienSpawner) {
 		super(x, y);
 
@@ -82,80 +71,39 @@ class Alien extends EchoSprite {
 
 	override function handleEnter(other:Body, data:Array<CollisionData>) {
 		super.handleEnter(other, data);
+
+		if (other.object is BasicBullet) {
+			kill();
+		}
+
+		if (data[0].normal.y > 0) {
+			checkGrounded = true;
+		}
 	}
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
+		updateBehavior(elapsed);
+
 		updateGrounded();
 		updateCurrentAnimation();
 	}
 
-	function updateGrounded() {
-		groundedCastLeft = false;
-		groundedCastMiddle = false;
-		groundedCastRight = false;
-		
-		body.bounds(tmpAABB);
+	var shotInterval = 1.5;
+	var shotTimer  = 1.5;
 
-		var rayChecksPassed = 0;
-		echoTmp.set(tmpAABB.min_x, tmpAABB.max_y - 2);
-		var groundedCast = Line.get_from_vector(echoTmp, 90, 5);
-		var intersects = groundedCast.linecast_all(PlayState.ME.terrainBodies);
-		DebugDraw.ME.drawWorldLine(echoTmp.x, echoTmp.y, groundedCast.end.x, groundedCast.end.y, DebugLayers.RAYCAST, intersects.length >= 1 ? FlxColor.MAGENTA : FlxColor.LIME);
-		groundedCast.put();
-		if (intersects.length >= 1) {
-			rayChecksPassed++;
-			groundedCastLeft = true;
-		}
-		for (i in intersects) {
-			i.put();
-		}
-		
-		echoTmp.set(tmpAABB.min_x, tmpAABB.max_y - 2);
-		echoTmp.x += tmpAABB.width/2;
-		groundedCast = Line.get_from_vector(echoTmp, 90, 12);
-		var intersectsMiddle = groundedCast.linecast_all(PlayState.ME.terrainBodies);
-		DebugDraw.ME.drawWorldLine(echoTmp.x, echoTmp.y, groundedCast.end.x, groundedCast.end.y, DebugLayers.RAYCAST, intersectsMiddle.length >= 1 ? FlxColor.MAGENTA : FlxColor.LIME);
-		groundedCast.put();
-		if (intersectsMiddle.length >= 1) {
-			rayChecksPassed++;
-			groundedCastMiddle = true;
-		}
-		for (i in intersectsMiddle) {
-			i.put();
-		}
+	public function updateBehavior(delta:Float) {
+		shotTimer -= delta;
 
-		echoTmp.set(tmpAABB.min_x, tmpAABB.max_y - 2);
-		echoTmp.x += tmpAABB.width;
-		groundedCast = Line.get_from_vector(echoTmp, 90, 5);
-		var intersectsRight = groundedCast.linecast_all(PlayState.ME.terrainBodies);
-		DebugDraw.ME.drawWorldLine(echoTmp.x, echoTmp.y, groundedCast.end.x, groundedCast.end.y, DebugLayers.RAYCAST, intersectsRight.length >= 1 ? FlxColor.MAGENTA : FlxColor.LIME);
-		groundedCast.put();
-		if (intersectsRight.length >= 1) {
-			rayChecksPassed++;
-			groundedCastRight = true;
-		}
-		for (i in intersectsRight) {
-			i.put();
-		}
+		if (shotTimer <= 0) {
+			shotTimer = shotInterval;
 
-		// this cast is originating within the player, so it will always give back at least one
-		if (rayChecksPassed >= 1) {
-			if (checkGrounded) {
-				checkGrounded = false;
-				if(grounded == false) {
-					// FmodManager.PlaySoundOneShot(FmodSFX.PlayerLand1);
-				}
-				grounded = true;
-			}
-		} else if (!groundedCastLeft && !groundedCastMiddle && !groundedCastRight) {
-			checkGrounded = false;
-			grounded = false;
+			handleShoot();
 		}
 	}
 
-	function updateCurrentAnimation() {
+	override function updateCurrentAnimation() {
 		var nextAnim = animation.curAnim.name;
 		if (intentState.has(MOVE_RIGHT)) {
 			flipX = false;
@@ -175,40 +123,13 @@ class Alien extends EchoSprite {
 			nextAnim = anims.Jump;
 		}
 
-		// if (intentState.has(MOVE_RIGHT)) {
-		// 	flipX = false;
-		// } else if (intentState.has(MOVE_LEFT)) {
-		// 	flipX = true;
-		// }
-
-		// if (animState.has(GROUNDED)) {
-		// 	if (animState.has(RUNNING)) {
-		// 		nextAnim = anims.Run;
-		// 	} else { 
-		// 		// nextAnim = anims.Idle;
-		// 	}
-		// } else {
-		// 	if (animState.has(RUNNING)) {
-		// 			nextAnim = anims.Jump;
-		// 	} else { 
-		// 		nextAnim = anims.Jump;
-		// 	}
-		// 	// if (body.velocity.y > 0 && !StringTools.endsWith(nextAnim, "Fall") && !StringTools.endsWith(nextAnim, "FallShoot")) {
-		// 	// 	nextAnim = nextAnim + "Fall";
-		// 	// }
-		// }
-
 		playAnimIfNotAlready(nextAnim);
-	}
-
-	function playAnimIfNotAlready(name:String) {
-		if (animation.curAnim == null || (animation.curAnim.name != name && animation.curAnim.name != name + "Shoot")) {
-			animation.play(name, true);
-		}
 	}
 
 	override function kill() {
 		super.kill();
+
+		PlayState.ME.removeEnemy(this);
 
 		if (source != null) {
 			source.queueReset();

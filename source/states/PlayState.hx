@@ -252,6 +252,54 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
+		FlxEcho.listen(enemies, playerBullets, {
+			separate: false,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleEnter(a, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleExit(a);
+				}
+			}
+		});
+
+		FlxEcho.listen(playerGroup, enemies, {
+			separate: false,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleEnter(a, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+				if (b.object is EchoSprite) {
+					var bSpr:EchoSprite = cast b.object;
+					bSpr.handleExit(a);
+				}
+			}
+		});
+
 		FlxEcho.listen(playerBullets, objects, {
 			separate: false,
 			enter: (a, b, o) -> {
@@ -481,6 +529,10 @@ class PlayState extends FlxTransitionableState {
 
 	public function addEnemy(e:FlxSprite) {
 		e.add_to_group(enemies);
+	}
+
+	public function removeEnemy(e:FlxSprite) {
+		e.remove_from_group(enemies);
 	}
 
 	public function addEnemyBullet(b:FlxSprite) {

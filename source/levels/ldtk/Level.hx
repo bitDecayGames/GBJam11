@@ -1,5 +1,7 @@
 package levels.ldtk;
 
+import entities.sensor.AlienSpawner;
+import entities.sensor.Trigger;
 import entities.sensor.CameraTrigger;
 import entities.boss.WallBoss;
 import ldtk.Project;
@@ -31,6 +33,8 @@ class Level {
 
 	public var camTriggers:Array<CameraTrigger> = [];
 	public var camLockZones:Map<String, FlxRect> = [];
+
+	public var spawners:Array<Trigger> = [];
 
 	// public var checkpoints:Map<String, FlxPoint> = [];
 
@@ -78,7 +82,13 @@ class Level {
 		parseBosses(level);
 		parseCamLockZones(level);
 		parseCamTriggers(level);
-		// parseCheckpoints(level);
+		parseAliens(level);
+	}
+
+	function parseAliens(level:LDTKProject.LDTKProject_Level) {
+		for (spawner in level.l_Entities.all_Alien) {
+			spawners.push(new AlienSpawner(spawner.pixelX, spawner.pixelY));
+		}
 	}
 
 	function parseBosses(level:LDTKProject.LDTKProject_Level) {

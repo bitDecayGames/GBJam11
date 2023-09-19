@@ -8,6 +8,7 @@ using echo.FlxEcho;
 class Trigger extends FlxObject {
 	public var eID:String;
 	var once:Bool;
+	var ready = true;
 
 	public function new(id:String, zone:FlxRect, once:Bool = true) {
 		super(zone.x, zone.y, zone.width, zone.height);
@@ -29,7 +30,12 @@ class Trigger extends FlxObject {
 		zone.putWeak();
 	}
 
+	public function isReady() {
+		return ready;
+	}
+
 	public function activate() {
+		ready = false;
 		if (once) {
 			kill();
 			// this.remove_object(true);
@@ -37,6 +43,8 @@ class Trigger extends FlxObject {
 	}
 
 	public function resetTrigger() {
-
+		if (!once) {
+			ready = true;
+		}
 	}
 }

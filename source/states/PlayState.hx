@@ -50,11 +50,13 @@ class PlayState extends FlxTransitionableState {
 	public var objects = new FlxGroup();
 	public var corpseGroup = new FlxGroup();
 	public var playerBullets = new FlxGroup();
+	public var enemies = new FlxGroup();
 	public var enemyBullets = new FlxGroup();
 	public var emitters = new FlxGroup();
 	public var particles = new FlxGroup();
 	public var topParticles = new FlxGroup();
 	public var triggers = new FlxGroup();
+	public var scrollTriggers = new FlxTypedGroup<Trigger>();
 
 	public function new() {
 		super();
@@ -86,6 +88,7 @@ class PlayState extends FlxTransitionableState {
 		add(terrainGroup);
 		add(corpseGroup);
 		add(objects);
+		add(enemies);
 		add(playerGroup);
 		add(playerBullets);
 		add(enemyBullets);
@@ -93,6 +96,7 @@ class PlayState extends FlxTransitionableState {
 		add(particles);
 		add(topParticles);
 		add(triggers);
+		add(scrollTriggers);
 
 		// QuickLog.error('Example error');
 
@@ -142,9 +146,15 @@ class PlayState extends FlxTransitionableState {
 		triggers.forEach((f) -> f.destroy());
 		triggers.clear();
 
+		scrollTriggers.forEach((f) -> f.destroy());
+		scrollTriggers.clear();
+
 		playerGroup.forEach((f) -> f.destroy());
 		playerGroup.clear();
 		player = null;
+
+		enemies.forEach((f) -> f.destroy());
+		enemies.clear();
 
 		for (body in terrainBodies) {
 			FlxEcho.instance.world.remove(body);
@@ -162,12 +172,18 @@ class PlayState extends FlxTransitionableState {
 			trigger.add_to_group(triggers);
 		}
 
+		for (trigger in level.spawners) {
+			scrollTriggers.add(trigger);
+		}
+
 		terrainBodies = TileMap.generate(level.rawTerrainInts, 8, 8, level.rawTerrainTilesWide, level.rawTerrainTilesWide);
 		for (body in terrainBodies) {
 			FlxEcho.instance.world.add(body);
 		}
 		
+		// make sure the arrays exist so our listeners are functioning as intended
 		FlxEcho.add_group_bodies(playerGroup);
+		FlxEcho.add_group_bodies(enemies);
 		
 		var spawnPoint = getLevelSpawnPoint();
 		// give a slight delay before we start the action
@@ -181,6 +197,22 @@ class PlayState extends FlxTransitionableState {
 		// physics if they change color after they overlap with a valid color
 		// match.
 		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(playerGroup), terrainBodies, {
+			separate: true,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+			}
+		});
+
+		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(enemies), terrainBodies, {
 			separate: true,
 			enter: (a, b, o) -> {
 				if (a.object is EchoSprite) {
@@ -387,6 +419,12 @@ class PlayState extends FlxTransitionableState {
 		}
 
 		tryUpdatingCheckpoint();
+
+		for (st in scrollTriggers) {
+			if (st.isReady() && camera.viewRight + 5 > st.x) {
+				st.activate();
+			}
+		}
 	}
 
 	var nextCPCheck = 0;
@@ -439,6 +477,10 @@ class PlayState extends FlxTransitionableState {
 	public function addBGTerrain(b:FlxSprite) {
 		// TODO: Do we need a separate group for things we want the player to collide with, but bullets NOT to?
 		b.add_to_group(terrainGroup);
+	}
+
+	public function addEnemy(e:FlxSprite) {
+		e.add_to_group(enemies);
 	}
 
 	public function addEnemyBullet(b:FlxSprite) {

@@ -104,8 +104,6 @@ class Player extends EchoSprite {
 		proneBody = body.shapes[1];
 		body.remove_shape(proneBody);
 
-		trace(mainBody.top);
-		trace(mainBody.bottom);
 		// This aligns the body's bottom edge with whatever coordinate y was passed in for our creation
 		body.y = body.y - (mainBody.bottom - mainBody.top)/2 - mainBody.get_local_position().y;
 	}

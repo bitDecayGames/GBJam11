@@ -167,7 +167,9 @@ class Player extends EchoSprite {
 		if (inControl) {
 			handleInput(delta);
 			updateCurrentAnimation();
-		} else if (awaitingDeath) {
+		} else if (!awaitingDeath) {
+			updateCurrentAnimation();
+		} else {
 			if (body.velocity.length == 0) {
 				deathStillnessTimer -= delta;
 
@@ -177,6 +179,7 @@ class Player extends EchoSprite {
 				}
 			}
 		}
+		
 
 		FlxG.watch.addQuick('player Vel:', body.velocity);
 	}
@@ -372,7 +375,7 @@ class Player extends EchoSprite {
 					body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 				}
 
-				if (SimpleController.just_pressed(DOWN)) {
+				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
 					controlState = FASTFALL;
 				}
 				updateGrounded(); // is this needed for jumping?
@@ -381,7 +384,7 @@ class Player extends EchoSprite {
 				handleShoot();
 				body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 
-				if (SimpleController.just_pressed(DOWN)) {
+				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
 					controlState = FASTFALL;
 				}
 

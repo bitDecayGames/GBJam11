@@ -10,6 +10,12 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 
 class SoldierIntro extends FlxSubState {
+	static var quips = [
+		"one for the core!",
+		"we will not be stopped!",
+		"prepare yourself!"
+	];
+	
 	var display:Float = 0;
 	var cb:Void->Void;
 
@@ -35,7 +41,7 @@ class SoldierIntro extends FlxSubState {
 		portrait.scrollFactor.set();
 		add(portrait);
 
-		var flavorText = new Trooper(portrait.x + portrait.width + 10, portrait.y, "one for the\ncore!");
+		var flavorText = new Trooper(portrait.x + portrait.width + 10, portrait.y, quips[FlxG.random.int(0, quips.length-1)]);
 		flavorText.autoSize = false;
 		flavorText.fieldWidth = cast (FlxG.width - flavorText.x - 10);
 		flavorText.scrollFactor.set();

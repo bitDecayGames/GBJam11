@@ -354,8 +354,9 @@ class PlayState extends FlxTransitionableState {
 						camera.flash(Constants.LIGHTEST, 0.5);
 						pod.kill();
 						player = new Player(point.x, point.y);
-						player.body.active = false;
+						player.body.active = true;
 						player.inControl = false;
+						player.body.velocity.set(10, -60);
 						camera.follow(player);
 						player.add_to_group(playerGroup);
 						persistentUpdate = true;
@@ -397,8 +398,6 @@ class PlayState extends FlxTransitionableState {
 		var cps = level.raw.l_Entities.all_Checkpoint;
 		for (i in nextCPCheck...cps.length) {
 			if (player.body.x > cps[i].pixelX) {
-				// SET!
-				trace('we got to checkpoint $i');
 				Collected.setLastCheckpoint(level.raw.iid, cps[i].iid);
 				nextCPCheck = i + 1;
 			}

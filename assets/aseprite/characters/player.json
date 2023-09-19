@@ -1019,7 +1019,7 @@
    { "name": "JumpDownwardFall", "from": 84, "to": 86, "direction": "forward", "color": "#000000ff" },
    { "name": "JumpDownwardShoot", "from": 87, "to": 90, "direction": "forward", "color": "#000000ff" },
    { "name": "JumpDownwardFallShoot", "from": 90, "to": 92, "direction": "forward", "color": "#000000ff" },
-   { "name": "DeathFront", "from": 94, "to": 100, "direction": "forward", "color": "#000000ff" },
+   { "name": "DeathFront", "from": 94, "to": 100, "direction": "forward", "repeat": "1", "color": "#000000ff" },
    { "name": "Prone", "from": 102, "to": 102, "direction": "forward", "color": "#000000ff" },
    { "name": "ProneShoot", "from": 103, "to": 103, "direction": "forward", "color": "#000000ff" }
   ],

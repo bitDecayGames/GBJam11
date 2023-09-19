@@ -1,5 +1,6 @@
 package states;
 
+import flixel.addons.display.FlxBackdrop;
 import flixel.math.FlxRect;
 import entities.particle.Explosion;
 import flixel.util.FlxTimer;
@@ -52,6 +53,7 @@ class PlayState extends FlxTransitionableState {
 	public var enemyBullets = new FlxGroup();
 	public var emitters = new FlxGroup();
 	public var particles = new FlxGroup();
+	public var topParticles = new FlxGroup();
 	public var triggers = new FlxGroup();
 
 	public function new() {
@@ -77,6 +79,10 @@ class PlayState extends FlxTransitionableState {
 			gravity_y: 12 * Constants.BLOCK_SIZE, // "Lunar" gravity
 		});
 
+		var bg = new FlxBackdrop(AssetPaths.MoonscapeBG__png, X);
+		bg.scrollFactor.set(.2, 1);
+
+		add(bg);
 		add(terrainGroup);
 		add(corpseGroup);
 		add(objects);
@@ -85,6 +91,7 @@ class PlayState extends FlxTransitionableState {
 		add(enemyBullets);
 		add(emitters);
 		add(particles);
+		add(topParticles);
 		add(triggers);
 
 		// QuickLog.error('Example error');
@@ -129,6 +136,9 @@ class PlayState extends FlxTransitionableState {
 		particles.forEach((f) -> f.destroy());
 		particles.clear();
 
+		topParticles.forEach((f) -> f.destroy());
+		topParticles.clear();
+
 		triggers.forEach((f) -> f.destroy());
 		triggers.clear();
 
@@ -164,6 +174,8 @@ class PlayState extends FlxTransitionableState {
 		new FlxTimer().start(1, (t) -> {
 			spawnPlayer(spawnPoint);
 		});
+
+		createLevelBoundingBox();
 
 		// We need to cache our non-interacting collisions to avoid glitchy
 		// physics if they change color after they overlap with a valid color
@@ -249,6 +261,35 @@ class PlayState extends FlxTransitionableState {
 		});
 	}
 
+	function createLevelBoundingBox() {
+		var left = new Body({
+			x: -5,
+			y: level.raw.pxHei / 2,
+			shapes: [
+				{
+					type:RECT,
+					width: 10,
+					height: level.raw.pxHei,
+				},
+			],
+			kinematic: true,
+		});
+		addTerrain(left);
+		var right = new Body({
+			x: level.raw.pxWid + 5,
+			y: level.raw.pxHei / 2,
+			shapes: [
+				{
+					type:RECT,
+					width: 10,
+					height: level.raw.pxHei,
+				},
+			],
+			kinematic: true,
+		});
+		addTerrain(right);
+	}
+
 	function getLevelSpawnPoint(entityID:String = null):FlxPoint {
 		var spawnPoint = FlxPoint.get(50, 0);
 		if (entityID != null) {
@@ -287,12 +328,9 @@ class PlayState extends FlxTransitionableState {
 	}
 
 	function spawnPlayer(point:FlxPoint, respawn:Bool = false, cb:Void->Void = null) {
-		trace(camera.scroll);
 		camera.follow(null);
 		camera.focusOn(point);
-		trace(camera.scroll);
 
-		// FlxEcho.instance.world.
 		var groundCast = Line.get(point.x, point.y, point.x, point.y + 144);
 		var ground = groundCast.linecast(terrainBodies);
 		if (ground != null) {
@@ -316,12 +354,14 @@ class PlayState extends FlxTransitionableState {
 						camera.flash(Constants.LIGHTEST, 0.5);
 						pod.kill();
 						player = new Player(point.x, point.y);
+						player.body.active = false;
 						player.inControl = false;
 						camera.follow(player);
 						player.add_to_group(playerGroup);
 						persistentUpdate = true;
 						openSubState(new SoldierIntro(1, () -> {
 							player.inControl = true;
+							player.body.active = true;
 							if (respawn) {
 								player.invulnerable(1);
 							}
@@ -410,8 +450,17 @@ class PlayState extends FlxTransitionableState {
 		b.add_to_group(playerBullets);
 	}
 
+	public function recycleBullet(b:FlxSprite) {
+		b.remove_from_group(enemyBullets);
+		b.remove_from_group(playerBullets);
+	}
+
 	public function addBasicParticle(p:FlxSprite) {
 		particles.add(p);
+	}
+
+	public function addTopParticle(p:FlxSprite) {
+		topParticles.add(p);
 	}
 
 	public function addParticleEmitter(e:FlxEmitter) {

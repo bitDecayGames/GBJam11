@@ -1,5 +1,6 @@
 package entities.projectile;
 
+import states.PlayState;
 import echo.data.Data.CollisionData;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
@@ -31,6 +32,8 @@ class BasicBullet extends EchoSprite {
 		if (body == null) {
 			body = makeBody();
 		}
+
+		PlayState.ME.recycleBullet(this);
 
 		body.set_position(x, y);
 		body.velocity.set(velocity.x, velocity.y);

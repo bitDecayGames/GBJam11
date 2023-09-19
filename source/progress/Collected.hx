@@ -5,10 +5,10 @@ import flixel.FlxG;
 typedef Data = {
 	version: String,
 	gameCompleted: Bool,
-	unlocks: {
-	},
+	unlocks: {},
 	checkpoint: {
 		lastLevelID: String,
+		lastCheckpointID: String,
 		deaths: Int,
 		time: Float,
 	}
@@ -22,15 +22,12 @@ class Collected {
 		return {
 			version: LATEST_VERSION,
 			gameCompleted: false,
-			unlocks: {
-				blueUnlocked: false,
-				yellowUnlocked: false,
-				redUnlocked: false,
-			},
+			unlocks: {},
 			checkpoint: {
 				time: 0,
 				deaths: 0,
 				lastLevelID: null,
+				lastCheckpointID: null
 			}
 		};
 	}
@@ -58,8 +55,9 @@ class Collected {
 		FlxG.save.flush();
 	}
 
-	public static function setLastCheckpoint(levelID:String) {
+	public static function setLastCheckpoint(levelID:String, entityID:String) {
 		FlxG.save.data.game.checkpoint.lastLevelID = levelID;
+		FlxG.save.data.game.checkpoint.lastCheckpointID = entityID;
 		FlxG.save.flush();
 	}
 
@@ -80,6 +78,10 @@ class Collected {
 
 	public static function getCheckpointLevel() {
 		return FlxG.save.data.game.checkpoint.lastLevelID;
+	}
+
+	public static function getCheckpointID() {
+		return FlxG.save.data.game.checkpoint.lastCheckpointID;
 	}
 
 	public static function addDeath() {

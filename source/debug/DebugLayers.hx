@@ -6,5 +6,6 @@ enum DebugLayers {
 	GENERAL;
 	RAYCAST;
 	PLAYER;
+	LEVEL;
 	AUDIO;
 }

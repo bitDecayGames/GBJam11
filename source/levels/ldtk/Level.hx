@@ -32,6 +32,8 @@ class Level {
 	public var camTriggers:Array<CameraTrigger> = [];
 	public var camLockZones:Map<String, FlxRect> = [];
 
+	// public var checkpoints:Map<String, FlxPoint> = [];
+
 	// public var rawCoarseTerrainInts = new Array<Int>();
 	// public var rawCoarseTerrainTilesWide = 0;
 	// public var rawCoarseTerrainTilesTall = 0;
@@ -76,6 +78,7 @@ class Level {
 		parseBosses(level);
 		parseCamLockZones(level);
 		parseCamTriggers(level);
+		// parseCheckpoints(level);
 	}
 
 	function parseBosses(level:LDTKProject.LDTKProject_Level) {
@@ -93,9 +96,15 @@ class Level {
 	function parseCamTriggers(level:LDTKProject.LDTKProject_Level) {
 		for (trigger in level.l_Entities.all_CamTrigger) {
 			var rect = FlxRect.weak(trigger.pixelX, trigger.pixelY, trigger.width, trigger.height);
-			camTriggers.push(new CameraTrigger(rect, trigger.f_Area.entityIid));
+			camTriggers.push(new CameraTrigger(trigger.iid, rect, trigger.f_Area.entityIid));
 		}
 	}
+
+	// function parseCheckpoints(level:LDTKProject.LDTKProject_Level) {
+	// 	for (cp in level.l_Entities.all_Checkpoint) {
+	// 		checkpoints.set(cp.iid, FlxPoint.get(cp.pixelX, cp.pixelY));
+	// 	}
+	// }
 
 	// function parseLaserRails(level:LDTKProject_Level) {
 	// 	var laserOps:Array<LaserRailOptions> = [];

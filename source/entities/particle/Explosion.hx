@@ -45,7 +45,7 @@ class Explosion extends FlxSprite {
 
 		var poof = pool.recycle(Explosion);
 		poof.spawn(x, y);
-		PlayState.ME.addBasicParticle(poof);
+		PlayState.ME.addTopParticle(poof);
 	}
 	
 	private function new() {

@@ -99,6 +99,20 @@ class Player extends EchoSprite {
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
+
+		mainBody = body.shapes[0];
+		proneBody = body.shapes[1];
+		body.remove_shape(proneBody);
+
+		trace(mainBody.top);
+		trace(mainBody.bottom);
+		// This aligns the body's bottom edge with whatever coordinate y was passed in for our creation
+		body.y = body.y - (mainBody.bottom - mainBody.top)/2 - mainBody.get_local_position().y;
+	}
+
+	override function configSprite() {
+		super.configSprite();
+
 		// This call can be used once https://github.com/HaxeFlixel/flixel/pull/2860 is merged
 		// FlxAsepriteUtil.loadAseAtlasAndTags(this, AssetPaths.player__png, AssetPaths.player__json);
 		Aseprite.loadAllAnimations(this, AssetPaths.player__json);
@@ -108,10 +122,6 @@ class Player extends EchoSprite {
 				// trace('frame $index has data ${eventData.get(index)}');
 			// }
 		};
-
-		mainBody = body.shapes[0];
-		proneBody = body.shapes[1];
-		body.remove_shape(proneBody);
 	}
 
 	override function makeBody():Body {
@@ -157,7 +167,9 @@ class Player extends EchoSprite {
 		if (inControl) {
 			handleInput(delta);
 			updateCurrentAnimation();
-		} else if (awaitingDeath) {
+		} else if (!awaitingDeath) {
+			updateCurrentAnimation();
+		} else {
 			if (body.velocity.length == 0) {
 				deathStillnessTimer -= delta;
 
@@ -167,6 +179,7 @@ class Player extends EchoSprite {
 				}
 			}
 		}
+		
 
 		FlxG.watch.addQuick('player Vel:', body.velocity);
 	}
@@ -362,7 +375,7 @@ class Player extends EchoSprite {
 					body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 				}
 
-				if (SimpleController.just_pressed(DOWN)) {
+				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
 					controlState = FASTFALL;
 				}
 				updateGrounded(); // is this needed for jumping?
@@ -371,7 +384,7 @@ class Player extends EchoSprite {
 				handleShoot();
 				body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 
-				if (SimpleController.just_pressed(DOWN)) {
+				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
 					controlState = FASTFALL;
 				}
 

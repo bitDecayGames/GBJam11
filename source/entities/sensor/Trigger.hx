@@ -6,12 +6,12 @@ import flixel.FlxObject;
 using echo.FlxEcho;
 
 class Trigger extends FlxObject {
-	var onTrigger:Void->Void;
+	public var eID:String;
 	var once:Bool;
 
-	public function new(zone:FlxRect, onTrigger:Void->Void, once:Bool = true) {
+	public function new(id:String, zone:FlxRect, once:Bool = true) {
 		super(zone.x, zone.y, zone.width, zone.height);
-		this.onTrigger = onTrigger;
+		eID = id;
 		this.once = once;
 		this.add_body({
 			x: zone.x,
@@ -30,12 +30,13 @@ class Trigger extends FlxObject {
 	}
 
 	public function activate() {
-		if (onTrigger != null) {
-			onTrigger();
-		}
 		if (once) {
 			kill();
-			this.remove_object(true);
+			// this.remove_object(true);
 		}
+	}
+
+	public function resetTrigger() {
+
 	}
 }

@@ -10,51 +10,6 @@
    },
    {
     "filename": "alien 1.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "sourceSize": { "w": 33, "h": 33 },
-    "duration": 100
-   },
-   {
-    "filename": "alien 2.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "sourceSize": { "w": 33, "h": 33 },
-    "duration": 100
-   },
-   {
-    "filename": "alien 3.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "sourceSize": { "w": 33, "h": 33 },
-    "duration": 100
-   },
-   {
-    "filename": "alien 4.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "sourceSize": { "w": 33, "h": 33 },
-    "duration": 100
-   },
-   {
-    "filename": "alien 5.aseprite",
-    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
-    "sourceSize": { "w": 33, "h": 33 },
-    "duration": 100
-   },
-   {
-    "filename": "alien 6.aseprite",
     "frame": { "x": 33, "y": 0, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -63,7 +18,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 7.aseprite",
+    "filename": "alien 2.aseprite",
     "frame": { "x": 66, "y": 0, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -72,7 +27,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 8.aseprite",
+    "filename": "alien 3.aseprite",
     "frame": { "x": 99, "y": 0, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -81,7 +36,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 9.aseprite",
+    "filename": "alien 4.aseprite",
     "frame": { "x": 132, "y": 0, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -90,7 +45,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 10.aseprite",
+    "filename": "alien 5.aseprite",
     "frame": { "x": 165, "y": 0, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -99,7 +54,16 @@
     "duration": 100
    },
    {
-    "filename": "alien 11.aseprite",
+    "filename": "alien 6.aseprite",
+    "frame": { "x": 198, "y": 0, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 7.aseprite",
     "frame": { "x": 0, "y": 33, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -108,7 +72,16 @@
     "duration": 100
    },
    {
-    "filename": "alien 12.aseprite",
+    "filename": "alien 8.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 9.aseprite",
     "frame": { "x": 33, "y": 33, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -117,7 +90,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 13.aseprite",
+    "filename": "alien 10.aseprite",
     "frame": { "x": 66, "y": 33, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -126,7 +99,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 14.aseprite",
+    "filename": "alien 11.aseprite",
     "frame": { "x": 99, "y": 33, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -135,7 +108,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 15.aseprite",
+    "filename": "alien 12.aseprite",
     "frame": { "x": 132, "y": 33, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -144,7 +117,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 16.aseprite",
+    "filename": "alien 13.aseprite",
     "frame": { "x": 165, "y": 33, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -153,7 +126,16 @@
     "duration": 100
    },
    {
-    "filename": "alien 17.aseprite",
+    "filename": "alien 14.aseprite",
+    "frame": { "x": 198, "y": 33, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 15.aseprite",
     "frame": { "x": 0, "y": 66, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -162,7 +144,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 18.aseprite",
+    "filename": "alien 16.aseprite",
     "frame": { "x": 33, "y": 66, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -171,7 +153,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 19.aseprite",
+    "filename": "alien 17.aseprite",
     "frame": { "x": 66, "y": 66, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -180,7 +162,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 20.aseprite",
+    "filename": "alien 18.aseprite",
     "frame": { "x": 99, "y": 66, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -189,7 +171,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 21.aseprite",
+    "filename": "alien 19.aseprite",
     "frame": { "x": 132, "y": 66, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -198,7 +180,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 22.aseprite",
+    "filename": "alien 20.aseprite",
     "frame": { "x": 165, "y": 66, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -207,7 +189,16 @@
     "duration": 100
    },
    {
-    "filename": "alien 23.aseprite",
+    "filename": "alien 21.aseprite",
+    "frame": { "x": 198, "y": 66, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 22.aseprite",
     "frame": { "x": 0, "y": 99, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -216,7 +207,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 24.aseprite",
+    "filename": "alien 23.aseprite",
     "frame": { "x": 33, "y": 99, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -225,7 +216,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 25.aseprite",
+    "filename": "alien 24.aseprite",
     "frame": { "x": 66, "y": 99, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -234,7 +225,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 26.aseprite",
+    "filename": "alien 25.aseprite",
     "frame": { "x": 99, "y": 99, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -243,7 +234,7 @@
     "duration": 100
    },
    {
-    "filename": "alien 27.aseprite",
+    "filename": "alien 26.aseprite",
     "frame": { "x": 132, "y": 99, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
@@ -252,8 +243,17 @@
     "duration": 100
    },
    {
-    "filename": "alien 28.aseprite",
+    "filename": "alien 27.aseprite",
     "frame": { "x": 165, "y": 99, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 28.aseprite",
+    "frame": { "x": 198, "y": 99, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -316,7 +316,7 @@
    },
    {
     "filename": "alien 35.aseprite",
-    "frame": { "x": 0, "y": 165, "w": 33, "h": 33 },
+    "frame": { "x": 198, "y": 132, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -325,7 +325,7 @@
    },
    {
     "filename": "alien 36.aseprite",
-    "frame": { "x": 33, "y": 165, "w": 33, "h": 33 },
+    "frame": { "x": 0, "y": 165, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -334,7 +334,7 @@
    },
    {
     "filename": "alien 37.aseprite",
-    "frame": { "x": 66, "y": 165, "w": 33, "h": 33 },
+    "frame": { "x": 33, "y": 165, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -343,7 +343,7 @@
    },
    {
     "filename": "alien 38.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 66, "y": 165, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -352,7 +352,7 @@
    },
    {
     "filename": "alien 39.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 99, "y": 165, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -361,7 +361,7 @@
    },
    {
     "filename": "alien 40.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 132, "y": 165, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -370,7 +370,7 @@
    },
    {
     "filename": "alien 41.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -379,7 +379,7 @@
    },
    {
     "filename": "alien 42.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -388,7 +388,7 @@
    },
    {
     "filename": "alien 43.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -397,7 +397,34 @@
    },
    {
     "filename": "alien 44.aseprite",
-    "frame": { "x": 33, "y": 132, "w": 33, "h": 33 },
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 45.aseprite",
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 46.aseprite",
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
+    "sourceSize": { "w": 33, "h": 33 },
+    "duration": 100
+   },
+   {
+    "filename": "alien 47.aseprite",
+    "frame": { "x": 132, "y": 132, "w": 33, "h": 33 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 33, "h": 33 },
@@ -410,21 +437,28 @@
   "version": "1.3-rc6-x64",
   "image": "alien.png",
   "format": "RGBA8888",
-  "size": { "w": 198, "h": 198 },
+  "size": { "w": 231, "h": 198 },
   "scale": "1",
   "frameTags": [
    { "name": "Idle", "from": 0, "to": 0, "direction": "forward", "color": "#000000ff" },
-   { "name": "Run", "from": 6, "to": 11, "direction": "forward", "color": "#000000ff" },
-   { "name": "RunningShoot", "from": 12, "to": 17, "direction": "forward", "color": "#000000ff" },
-   { "name": "Jump", "from": 18, "to": 23, "direction": "forward", "color": "#000000ff" },
-   { "name": "JumpingShoot", "from": 24, "to": 29, "direction": "forward", "color": "#000000ff" },
-   { "name": "Death", "from": 31, "to": 37, "direction": "forward", "color": "#000000ff" }
+   { "name": "IdleShoot", "from": 1, "to": 1, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleUpward", "from": 2, "to": 2, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleUpwardShoot", "from": 3, "to": 3, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleDownward", "from": 4, "to": 4, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleDownwardShoot", "from": 5, "to": 5, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleUp", "from": 6, "to": 6, "direction": "forward", "color": "#000000ff" },
+   { "name": "IdleUpShoot", "from": 7, "to": 7, "direction": "forward", "color": "#000000ff" },
+   { "name": "Run", "from": 9, "to": 14, "direction": "forward", "color": "#000000ff" },
+   { "name": "RunningShoot", "from": 15, "to": 20, "direction": "forward", "color": "#000000ff" },
+   { "name": "Jump", "from": 21, "to": 26, "direction": "forward", "color": "#000000ff" },
+   { "name": "JumpingShoot", "from": 27, "to": 32, "direction": "forward", "color": "#000000ff" },
+   { "name": "Death", "from": 34, "to": 40, "direction": "forward", "color": "#000000ff" }
   ],
   "layers": [
    { "name": "AlienLegs", "opacity": 255, "blendMode": "normal" },
    { "name": "AlienTorso", "opacity": 255, "blendMode": "normal" },
-   { "name": "AlienGun", "opacity": 255, "blendMode": "normal" },
-   { "name": "AlienHead", "opacity": 255, "blendMode": "normal" }
+   { "name": "AlienHead", "opacity": 255, "blendMode": "normal" },
+   { "name": "AlienGun", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
   ]

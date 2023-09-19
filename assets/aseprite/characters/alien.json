@@ -413,11 +413,12 @@
   "size": { "w": 198, "h": 198 },
   "scale": "1",
   "frameTags": [
+   { "name": "Idle", "from": 0, "to": 0, "direction": "forward", "color": "#000000ff" },
    { "name": "Run", "from": 6, "to": 11, "direction": "forward", "color": "#000000ff" },
    { "name": "RunningShoot", "from": 12, "to": 17, "direction": "forward", "color": "#000000ff" },
    { "name": "Jump", "from": 18, "to": 23, "direction": "forward", "color": "#000000ff" },
    { "name": "JumpingShoot", "from": 24, "to": 29, "direction": "forward", "color": "#000000ff" },
-   { "name": "DeathFront", "from": 31, "to": 37, "direction": "forward", "color": "#000000ff" }
+   { "name": "Death", "from": 31, "to": 37, "direction": "forward", "color": "#000000ff" }
   ],
   "layers": [
    { "name": "AlienLegs", "opacity": 255, "blendMode": "normal" },

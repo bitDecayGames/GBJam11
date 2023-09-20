@@ -1,5 +1,6 @@
 package states;
 
+import flixel.FlxBasic;
 import flixel.addons.display.FlxBackdrop;
 import flixel.math.FlxRect;
 import entities.particle.Explosion;
@@ -58,6 +59,8 @@ class PlayState extends FlxTransitionableState {
 	public var triggers = new FlxGroup();
 	public var scrollTriggers = new FlxTypedGroup<Trigger>();
 
+	public var updaters = new FlxTypedGroup<FlxBasic>();
+
 	public function new() {
 		super();
 		ME = this;
@@ -77,8 +80,8 @@ class PlayState extends FlxTransitionableState {
 		FlxEcho.init({
 			width: FlxG.width,
 			height: FlxG.height,
-			// gravity_y: 24 * Constants.BLOCK_SIZE, // "Space station" gravity
-			gravity_y: 12 * Constants.BLOCK_SIZE, // "Lunar" gravity
+			gravity_y: 20 * Constants.BLOCK_SIZE, // "Space station" gravity
+			// gravity_y: 12 * Constants.BLOCK_SIZE, // "Lunar" gravity
 		});
 
 		var bg = new FlxBackdrop(AssetPaths.MoonscapeBG__png, X);
@@ -97,8 +100,7 @@ class PlayState extends FlxTransitionableState {
 		add(topParticles);
 		add(triggers);
 		add(scrollTriggers);
-
-		// QuickLog.error('Example error');
+		add(updaters);
 
 		var cpLevel = Collected.getCheckpointLevel();
 		if (cpLevel == null) {
@@ -156,12 +158,21 @@ class PlayState extends FlxTransitionableState {
 		enemies.forEach((f) -> f.destroy());
 		enemies.clear();
 
+		updaters.forEach((f) -> f.destroy());
+		updaters.clear();
+
+
 		for (body in terrainBodies) {
 			FlxEcho.instance.world.remove(body);
 			body.dispose();
 		}
+		terrainBodies = [];
 
 		level = new levels.ldtk.Level(levelID);
+
+		for (basic in level.updaters) {
+			updaters.add(basic);
+		}
 
 		camera.setScrollBoundsRect(0, 0, level.bounds.width, level.bounds.height);
 		FlxEcho.instance.world.set(0, 0, level.bounds.width, level.bounds.height);
@@ -176,7 +187,7 @@ class PlayState extends FlxTransitionableState {
 			scrollTriggers.add(trigger);
 		}
 
-		terrainBodies = TileMap.generate(level.rawTerrainInts, 8, 8, level.rawTerrainTilesWide, level.rawTerrainTilesWide);
+		terrainBodies = terrainBodies.concat(TileMap.generate(level.rawTerrainInts, 8, 8, level.rawTerrainTilesWide, level.rawTerrainTilesWide));
 		for (body in terrainBodies) {
 			FlxEcho.instance.world.add(body);
 		}
@@ -437,7 +448,7 @@ class PlayState extends FlxTransitionableState {
 						player.body.active = true;
 						player.inControl = false;
 						player.body.velocity.set(10, -60);
-						camera.follow(player);
+						camera.follow(player.focalPoint);
 						player.add_to_group(playerGroup);
 						persistentUpdate = true;
 						openSubState(new SoldierIntro(1, () -> {

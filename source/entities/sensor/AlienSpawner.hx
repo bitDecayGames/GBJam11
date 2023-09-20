@@ -9,23 +9,27 @@ class AlienSpawner extends Trigger {
 	var spawnX:Float;
 	var spawnY:Float;
 
+	var maker:(AlienSpawner)->Alien;
+
 	var readyForReset = false;
 	var activeEnemy:Alien;
 
-	public function new(x:Float, y:Float) {
+	public function new(x:Float, y:Float, maker:(AlienSpawner)->Alien) {
 		super(null, FlxRect.weak(x, 0, 1, FlxG.height), false);
 		spawnX = x;
 		spawnY = y;
+		this.maker = maker;
 	}
 
 	override function activate() {
 		super.activate();
 
-		// TODO: Spawn alien!
-		trace('making alien');
-		activeEnemy = new Alien(spawnX, spawnY, this);
+		if (activeEnemy != null && activeEnemy.alive) {
+			return;
+		}
+
+		activeEnemy = maker(this);
 		PlayState.ME.addEnemy(activeEnemy);
-		// PlayState.ME.addEnemy
 	}
 
 	public function queueReset() {

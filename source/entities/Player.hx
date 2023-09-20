@@ -1,5 +1,6 @@
 package entities;
 
+import entities.boss.RoverBoss;
 import flixel.FlxObject;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
@@ -250,7 +251,7 @@ class Player extends BaseHumanoid {
 				}
 
 				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
-					controlState = FASTFALL;
+					// controlState = FASTFALL;
 				}
 				updateGrounded(); // is this needed for jumping?
 			case FALLING:
@@ -259,7 +260,7 @@ class Player extends BaseHumanoid {
 				body.velocity.y = Math.max(body.velocity.y, MAX_JUMP_RELEASE_VELOCITY);
 
 				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
-					controlState = FASTFALL;
+					// controlState = FASTFALL;
 				}
 
 				updateGrounded();
@@ -422,6 +423,8 @@ class Player extends BaseHumanoid {
 			if (other.object is BasicBullet) {
 				doDie();
 			} else if (other.object is Alien) {
+				doDie();
+			} else if (other.object is RoverBoss) {
 				doDie();
 			}
 		}

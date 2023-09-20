@@ -119,6 +119,12 @@ class WallBoss extends FlxBasic {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
+		var active = camera.viewRight > bodyBG.x;
+		ballTarget.active = active; 
+		gunTurret1.active = active; 
+		gunTurret2.active = active; 
+		groundLaser.active = active; 
+
 		if (!deathStarted && ballTarget.health <= 0 && gunTurret1.health <= 0 && gunTurret2.health <= 0) {
 			deathStarted = true;
 			Explosion.death(100, FlxRect.weak(bodyBG.x, bodyBG.y, bodyBG.width, bodyBG.height), 3, () -> {

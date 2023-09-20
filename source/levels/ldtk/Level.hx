@@ -1,5 +1,7 @@
 package levels.ldtk;
 
+import entities.boss.RoverSpawner;
+import entities.boss.RoverBoss;
 import flixel.FlxBasic;
 import flixel.group.FlxGroup;
 import entities.RunningAlien;
@@ -108,6 +110,10 @@ class Level {
 	function parseBosses(level:LDTKProject.LDTKProject_Level) {
 		for (boss in level.l_Entities.all_WallBoss) {
 			updaters.push(new WallBoss(boss.pixelX, boss.pixelY));
+		}
+
+		for (boss in level.l_Entities.all_RoverBoss) {
+			spawners.push(new RoverSpawner(boss.pixelX, boss.pixelY));
 		}
 	}
 

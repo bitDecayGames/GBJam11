@@ -73,48 +73,44 @@ class Turret extends EchoSprite {
 			}
 			
 			bVec = pVec - bVec;
-			
+
+			// aka 10 segments
 			var angleDeg = FlxAngle.asDegrees(bVec.radians);
-			if (angleDeg > 0) {
-				angleDeg = FlxMath.bound(angleDeg, 135, 180);
-				if (angleDeg < 135 + 11.25) {
-					baseFrame = 4;
-				} else if (angleDeg < 180 - 11.25) {
-					baseFrame = 3;
-				} else {
-					baseFrame = 2;
-				}
-			} else {
-				angleDeg = FlxMath.bound(angleDeg, -180, -135);
-				if (angleDeg > -135 - 11.25) {
-					baseFrame = 0;
-				} else if (angleDeg > -180 + 11.25) {
-					baseFrame = 1;
-				} else {
-					baseFrame = 2;
-				}
-			}
+			var intAngle = FlxMath.wrap(cast angleDeg + 11.25, 0, 359);
+			var segments = Std.int(intAngle / 22.5);
+			baseFrame = segments;
+			
+			// if (angleDeg > 0) {
+			// 	angleDeg = FlxMath.bound(angleDeg, 135, 180);
+			// 	if (angleDeg < 135 + 11.25) {
+			// 		baseFrame = 4;
+			// 	} else if (angleDeg < 180 - 11.25) {
+			// 		baseFrame = 3;
+			// 	} else {
+			// 		baseFrame = 2;
+			// 	}
+			// } else {
+			// 	angleDeg = FlxMath.bound(angleDeg, -180, -135);
+			// 	if (angleDeg > -135 - 11.25) {
+			// 		baseFrame = 0;
+			// 	} else if (angleDeg > -180 + 11.25) {
+			// 		baseFrame = 1;
+			// 	} else {
+			// 		baseFrame = 2;
+			// 	}
+			// }
 			FlxG.watch.addQuick('angle${ID}: ', angleDeg);
+			FlxG.watch.addQuick('angleInt${ID}: ', intAngle);
+			FlxG.watch.addQuick('baseFrame${ID}: ', baseFrame);
 
 			bulletTimer -= elapsed;
 			if (bulletTimer <= 0) {
 				bulletTimer += 1.0;
 
 				var BULLET_SPEED = 30;
-				var trajectory = FlxPoint.get(-BULLET_SPEED, 0);
-				var offset = FlxPoint.get(-10, 0);
-				var adjust = switch(baseFrame) {
-					case 0:
-						45;
-					case 1:
-						22.5;
-					case 3:
-						-22.5;
-					case 4:
-						-45;
-					default:
-						0;
-				}
+				var trajectory = FlxPoint.get(BULLET_SPEED, 0);
+				var offset = FlxPoint.get(10, 0);
+				var adjust = baseFrame * 22.5;
 
 				trajectory.rotateByDegrees(adjust);
 				offset.rotateByDegrees(adjust);
@@ -135,12 +131,12 @@ class Turret extends EchoSprite {
 
 			if (health <= 0) {
 				body.active = false;
-				frameMod = 10;
+				frameMod = 34;
 				Explosion.death(10, FlxRect.weak(x, y, width, height), () -> {
 
 				});
 			} else {
-				frameMod = 5;
+				frameMod = 17;
 				damageTimer.start(damageBlinkDuration, (t) -> {
 					if (health > 0) {
 						frameMod = 0;

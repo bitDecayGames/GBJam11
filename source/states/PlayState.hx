@@ -186,6 +186,7 @@ class PlayState extends FlxTransitionableState {
 			updaters.add(basic);
 		}
 
+		camera.scroll.set();
 		camera.setScrollBoundsRect(0, 0, level.bounds.width, level.bounds.height);
 		FlxEcho.instance.world.set(0, 0, level.bounds.width, level.bounds.height);
 

@@ -19,4 +19,5 @@ class FmodSFX {
     public static inline var ShipExplodeMini:String = "event:/SFX/Ship/ShipExplodeMini";
     public static inline var ShipFall:String = "event:/SFX/Ship/ShipFall";
     public static inline var VoicePrepareYourself:String = "event:/SFX/Voice/VoicePrepareYourself";
+    public static inline var WeaponGunShoot:String = "event:/SFX/Weapons/WeaponGunShoot";
 }

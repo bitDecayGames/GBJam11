@@ -85,6 +85,7 @@ class BaseHumanoid extends EchoSprite {
 	}
 
 	function handleShoot() {
+		FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
 		var trajectory = FlxPoint.weak(BULLET_SPEED, 0);
 		var vertOffset = 7;
 		var offset = FlxPoint.weak(12);

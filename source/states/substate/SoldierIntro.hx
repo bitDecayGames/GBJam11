@@ -10,9 +10,12 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 
 class SoldierIntro extends FlxSubState {
+	// static var quips = [
+	// 	"one for the core!",
+	// 	"we will not be stopped!",
+	// 	"prepare yourself!"
+	// ];
 	static var quips = [
-		"one for the core!",
-		"we will not be stopped!",
 		"prepare yourself!"
 	];
 	
@@ -46,6 +49,8 @@ class SoldierIntro extends FlxSubState {
 		flavorText.fieldWidth = cast (FlxG.width - flavorText.x - 10);
 		flavorText.scrollFactor.set();
 		add(flavorText);
+
+		FmodManager.PlaySoundOneShot(FmodSFX.VoicePrepareYourself);
 	}
 
 	override function update(elapsed:Float) {

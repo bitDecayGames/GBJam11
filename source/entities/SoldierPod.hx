@@ -20,6 +20,7 @@ class SoldierPod extends FlxSprite {
 		
 		emitter = Smoker.create(x, y);
 		emitter.frequency = 0.05;
+		FmodManager.PlaySoundOneShot(FmodSFX.ShipFall);
 	}
 
 	override function update(elapsed:Float) {
@@ -29,6 +30,7 @@ class SoldierPod extends FlxSprite {
 	}
 
 	public function landed() {
+		FmodManager.PlaySoundOneShot(FmodSFX.ShipCrash);
 		animation.play(anims.Crash);
 		emitter.frequency = 0.1;
 	}

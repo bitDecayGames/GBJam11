@@ -431,6 +431,7 @@ class PlayState extends FlxTransitionableState {
 				var boomDelay = respawn ? 0.5 : 2;
 				new FlxTimer().start(boomDelay, (t) -> {
 					Explosion.death(10, FlxRect.weak(pod.x, pod.y, pod.width, pod.height), 1, () -> {
+						FmodManager.PlaySoundOneShot(FmodSFX.ShipExplode);
 						camera.flash(Constants.LIGHTEST, 0.5);
 						pod.kill();
 						player = new Player(point.x, point.y);
@@ -440,13 +441,15 @@ class PlayState extends FlxTransitionableState {
 						camera.follow(player);
 						player.add_to_group(playerGroup);
 						persistentUpdate = true;
-						openSubState(new SoldierIntro(1, () -> {
-							player.inControl = true;
-							player.body.active = true;
-							if (respawn) {
-								player.invulnerable(1);
-							}
-						}));
+						new FlxTimer().start(1.5, (t) -> {
+							openSubState(new SoldierIntro(1.5, () -> {
+								player.inControl = true;
+								player.body.active = true;
+								if (respawn) {
+									player.invulnerable(1);
+								}
+							}));
+						});
 						if (cb != null) cb();
 					});
 				});

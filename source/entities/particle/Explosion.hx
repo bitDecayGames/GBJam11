@@ -43,6 +43,8 @@ class Explosion extends FlxSprite {
 		var x = FlxG.random.int(cast area.left, cast area.right);
 		var y = FlxG.random.int(cast area.top, cast area.bottom);
 
+		FmodManager.PlaySoundOneShot(FmodSFX.ShipExplodeMini);
+
 		var poof = pool.recycle(Explosion);
 		poof.spawn(x, y);
 		PlayState.ME.addTopParticle(poof);
@@ -62,7 +64,6 @@ class Explosion extends FlxSprite {
 	}
 
 	public function spawn(x:Float, y:Float) {
-		// TODO SFX: single explosion (may happen many times over)
 		setPosition(x, y);
 		visible = true;
 		animation.play('all');

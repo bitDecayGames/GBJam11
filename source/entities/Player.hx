@@ -86,6 +86,12 @@ class Player extends BaseHumanoid {
 			// if (eventData.exists(index)) {
 				// trace('frame $index has data ${eventData.get(index)}');
 			// }
+
+			if (anim == anims.RunUpward || anim == anims.RunDownward || anim == anims.Run) {
+				if (frame == 2 || frame == 5) {
+					FmodManager.PlaySoundOneShot(FmodSFX.PlayerStep);
+				}
+			}
 		};
 	}
 

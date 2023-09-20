@@ -183,7 +183,7 @@ class BaseHumanoid extends EchoSprite {
 			if (checkGrounded) {
 				checkGrounded = false;
 				if(grounded == false) {
-					// FmodManager.PlaySoundOneShot(FmodSFX.PlayerLand1);
+					FmodManager.PlaySoundOneShot(FmodSFX.PlayerLand);
 				}
 				grounded = true;
 			}

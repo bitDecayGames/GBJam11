@@ -81,8 +81,8 @@ class PlayState extends FlxTransitionableState {
 		FlxEcho.init({
 			width: FlxG.width,
 			height: FlxG.height,
-			gravity_y: 20 * Constants.BLOCK_SIZE, // "Space station" gravity
-			// gravity_y: 12 * Constants.BLOCK_SIZE, // "Lunar" gravity
+			// gravity_y: 20 * Constants.BLOCK_SIZE, // "Space station" gravity
+			gravity_y: 10 * Constants.BLOCK_SIZE, // "Lunar" gravity
 		});
 
 		var bg = new FlxBackdrop(AssetPaths.MoonscapeBG__png, X);
@@ -107,7 +107,13 @@ class PlayState extends FlxTransitionableState {
 		if (cpLevel == null) {
 			cpLevel = "Level_0";
 		}
-		loadLevel("Level_0", Collected.getCheckpointID());
+
+		var startLevel = "Level_0";
+		#if logan
+		startLevel = "Level_1";
+		#end
+
+		loadLevel(startLevel, Collected.getCheckpointID());
 	}
 
 	@:access(echo.FlxEcho)
@@ -449,11 +455,7 @@ class PlayState extends FlxTransitionableState {
 		camera.follow(null);
 		camera.focusOn(point);
 
-		var groundCast = Line.get(point.x, point.y, point.x, point.y + 144);
-		var ground = groundCast.linecast(terrainBodies);
-		if (ground != null) {
-			point.set(ground.closest.hit.x, ground.closest.hit.y);
-		}
+		findGroundUnderPoint(point, point);
 
 		var podAngle = FlxPoint.get(1, 0).rotateByDegrees(-75);
 		podAngle.scale(FlxG.height * 1.5);
@@ -491,6 +493,18 @@ class PlayState extends FlxTransitionableState {
 				});
 			}
 		});
+	}
+
+	public function findGroundUnderPoint(start:FlxPoint, into:FlxPoint = null):FlxPoint {
+		var groundCast = Line.get(start.x, start.y, start.x, start.y + 144);
+		var ground = groundCast.linecast(terrainBodies);
+		if (ground != null) {
+			if (into == null) {
+				into = FlxPoint.get();
+			}
+			into.set(ground.closest.hit.x, ground.closest.hit.y);
+		}
+		return into;
 	}
 
 	public function resetCamera() {

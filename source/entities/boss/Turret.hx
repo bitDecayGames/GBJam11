@@ -105,6 +105,7 @@ class Turret extends EchoSprite {
 
 			bulletTimer -= elapsed;
 			if (bulletTimer <= 0) {
+				trace('pew');
 				bulletTimer += 1.0;
 
 				var BULLET_SPEED = 30;

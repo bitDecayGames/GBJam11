@@ -445,6 +445,8 @@ class Player extends BaseHumanoid {
 		inControl = false;
 		body.velocity.x = 0;
 		awaitingDeath = true;
+		FmodManager.PlaySoundOneShot(FmodSFX.PlayerDamage);
+		FmodManager.PlaySoundOneShot(FmodSFX.VoicePlayerDeath1);
 		playAnimIfNotAlready(anims.DeathFront);
 	}
 

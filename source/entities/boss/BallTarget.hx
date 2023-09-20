@@ -48,6 +48,8 @@ class BallTarget extends EchoSprite {
 
 		if (other.object is BasicBullet) {
 			health--;
+			camera.shake(0.01, 0.1);
+			FmodManager.PlaySoundOneShot(FmodSFX.EnemyBossDamage);
 
 			if (health <= 0) {
 				body.active = false;

@@ -61,7 +61,7 @@ class Turret extends EchoSprite {
 	var baseFrame = 0;
 	var frameMod = 0;
 
-	var bulletTimer = 1.0;
+	var bulletTimer = 2.0;
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
@@ -102,10 +102,10 @@ class Turret extends EchoSprite {
 			FlxG.watch.addQuick('angle${ID}: ', angleDeg);
 			FlxG.watch.addQuick('angleInt${ID}: ', intAngle);
 			FlxG.watch.addQuick('baseFrame${ID}: ', baseFrame);
-
+		
 			bulletTimer -= elapsed;
 			if (bulletTimer <= 0) {
-				bulletTimer += 1.0;
+				bulletTimer += 2.0;
 
 				var BULLET_SPEED = 30;
 				var trajectory = FlxPoint.get(BULLET_SPEED, 0);
@@ -115,6 +115,8 @@ class Turret extends EchoSprite {
 				trajectory.rotateByDegrees(adjust);
 				offset.rotateByDegrees(adjust);
 				var bullet = BasicBullet.pool.recycle(BasicBullet);
+				// TODO Only fire when on camera
+				// FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
 				bullet.spawn(body.x + offset.x, body.y + offset.y, trajectory);
 				PlayState.ME.addEnemyBullet(bullet);
 			}
@@ -128,6 +130,8 @@ class Turret extends EchoSprite {
 
 		if (other.object is BasicBullet) {
 			health--;
+			camera.shake(0.01, 0.1);
+			FmodManager.PlaySoundOneShot(FmodSFX.EnemyBossDamage);
 
 			if (health <= 0) {
 				body.active = false;

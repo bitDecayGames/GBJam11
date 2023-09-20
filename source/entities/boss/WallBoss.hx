@@ -46,15 +46,15 @@ class WallBoss extends FlxBasic {
 		ballTarget = new BallTarget(
 			x + sliceMap.get(slices.Ball_0).keys[0].bounds.x,
 			y + sliceMap.get(slices.Ball_0).keys[0].bounds.y + 1);
-		ballTarget.health = 3;
+		ballTarget.health = 10;
 		gunTurret1 = new Turret(
 			x + sliceMap.get(slices.Turret1_0).keys[0].bounds.x,
 			y + sliceMap.get(slices.Turret1_0).keys[0].bounds.y);
-		gunTurret1.health = 2;
+		gunTurret1.health = 5;
 		gunTurret2 = new Turret(
 			x + sliceMap.get(slices.Turret2_0).keys[0].bounds.x,
 			y + sliceMap.get(slices.Turret2_0).keys[0].bounds.y);
-		gunTurret2.health = 2;
+		gunTurret2.health = 5;
 		groundLaser = new GroundLaser(x + sliceMap.get(slices.GroundLaser_0).keys[0].bounds.x, y + sliceMap.get(slices.GroundLaser_0).keys[0].bounds.y);
 		// TODO: We probably want to do this only once the player is close enough
 		spawn();

@@ -12,6 +12,7 @@ class FmodSongs {
 class FmodSFX {
     public static inline var MenuHover:String = "event:/SFX/Menu/MenuHover";
     public static inline var MenuSelect:String = "event:/SFX/Menu/MenuSelect";
+    public static inline var PlayerJump:String = "event:/SFX/Player/Jump/PlayerJump";
     public static inline var PlayerLand:String = "event:/SFX/Player/Land/PlayerLand";
     public static inline var PlayerStep:String = "event:/SFX/Player/Step/PlayerStep";
     public static inline var ShipCrash:String = "event:/SFX/Ship/ShipCrash";

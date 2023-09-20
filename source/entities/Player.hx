@@ -208,7 +208,7 @@ class Player extends BaseHumanoid {
 				}
 
 				if ((grounded || (unGroundedTime < COYOTE_TIME)) && SimpleController.just_pressed(A)) {
-					// FmodManager.PlaySoundOneShot(FmodSFX.PlayerJump4);
+					FmodManager.PlaySoundOneShot(FmodSFX.PlayerJump);
 					y--;
 					body.velocity.y = INITIAL_JUMP_STRENGTH;
 					unGroundedTime = COYOTE_TIME;

@@ -452,8 +452,6 @@ class PlayState extends FlxTransitionableState {
 						camera.follow(player.focalPoint);
 						player.add_to_group(playerGroup);
 						player.introduceYourselfWhenReady(() -> {
-							// player.inControl = true;
-							// player.update(0.01);
 							openSubState(new SoldierIntro(1.5, () -> {
 								player.inControl = true;
 								if (respawn) {
@@ -461,10 +459,6 @@ class PlayState extends FlxTransitionableState {
 									}
 							}));
 						});
-						// persistentUpdate = true;
-						// new FlxTimer().start(1.5, (t) -> {
-							
-						// });
 						if (cb != null) cb();
 					});
 				});

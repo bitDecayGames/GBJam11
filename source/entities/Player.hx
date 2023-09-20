@@ -459,6 +459,7 @@ class Player extends BaseHumanoid {
 		var changed = super.playAnimIfNotAlready(name);
 		if (changed) {
 			if (StringTools.contains(name, "Prone")) {
+				FmodManager.PlaySoundOneShot(FmodSFX.PlayerDuck);
 				body.add_shape(proneBody);
 				body.remove_shape(mainBody);
 			} else {

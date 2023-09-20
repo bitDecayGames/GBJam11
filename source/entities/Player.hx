@@ -57,12 +57,14 @@ class Player extends BaseHumanoid {
 	var INITIAL_JUMP_STRENGTH = -11.5 * Constants.BLOCK_SIZE;
 	var MAX_JUMP_RELEASE_VELOCITY = -5 * Constants.BLOCK_SIZE;
 	var FAST_FALL_SPEED = 20 * Constants.BLOCK_SIZE;
+	var DOUBLE_JUMP_MODIFIER = 0.75;
 
 	var bonkedHead = false;
 	var jumpHigherTimer = 0.0;
 
 	var playerNum = 0;
 
+	var hasDoubleJump = true;
 	var unGroundedTime = 0.0;
 
 	var controlState:PlayerState = FALLING;
@@ -78,6 +80,10 @@ class Player extends BaseHumanoid {
 	var focusChangeSpeed = 5;
 
 	var onLandCB:Void->Void = null;
+
+	var shootLockout = 0.0;
+	var SHOOT_TIMER = 0.25;
+	var PRESS_SHOOT_BONUS = .1;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);
@@ -137,6 +143,10 @@ class Player extends BaseHumanoid {
 	override public function update(delta:Float) {
 		super.update(delta);
 
+		if (shootLockout > 0) {
+			shootLockout -= delta;
+		}
+
 		if (onLandCB != null && !previouslyGrounded && grounded) {
 			// XXX: This is pretty brute-force... but it works
 			animState.add(GROUNDED);
@@ -193,8 +203,13 @@ class Player extends BaseHumanoid {
 	}
 
 	override function handleShoot() {
-		if (SimpleController.just_pressed(B)) {
+		if (SimpleController.pressed(B) && shootLockout <= 0) {
+			shootLockout = SHOOT_TIMER;
 			super.handleShoot();
+		}
+
+		if (SimpleController.just_released(B) && shootLockout > 0) {
+			shootLockout -= PRESS_SHOOT_BONUS;
 		}
 	}
 
@@ -203,6 +218,7 @@ class Player extends BaseHumanoid {
 
 		switch(controlState) {
 			case GROUNDED:
+				hasDoubleJump = true;
 				handleMovement();
 				handleShoot();
 				updateGrounded();
@@ -221,15 +237,7 @@ class Player extends BaseHumanoid {
 				}
 
 				if ((grounded || (unGroundedTime < COYOTE_TIME)) && SimpleController.just_pressed(A)) {
-					FmodManager.PlaySoundOneShot(FmodSFX.PlayerJump);
-					y--;
-					body.velocity.y = INITIAL_JUMP_STRENGTH;
-					unGroundedTime = COYOTE_TIME;
-					grounded = false;
-					jumpHigherTimer = JUMP_WINDOW;
-					jumping = true;
-					bonkedHead = false;
-					controlState = JUMPING;
+					doJump();
 				}
 
 				if (unGroundedTime > COYOTE_TIME) {
@@ -261,6 +269,11 @@ class Player extends BaseHumanoid {
 
 				if (SimpleController.just_pressed(DOWN) && !(SimpleController.pressed(LEFT) || SimpleController.pressed(RIGHT))) {
 					// controlState = FASTFALL;
+				}
+
+				if (hasDoubleJump && SimpleController.just_pressed(A)) {
+					hasDoubleJump = false;
+					doJump(false);
 				}
 
 				updateGrounded();
@@ -325,6 +338,18 @@ class Player extends BaseHumanoid {
 		if (grounded) {
 			animState.add(GROUNDED);
 		}
+	}
+
+	function doJump(first:Bool = true) {
+		FmodManager.PlaySoundOneShot(FmodSFX.PlayerJump);
+		y--;
+		body.velocity.y = INITIAL_JUMP_STRENGTH * (first ? 1 : DOUBLE_JUMP_MODIFIER);
+		unGroundedTime = COYOTE_TIME;
+		grounded = false;
+		jumpHigherTimer = JUMP_WINDOW;
+		jumping = true;
+		bonkedHead = false;
+		controlState = JUMPING;
 	}
 
 	override function addBulletToGame(bullet:BasicBullet) {

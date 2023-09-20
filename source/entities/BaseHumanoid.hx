@@ -108,8 +108,14 @@ class BaseHumanoid extends EchoSprite {
 			if (intentState.has(UPPING)) {
 				angleAdjust = -90;
 			} else if (intentState.has(DOWNING)) {
-				offset.x = 18;
-				vertOffset = 13;
+				if (grounded) {
+					offset.x = 18;
+					vertOffset = 13;
+				} else {
+					angleAdjust = 90;
+					offset.x = 0;
+					vertOffset = 18;
+				}
 			}
 		}
 

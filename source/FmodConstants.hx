@@ -22,7 +22,9 @@ class FmodSFX {
     public static inline var ShipExplode:String = "event:/SFX/Ship/ShipExplode";
     public static inline var ShipExplodeMini:String = "event:/SFX/Ship/ShipExplodeMini";
     public static inline var ShipFall:String = "event:/SFX/Ship/ShipFall";
+    public static inline var VoiceOneForeTheCore:String = "event:/SFX/Voice/VoiceOneForeTheCore";
     public static inline var VoicePlayerDeath1:String = "event:/SFX/Voice/VoicePlayerDeath1";
     public static inline var VoicePrepareYourself:String = "event:/SFX/Voice/VoicePrepareYourself";
+    public static inline var VoiceWeWillNotBeStopped:String = "event:/SFX/Voice/VoiceWeWillNotBeStopped";
     public static inline var WeaponGunShoot:String = "event:/SFX/Weapons/WeaponGunShoot";
 }

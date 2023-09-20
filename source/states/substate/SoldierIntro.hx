@@ -10,12 +10,9 @@ import flixel.FlxSprite;
 import flixel.FlxSubState;
 
 class SoldierIntro extends FlxSubState {
-	// static var quips = [
-	// 	"one for the core!",
-	// 	"we will not be stopped!",
-	// 	"prepare yourself!"
-	// ];
 	static var quips = [
+		"one for the core!",
+		"we will not be stopped!",
 		"prepare yourself!"
 	];
 	
@@ -44,13 +41,23 @@ class SoldierIntro extends FlxSubState {
 		portrait.scrollFactor.set();
 		add(portrait);
 
-		var flavorText = new Trooper(portrait.x + portrait.width + 10, portrait.y, quips[FlxG.random.int(0, quips.length-1)]);
+		var quip = quips[FlxG.random.int(0, quips.length-1)];
+		var flavorText = new Trooper(portrait.x + portrait.width + 10, portrait.y, quip);
 		flavorText.autoSize = false;
 		flavorText.fieldWidth = cast (FlxG.width - flavorText.x - 10);
 		flavorText.scrollFactor.set();
 		add(flavorText);
 
-		FmodManager.PlaySoundOneShot(FmodSFX.VoicePrepareYourself);
+		switch (quip) {
+			case "one for the core!":
+				FmodManager.PlaySoundOneShot(FmodSFX.VoiceOneForeTheCore);
+			case "we will not be stopped!":
+				FmodManager.PlaySoundOneShot(FmodSFX.VoiceWeWillNotBeStopped);
+			case "prepare yourself!":
+				FmodManager.PlaySoundOneShot(FmodSFX.VoicePrepareYourself);
+
+			default: 
+		}
 	}
 
 	override function update(elapsed:Float) {

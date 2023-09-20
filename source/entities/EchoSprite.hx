@@ -22,6 +22,13 @@ class EchoSprite extends FlxSprite {
 		}
 	}
 
+	override function kill() {
+		super.kill();
+		if (body != null) {
+			body.active = false;
+		}
+	}
+
 	public function configSprite() {}
 
 	public function makeBody():Body {

@@ -1,5 +1,6 @@
 package states;
 
+import entities.sensor.NextLevelTrigger;
 import flixel.FlxBasic;
 import flixel.addons.display.FlxBackdrop;
 import flixel.math.FlxRect;
@@ -130,10 +131,10 @@ class PlayState extends FlxTransitionableState {
 		corpseGroup.forEach((f) -> f.destroy());
 		corpseGroup.clear();
 
-		playerBullets.forEach((f) -> f.destroy());
+		playerBullets.forEach((f) -> f.kill());
 		playerBullets.clear();
 		
-		enemyBullets.forEach((f) -> f.destroy());
+		enemyBullets.forEach((f) -> f.kill());
 		enemyBullets.clear();
 
 		emitters.forEach((f) -> f.destroy());
@@ -142,7 +143,13 @@ class PlayState extends FlxTransitionableState {
 		particles.forEach((f) -> f.destroy());
 		particles.clear();
 
-		topParticles.forEach((f) -> f.destroy());
+		topParticles.forEach((f) -> {
+			if (f is Explosion) {
+				f.kill();
+			} else {
+				f.destroy();
+			}
+		});
 		topParticles.clear();
 
 		triggers.forEach((f) -> f.destroy());
@@ -202,6 +209,7 @@ class PlayState extends FlxTransitionableState {
 			spawnPlayer(spawnPoint);
 		});
 
+		createEndLevelTrigger();
 		createLevelBoundingBox();
 
 		// We need to cache our non-interacting collisions to avoid glitchy
@@ -352,6 +360,13 @@ class PlayState extends FlxTransitionableState {
 		});
 	}
 
+	function createEndLevelTrigger() {
+		for (nl in level.raw.l_Entities.all_NextLevel) {
+			var t = new NextLevelTrigger(nl.iid, FlxRect.weak(nl.pixelX, nl.pixelY, nl.width, nl.height), nl.f_Entity_ref.levelIid);
+			t.add_to_group(triggers);
+		}
+	}
+
 	function createLevelBoundingBox() {
 		var left = new Body({
 			x: -5,
@@ -418,7 +433,19 @@ class PlayState extends FlxTransitionableState {
 		return spawnPoint;
 	}
 
+	public function transitionToLevel(iid:String) {
+		loadLevel(iid);
+	}
+
 	function spawnPlayer(point:FlxPoint, respawn:Bool = false, cb:Void->Void = null) {
+		for (b in enemyBullets) {
+			b.kill();
+		}
+
+		for (e in enemies) {
+			e.kill();
+		}
+
 		camera.follow(null);
 		camera.focusOn(point);
 
@@ -429,7 +456,7 @@ class PlayState extends FlxTransitionableState {
 		}
 
 		var podAngle = FlxPoint.get(1, 0).rotateByDegrees(-75);
-		podAngle.scale(FlxG.height * 1.2);
+		podAngle.scale(FlxG.height * 1.5);
 		podAngle.addPoint(point);
 
 		var pod = new SoldierPod(podAngle.x, podAngle.y);
@@ -451,14 +478,12 @@ class PlayState extends FlxTransitionableState {
 						player.body.velocity.set(10, -60);
 						camera.follow(player.focalPoint);
 						player.add_to_group(playerGroup);
-						persistentUpdate = true;
-						new FlxTimer().start(1.5, (t) -> {
+						player.introduceYourselfWhenReady(() -> {
 							openSubState(new SoldierIntro(1.5, () -> {
 								player.inControl = true;
-								player.body.active = true;
 								if (respawn) {
-									player.invulnerable(1);
-								}
+										player.invulnerable(1);
+									}
 							}));
 						});
 						if (cb != null) cb();

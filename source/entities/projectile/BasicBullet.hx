@@ -70,7 +70,6 @@ class BasicBullet extends EchoSprite {
 
 		if (x + width < FlxG.camera.viewLeft || x > FlxG.camera.viewRight || y + height < 0 || y > FlxG.camera.viewBottom) {
 			kill();
-			body.active = false;
 			body.velocity.set(0,0);
 		}
 	}
@@ -79,7 +78,6 @@ class BasicBullet extends EchoSprite {
 		super.handleEnter(other, data);
 
 		kill();
-		body.active = false;
 	}
 
 	override function destroy() {

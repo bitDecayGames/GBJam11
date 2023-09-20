@@ -419,6 +419,14 @@ class PlayState extends FlxTransitionableState {
 	}
 
 	function spawnPlayer(point:FlxPoint, respawn:Bool = false, cb:Void->Void = null) {
+		for (b in enemyBullets) {
+			b.kill();
+		}
+
+		for (e in enemies) {
+			e.kill();
+		}
+
 		camera.follow(null);
 		camera.focusOn(point);
 

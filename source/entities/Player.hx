@@ -85,6 +85,7 @@ class Player extends BaseHumanoid {
 		proneBody = body.shapes[1];
 		body.remove_shape(proneBody);
 
+		focalPoint.setPosition(body.x, body.y);
 	}
 
 	override function configSprite() {

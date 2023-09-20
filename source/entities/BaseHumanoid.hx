@@ -30,7 +30,7 @@ class BaseHumanoid extends EchoSprite {
 	var accel:Float = 100000000;
 	var airAccel:Float = 100000000;
 	var decel:Float = 100000000;
-	var maxSpeed:Float = Constants.BLOCK_SIZE * 4;
+	var maxSpeed:Float = Constants.BLOCK_SIZE * 8;
 
 	// set to true to run a one-time grounded check
 	var checkGrounded = false;

@@ -126,8 +126,6 @@ class PlayState extends FlxTransitionableState {
 
 		Collected.setLastCheckpoint(levelID, null);
 
-		FlxEcho.clear();
-
 		terrainGroup.forEach((f) -> f.destroy());
 		terrainGroup.clear();
 
@@ -174,6 +172,7 @@ class PlayState extends FlxTransitionableState {
 		updaters.forEach((f) -> f.destroy());
 		updaters.clear();
 
+		FlxEcho.clear();
 
 		for (body in terrainBodies) {
 			FlxEcho.instance.world.remove(body);

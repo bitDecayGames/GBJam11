@@ -78,6 +78,7 @@ class Alien extends BaseHumanoid {
 		super.handleEnter(other, data);
 
 		if (other.object is BasicBullet) {
+			FmodManager.PlaySoundOneShot(FmodSFX.EnemyAlienDeath);
 			animation.play(anims.Death);
 			body.active = false;
 		}

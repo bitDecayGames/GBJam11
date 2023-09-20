@@ -29,7 +29,7 @@ class BasicBullet extends EchoSprite {
 
 	@:access(echo.FlxEcho)
 	public function spawn(x:Float, y:Float, velocity:FlxPoint) {
-		if (body == null) {
+		if (body == null || body.disposed) {
 			body = makeBody();
 		}
 
@@ -78,6 +78,11 @@ class BasicBullet extends EchoSprite {
 		super.handleEnter(other, data);
 
 		kill();
+	}
+
+	override function kill() {
+		super.kill();
+		PlayState.ME.recycleBullet(this);
 	}
 
 	override function destroy() {

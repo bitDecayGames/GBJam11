@@ -76,6 +76,8 @@ class Player extends BaseHumanoid {
 	var focalOffsetMax = 30;
 	var focusChangeSpeed = 5;
 
+	var onLandCB:Void->Void = null;
+
 	public function new(x:Float, y:Float) {
 		super(x, y);
 
@@ -133,6 +135,14 @@ class Player extends BaseHumanoid {
 	override public function update(delta:Float) {
 		super.update(delta);
 
+		if (onLandCB != null && !previouslyGrounded && grounded) {
+			// XXX: This is pretty brute-force... but it works
+			animState.add(GROUNDED);
+			body.velocity.set(0, 0);
+			onLandCB();
+			onLandCB = null;
+		}
+
 		if (inControl) {
 			handleInput(delta);
 			updateCurrentAnimation();
@@ -146,6 +156,7 @@ class Player extends BaseHumanoid {
 			focalRatio = FlxMath.bound(focalRatio, -1, 1);
 			focalPoint.setPosition(body.x + focalRatio * focalOffsetMax, body.y);
 		} else if (!awaitingDeath) {
+			updateGrounded();
 			updateCurrentAnimation();
 		} else {
 			if (body.velocity.length == 0) {
@@ -454,5 +465,9 @@ class Player extends BaseHumanoid {
 			}
 			bonkedHead = true;
 		}
+	}
+
+	public function introduceYourselfWhenReady(cb:() -> Void) {
+		onLandCB = cb;
 	}
 }

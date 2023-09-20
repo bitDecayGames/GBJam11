@@ -33,7 +33,8 @@ class BaseHumanoid extends EchoSprite {
 	var maxSpeed:Float = Constants.BLOCK_SIZE * 4;
 
 	// set to true to run a one-time grounded check
-	var checkGrounded = true;
+	var checkGrounded = false;
+	public var previouslyGrounded = false;
 	public var grounded = false;
 
 	var jumping = false;
@@ -130,6 +131,7 @@ class BaseHumanoid extends EchoSprite {
 	}
 
 	function updateGrounded() {
+		previouslyGrounded = grounded;
 		groundedCastLeft = false;
 		groundedCastMiddle = false;
 		groundedCastRight = false;

@@ -429,7 +429,7 @@ class PlayState extends FlxTransitionableState {
 		}
 
 		var podAngle = FlxPoint.get(1, 0).rotateByDegrees(-75);
-		podAngle.scale(FlxG.height * 1.2);
+		podAngle.scale(FlxG.height * 1.5);
 		podAngle.addPoint(point);
 
 		var pod = new SoldierPod(podAngle.x, podAngle.y);
@@ -451,16 +451,20 @@ class PlayState extends FlxTransitionableState {
 						player.body.velocity.set(10, -60);
 						camera.follow(player.focalPoint);
 						player.add_to_group(playerGroup);
-						persistentUpdate = true;
-						new FlxTimer().start(1.5, (t) -> {
+						player.introduceYourselfWhenReady(() -> {
+							// player.inControl = true;
+							// player.update(0.01);
 							openSubState(new SoldierIntro(1.5, () -> {
 								player.inControl = true;
-								player.body.active = true;
 								if (respawn) {
-									player.invulnerable(1);
-								}
+										player.invulnerable(1);
+									}
 							}));
 						});
+						// persistentUpdate = true;
+						// new FlxTimer().start(1.5, (t) -> {
+							
+						// });
 						if (cb != null) cb();
 					});
 				});

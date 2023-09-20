@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.FlxObject;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
@@ -68,6 +69,13 @@ class Player extends BaseHumanoid {
 	var awaitingDeath = false;
 	var deathStillnessTimer = 0.5;
 
+	public var focalPoint = new FlxObject();
+
+	// between -1 and 1
+	var focalRatio:Float = 0.0;
+	var focalOffsetMax = 30;
+	var focusChangeSpeed = 5;
+
 	public function new(x:Float, y:Float) {
 		super(x, y);
 
@@ -128,6 +136,15 @@ class Player extends BaseHumanoid {
 		if (inControl) {
 			handleInput(delta);
 			updateCurrentAnimation();
+
+			if (body.velocity.x > 0) {
+				focalRatio += focusChangeSpeed * delta;
+			} else if (body.velocity.x < 0) {
+				focalRatio -= focusChangeSpeed * delta;
+			}
+	
+			focalRatio = FlxMath.bound(focalRatio, -1, 1);
+			focalPoint.setPosition(body.x + focalRatio * focalOffsetMax, body.y);
 		} else if (!awaitingDeath) {
 			updateCurrentAnimation();
 		} else {
@@ -140,7 +157,8 @@ class Player extends BaseHumanoid {
 				}
 			}
 		}
-		
+
+		DebugDraw.ME.drawWorldCircle(focalPoint.x, focalPoint.y, 1, PLAYER, FlxColor.WHITE);
 
 		FlxG.watch.addQuick('player Vel:', body.velocity);
 	}

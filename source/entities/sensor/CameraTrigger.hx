@@ -14,7 +14,7 @@ class CameraTrigger extends Trigger {
 	var lockBody:Body;
 
 	public function new(id:String, area:FlxRect, associatedCameraZoneID:String) {
-		super(id, area);
+		super(id, area, false);
 		camZoneID = associatedCameraZoneID;
 	}
 
@@ -50,6 +50,8 @@ class CameraTrigger extends Trigger {
 		} else {
 			lockBody.set_position(FlxG.camera.scroll.x, FlxG.camera.scroll.y);
 		}
+
+		lockBody.active = true;
 
 		FlxG.camera.follow(null);
 		FlxTween.tween(FlxG.camera.scroll, {x: zone.left, y: zone.top}, 1, {

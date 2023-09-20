@@ -46,6 +46,11 @@ class Alien extends BaseHumanoid {
 		// FlxAsepriteUtil.loadAseAtlasAndTags(this, AssetPaths.player__png, AssetPaths.player__json);
 		Aseprite.loadAllAnimations(this, AssetPaths.alien__json);
 		animation.play(anims.Jump);
+		animation.finishCallback = (name) -> {
+			if (name == anims.Death) {
+				kill();
+			}
+		};
 		animation.callback = (anim, frame, index) -> {
 			// if (eventData.exists(index)) {
 				// trace('frame $index has data ${eventData.get(index)}');
@@ -63,7 +68,7 @@ class Alien extends BaseHumanoid {
 					width: 12,
 					height: 20,
 					offset_y: 3,
-					offset_x: -2
+					// offset_x: -2
 				}
 			]
 		});
@@ -73,7 +78,8 @@ class Alien extends BaseHumanoid {
 		super.handleEnter(other, data);
 
 		if (other.object is BasicBullet) {
-			kill();
+			animation.play(anims.Death);
+			body.active = false;
 		}
 
 		if (data[0].normal.y > 0) {
@@ -84,10 +90,12 @@ class Alien extends BaseHumanoid {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		updateBehavior(elapsed);
-
+		if (body.active) {
+			updateBehavior(elapsed);
+			updateCurrentAnimation();
+		}
+		
 		updateGrounded();
-		updateCurrentAnimation();
 	}
 
 	var shotInterval = 1.5;
@@ -130,6 +138,7 @@ class Alien extends BaseHumanoid {
 		super.kill();
 
 		PlayState.ME.removeEnemy(this);
+		body.remove();
 
 		if (source != null) {
 			source.queueReset();

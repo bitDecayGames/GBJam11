@@ -1,5 +1,9 @@
 package levels.ldtk;
 
+import flixel.FlxBasic;
+import flixel.group.FlxGroup;
+import entities.RunningAlien;
+import entities.Alien;
 import entities.sensor.AlienSpawner;
 import entities.sensor.Trigger;
 import entities.sensor.CameraTrigger;
@@ -35,6 +39,8 @@ class Level {
 	public var camLockZones:Map<String, FlxRect> = [];
 
 	public var spawners:Array<Trigger> = [];
+
+	public var updaters:Array<FlxBasic> = [];
 
 	// public var checkpoints:Map<String, FlxPoint> = [];
 
@@ -87,13 +93,21 @@ class Level {
 
 	function parseAliens(level:LDTKProject.LDTKProject_Level) {
 		for (spawner in level.l_Entities.all_Alien) {
-			spawners.push(new AlienSpawner(spawner.pixelX, spawner.pixelY));
+			var s = spawner;
+			var maker:(AlienSpawner)->Alien = (source) -> {
+				if (s.f_Type == Runner) {
+					return new RunningAlien(spawner.pixelX, spawner.pixelY, source);
+				} else {
+					return new Alien(spawner.pixelX, spawner.pixelY, source);
+				}
+			}
+			spawners.push(new AlienSpawner(spawner.pixelX, spawner.pixelY, maker));
 		}
 	}
 
 	function parseBosses(level:LDTKProject.LDTKProject_Level) {
 		for (boss in level.l_Entities.all_WallBoss) {
-			new WallBoss(boss.pixelX, boss.pixelY);
+			updaters.push(new WallBoss(boss.pixelX, boss.pixelY));
 		}
 	}
 

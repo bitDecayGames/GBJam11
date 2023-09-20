@@ -79,6 +79,7 @@ class BasicBullet extends EchoSprite {
 		super.handleEnter(other, data);
 
 		kill();
+		body.active = false;
 	}
 
 	override function destroy() {

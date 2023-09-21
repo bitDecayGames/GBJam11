@@ -29,21 +29,22 @@ class LevelIntro extends FlxSubState {
 
 	override function create() {
 		super.create();
-		var bg = new FlxSprite();
-		bg.makeGraphic(cast(FlxG.width * .8), cast(FlxG.height * .5), Constants.LIGHTEST);
+		var bg = new FlxSprite(AssetPaths.Placard__png);
+		// bg.makeGraphic(cast(FlxG.width * .8), cast(FlxG.height * .5), Constants.LIGHTEST);
 		bg.screenCenter();
 		add(bg);
 		
-		var missionTitle = new TrooperDarkest(0, bg.y + 25, "mission 1");
+		var missionTitle = new TrooperDarkest(0, bg.y + 25, PlayState.ME.level.raw.f_mission_name);
 		missionTitle.alignment = CENTER;
 		missionTitle.autoSize = false;
-		missionTitle.fieldWidth = cast (FlxG.width - 30);add(missionTitle);
+		missionTitle.fieldWidth = cast(bg.width - 6);
 		missionTitle.screenCenter(X);
+		add(missionTitle);
 
-		var missionDescription = new TrooperLight(0, missionTitle.y + 12, "infiltrate the base");
+		var missionDescription = new TrooperLight(0, missionTitle.y + 20, PlayState.ME.level.raw.f_mission_description);
 		missionDescription.alignment = CENTER;
 		missionDescription.autoSize = false;
-		missionDescription.fieldWidth = cast (FlxG.width - 30);
+		missionDescription.fieldWidth = cast(bg.width - 6);
 		missionDescription.screenCenter(X);
 		add(missionDescription);
 

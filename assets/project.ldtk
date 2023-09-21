@@ -11,7 +11,7 @@
 	"iid": "ded66c40-3b70-11ee-9c97-21b787dfc698",
 	"jsonVersion": "1.3.4",
 	"appBuildId": 470178,
-	"nextUid": 23,
+	"nextUid": 26,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -613,7 +613,78 @@
 	], "enums": [{ "identifier": "AlienType", "uid": 17, "values": [
 		{ "id": "Shooter", "tileRect": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "tileId": -1, "color": 12470831, "__tileSrcRect": [16,560,16,16] },
 		{ "id": "Runner", "tileRect": { "tilesetUid": 5, "x": 0, "y": 752, "w": 16, "h": 16 }, "tileId": -1, "color": 14120515, "__tileSrcRect": [0,752,16,16] }
-	], "iconTilesetUid": 5, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }], "externalEnums": [], "levelFields": [] },
+	], "iconTilesetUid": 5, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }], "externalEnums": [], "levelFields": [
+		{
+			"identifier": "mission_name",
+			"doc": null,
+			"__type": "String",
+			"uid": 24,
+			"type": "F_String",
+			"isArray": false,
+			"canBeNull": true,
+			"arrayMinLength": null,
+			"arrayMaxLength": null,
+			"editorDisplayMode": "NameAndValue",
+			"editorDisplayScale": 1,
+			"editorDisplayPos": "Above",
+			"editorLinkStyle": "StraightArrow",
+			"editorDisplayColor": null,
+			"editorAlwaysShow": false,
+			"editorShowInWorld": true,
+			"editorCutLongValues": true,
+			"editorTextSuffix": null,
+			"editorTextPrefix": null,
+			"useForSmartColor": false,
+			"min": null,
+			"max": null,
+			"regex": null,
+			"acceptFileTypes": null,
+			"defaultOverride": null,
+			"textLanguageMode": null,
+			"symmetricalRef": false,
+			"autoChainRef": true,
+			"allowOutOfLevelRef": true,
+			"allowedRefs": "OnlySame",
+			"allowedRefsEntityUid": null,
+			"allowedRefTags": [],
+			"tilesetUid": null
+		},
+		{
+			"identifier": "mission_description",
+			"doc": null,
+			"__type": "String",
+			"uid": 23,
+			"type": "F_String",
+			"isArray": false,
+			"canBeNull": true,
+			"arrayMinLength": null,
+			"arrayMaxLength": null,
+			"editorDisplayMode": "NameAndValue",
+			"editorDisplayScale": 1,
+			"editorDisplayPos": "Above",
+			"editorLinkStyle": "StraightArrow",
+			"editorDisplayColor": null,
+			"editorAlwaysShow": false,
+			"editorShowInWorld": true,
+			"editorCutLongValues": true,
+			"editorTextSuffix": null,
+			"editorTextPrefix": null,
+			"useForSmartColor": false,
+			"min": null,
+			"max": null,
+			"regex": null,
+			"acceptFileTypes": null,
+			"defaultOverride": null,
+			"textLanguageMode": null,
+			"symmetricalRef": false,
+			"autoChainRef": true,
+			"allowOutOfLevelRef": true,
+			"allowedRefs": "OnlySame",
+			"allowedRefsEntityUid": null,
+			"allowedRefTags": [],
+			"tilesetUid": null
+		}
+	] },
 	"levels": [
 		{
 			"identifier": "Level_0",
@@ -634,7 +705,16 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [],
+			"fieldInstances": [
+				{ "__identifier": "mission_name", "__type": "String", "__value": "mission 1", "__tile": null, "defUid": 24, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["mission 1"]
+				}] },
+				{ "__identifier": "mission_description", "__type": "String", "__value": "infiltrate the base", "__tile": null, "defUid": 23, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["infiltrate the base"]
+				}] }
+			],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -980,7 +1060,16 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [],
+			"fieldInstances": [
+				{ "__identifier": "mission_name", "__type": "String", "__value": "mission 2", "__tile": null, "defUid": 24, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["mission 2"]
+				}] },
+				{ "__identifier": "mission_description", "__type": "String", "__value": "disable the rover", "__tile": null, "defUid": 23, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["disable the rover"]
+				}] }
+			],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",

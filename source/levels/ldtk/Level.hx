@@ -1,5 +1,7 @@
 package levels.ldtk;
 
+import entities.sensor.TurretSpawner;
+import entities.enemy.LoneTurret;
 import entities.boss.RoverSpawner;
 import entities.boss.RoverBoss;
 import flixel.FlxBasic;
@@ -91,6 +93,17 @@ class Level {
 		parseCamLockZones(level);
 		parseCamTriggers(level);
 		parseAliens(level);
+		parseTurrets(level);
+	}
+
+	function parseTurrets(level:LDTKProject.LDTKProject_Level) {
+		for (spawner in level.l_Entities.all_Turret) {
+			var s = spawner;
+			var maker:(TurretSpawner)->LoneTurret = (source) -> {
+				return new LoneTurret(spawner.pixelX, spawner.pixelY, source);
+			}
+			spawners.push(new TurretSpawner(spawner.pixelX, spawner.pixelY, maker));
+		}
 	}
 
 	function parseAliens(level:LDTKProject.LDTKProject_Level) {

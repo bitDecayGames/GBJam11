@@ -35,7 +35,7 @@ class Fader extends FlxBackdrop {
 		animation.play('out', true);
 		animation.finishCallback = (name) -> {
 			new FlxTimer().start(0.5, (t) -> {
-				visible = false;
+				// visible = false;
 				cb();
 			});
 		}

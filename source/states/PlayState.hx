@@ -1,5 +1,6 @@
 package states;
 
+import states.substate.LevelSummary;
 import ui.Fader;
 import states.substate.LevelIntro;
 import entities.sensor.NextLevelTrigger;
@@ -463,7 +464,9 @@ class PlayState extends FlxTransitionableState {
 	public function transitionToLevel(iid:String) {
 		player.inControl = false;
 		fader.fadeOut(() -> {
-			loadLevel(iid);
+			openSubState(new LevelSummary(() -> {
+				loadLevel(iid);
+			}));
 		});
 	}
 
@@ -571,6 +574,7 @@ class PlayState extends FlxTransitionableState {
 	}
 
 	public function killPlayer() {
+		Collected.addDeath();
 		player.remove_from_group(playerGroup);
 		player.remove_object();
 

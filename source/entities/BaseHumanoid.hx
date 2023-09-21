@@ -89,6 +89,7 @@ class BaseHumanoid extends EchoSprite {
 		FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
 		var trajectory = FlxPoint.weak(BULLET_SPEED, 0);
 		var vertOffset = 7;
+		var horizontalOffset = 0;
 		var offset = FlxPoint.weak(12);
 		var angleAdjust = flipX ? 180 : 0;
 		if (intentState.has(MOVE_RIGHT)) {
@@ -106,6 +107,7 @@ class BaseHumanoid extends EchoSprite {
 			}
 		} else {
 			if (intentState.has(UPPING)) {
+				vertOffset = 6;
 				angleAdjust = -90;
 			} else if (intentState.has(DOWNING)) {
 				if (grounded) {
@@ -113,8 +115,8 @@ class BaseHumanoid extends EchoSprite {
 					vertOffset = 13;
 				} else {
 					angleAdjust = 90;
-					offset.x = 0;
-					vertOffset = 18;
+					horizontalOffset = 4 * (flipX ? -1 : 1);
+					vertOffset = 14;
 				}
 			}
 		}
@@ -126,7 +128,7 @@ class BaseHumanoid extends EchoSprite {
 		trajectory.rotateByDegrees(angleAdjust);
 		offset.rotateByDegrees(angleAdjust);
 		var bullet = BasicBullet.pool.recycle(BasicBullet);
-		bullet.spawn(body.x + offset.x, body.y + offset.y + vertOffset, trajectory);
+		bullet.spawn(body.x + offset.x + horizontalOffset, body.y + offset.y + vertOffset, trajectory);
 		addBulletToGame(bullet);
 		if (animation.curAnim != null && !StringTools.endsWith(animation.curAnim.name, "Shoot")) {
 			muzzleFlashAnim(0.05);

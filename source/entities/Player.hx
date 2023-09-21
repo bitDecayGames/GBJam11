@@ -421,7 +421,7 @@ class Player extends BaseHumanoid {
 					nextAnim = anims.JumpUp;
 				} else if (intentState.has(DOWNING)) {
 					// no animation here as this is how you initiate fast-fall
-					nextAnim = anims.Jump;
+					nextAnim = anims.JumpDown;
 				} else {
 					nextAnim = anims.Jump;
 				}

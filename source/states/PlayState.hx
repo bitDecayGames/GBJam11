@@ -74,6 +74,8 @@ class PlayState extends FlxTransitionableState {
 	override public function create() {
 		super.create();
 
+		FmodManager.PlaySong(FmodSongs.Song3);
+
 		// main will do this, but if we are dev'ing and going straight to the play screen, it may not be done yet
 		Collected.initialize();
 

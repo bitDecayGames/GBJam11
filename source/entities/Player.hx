@@ -72,12 +72,14 @@ class Player extends BaseHumanoid {
 	var awaitingDeath = false;
 	var deathStillnessTimer = 0.5;
 
+	var focalChangeRight = false;
+	var focalChangeTime = 0.0;
 	public var focalPoint = new FlxObject();
 
 	// between -1 and 1
 	var focalRatio:Float = 0.0;
 	var focalOffsetMax = 30;
-	var focusChangeSpeed = 5;
+	var focusChangeSpeed = 3;
 
 	var onLandCB:Void->Void = null;
 
@@ -160,10 +162,31 @@ class Player extends BaseHumanoid {
 			updateCurrentAnimation();
 
 			if (body.velocity.x > 0) {
-				focalRatio += focusChangeSpeed * delta;
+				if (!focalChangeRight) {
+					focalChangeRight = true;
+					focalChangeTime = 0;
+				}
+				if (focalRatio < 1) {
+					focalChangeTime += delta;
+				}
 			} else if (body.velocity.x < 0) {
-				focalRatio -= focusChangeSpeed * delta;
+				if (focalChangeRight) {
+					focalChangeRight = false;
+					focalChangeTime = 0;
+				}
+				if (focalRatio > -1) {
+					focalChangeTime += delta;
+				}
 			}
+
+			if (focalChangeTime > 0.5) {
+				if (body.velocity.x > 0) {
+					focalRatio += focusChangeSpeed * delta;
+				} else if (body.velocity.x < 0) {
+					focalRatio -= focusChangeSpeed * delta;
+				}
+			}
+
 	
 			focalRatio = FlxMath.bound(focalRatio, -1, 1);
 			focalPoint.setPosition(body.x + focalRatio * focalOffsetMax, body.y);

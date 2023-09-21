@@ -467,7 +467,7 @@ class Player extends BaseHumanoid {
 			}
 		}
 
-		if (killable) {
+		if (killable && !awaitingDeath) {
 			if (other.object is BasicBullet) {
 				doDie();
 			} else if (other.object is Alien) {

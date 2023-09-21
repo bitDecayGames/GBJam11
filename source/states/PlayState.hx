@@ -1,5 +1,7 @@
 package states;
 
+import ui.Fader;
+import states.substate.LevelIntro;
 import entities.sensor.NextLevelTrigger;
 import flixel.FlxBasic;
 import flixel.addons.display.FlxBackdrop;
@@ -62,6 +64,8 @@ class PlayState extends FlxTransitionableState {
 
 	public var updaters = new FlxTypedGroup<FlxBasic>();
 
+	var fader:Fader;
+
 	public function new() {
 		super();
 		ME = this;
@@ -85,9 +89,15 @@ class PlayState extends FlxTransitionableState {
 			gravity_y: 10 * Constants.BLOCK_SIZE, // "Lunar" gravity
 		});
 
+		fader = new Fader();
+
+		var stars = new FlxBackdrop(AssetPaths.Stars__png, X);
+		stars.scrollFactor.set(.05, 1);
+
 		var bg = new FlxBackdrop(AssetPaths.MoonscapeBG__png, X);
 		bg.scrollFactor.set(.2, 1);
 
+		add(stars);
 		add(bg);
 		add(terrainGroup);
 		add(corpseGroup);
@@ -102,6 +112,7 @@ class PlayState extends FlxTransitionableState {
 		add(triggers);
 		add(scrollTriggers);
 		add(updaters);
+		add(fader);
 
 		var cpLevel = Collected.getCheckpointLevel();
 		if (cpLevel == null) {
@@ -211,9 +222,9 @@ class PlayState extends FlxTransitionableState {
 		
 		var spawnPoint = getLevelSpawnPoint();
 		// give a slight delay before we start the action
-		new FlxTimer().start(1, (t) -> {
-			spawnPlayer(spawnPoint);
-		});
+		// new FlxTimer().start(1, (t) -> {
+		// 	spawnPlayer(spawnPoint);
+		// });
 
 		createEndLevelTrigger();
 		createLevelBoundingBox();
@@ -364,6 +375,14 @@ class PlayState extends FlxTransitionableState {
 				}
 			},
 		});
+
+		fader.fadeIn(() -> {
+			openSubState(new LevelIntro(() -> {
+				new FlxTimer().start(1, (t) -> {
+					spawnPlayer(spawnPoint);
+				});
+			}));
+		});
 	}
 
 	function createEndLevelTrigger() {
@@ -440,7 +459,10 @@ class PlayState extends FlxTransitionableState {
 	}
 
 	public function transitionToLevel(iid:String) {
-		loadLevel(iid);
+		player.inControl = false;
+		fader.fadeOut(() -> {
+			loadLevel(iid);
+		});
 	}
 
 	function spawnPlayer(point:FlxPoint, respawn:Bool = false, cb:Void->Void = null) {
@@ -449,7 +471,7 @@ class PlayState extends FlxTransitionableState {
 		}
 
 		for (e in enemies) {
-			e.kill();
+			// e.kill();
 		}
 
 		camera.follow(null);
@@ -475,6 +497,7 @@ class PlayState extends FlxTransitionableState {
 						camera.flash(Constants.LIGHTEST, 0.5);
 						pod.kill();
 						player = new Player(point.x, point.y);
+						player.killable = false;
 						player.body.active = true;
 						player.inControl = false;
 						player.body.velocity.set(10, -60);
@@ -483,9 +506,11 @@ class PlayState extends FlxTransitionableState {
 						player.introduceYourselfWhenReady(() -> {
 							openSubState(new SoldierIntro(1.5, () -> {
 								player.inControl = true;
+								player.killable = true;
+
 								if (respawn) {
-										player.invulnerable(1);
-									}
+									player.invulnerable(1);
+								}
 							}));
 						});
 						if (cb != null) cb();

@@ -14,6 +14,11 @@ using echo.FlxEcho;
 class BasicBullet extends EchoSprite {
 
 	public static var pool(get, default):FlxTypedGroup<BasicBullet> = null;
+
+	static var MAX_TRAVEL = 160;
+
+	var startPoint = FlxPoint.get();
+	var currentPoint = FlxPoint.get();
 	
 	static function get_pool() {
 		if (pool == null) {
@@ -29,6 +34,8 @@ class BasicBullet extends EchoSprite {
 
 	@:access(echo.FlxEcho)
 	public function spawn(x:Float, y:Float, velocity:FlxPoint) {
+		startPoint.set(x, y);
+
 		if (body == null || body.disposed) {
 			body = makeBody();
 		}
@@ -68,7 +75,9 @@ class BasicBullet extends EchoSprite {
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (x + width < FlxG.camera.viewLeft || x > FlxG.camera.viewRight || y + height < 0 || y > FlxG.camera.viewBottom) {
+		currentPoint.set(x, y);
+
+		if (startPoint.distanceTo(currentPoint) > MAX_TRAVEL) {
 			kill();
 			body.velocity.set(0,0);
 		}

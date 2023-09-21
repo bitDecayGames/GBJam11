@@ -34,7 +34,58 @@ abstract Trooper(BitmapText) to BitmapText {
 	inline static function get_font() {
 		if (font == null) {
 			@:privateAccess
-			font = BitmapText.createTrooperFont();
+			font = BitmapText.createTrooperFont(AssetPaths.Font_Medium__png);
+		}
+		return font;
+	}
+}
+
+@:forward
+abstract TrooperLight(BitmapText) to BitmapText {
+	static public var font(get, null):FlxBitmapFont = null;
+
+	inline public function new(x = 0.0, y = 0.0, text = "") {
+		this = new BitmapText(x, y, text.toUpperCase(), font);
+	}
+
+	inline static function get_font() {
+		if (font == null) {
+			@:privateAccess
+			font = BitmapText.createTrooperFont(AssetPaths.Font_Light__png);
+		}
+		return font;
+	}
+}
+
+@:forward
+abstract TrooperLightest(BitmapText) to BitmapText {
+	static public var font(get, null):FlxBitmapFont = null;
+
+	inline public function new(x = 0.0, y = 0.0, text = "") {
+		this = new BitmapText(x, y, text.toUpperCase(), font);
+	}
+
+	inline static function get_font() {
+		if (font == null) {
+			@:privateAccess
+			font = BitmapText.createTrooperFont(AssetPaths.Font_Bright__png);
+		}
+		return font;
+	}
+}
+
+@:forward
+abstract TrooperDarkest(BitmapText) to BitmapText {
+	static public var font(get, null):FlxBitmapFont = null;
+
+	inline public function new(x = 0.0, y = 0.0, text = "") {
+		this = new BitmapText(x, y, text.toUpperCase(), font);
+	}
+
+	inline static function get_font() {
+		if (font == null) {
+			@:privateAccess
+			font = BitmapText.createTrooperFont(AssetPaths.Font_Dark__png);
 		}
 		return font;
 	}
@@ -91,9 +142,8 @@ class BitmapText extends flixel.text.FlxBitmapText {
 	}
 
 	@:allow(PressStart)
-	static function createTrooperFont():FlxBitmapFont {
+	static function createTrooperFont(path:String):FlxBitmapFont {
 		// Base font information
-		var path = AssetPaths.Font_Medium__png;
 		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ.,?!-1234567890";
 		var spaceWidth = 5;
 		var width = 8;

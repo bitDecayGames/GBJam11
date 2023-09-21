@@ -48,7 +48,7 @@ class BaseHumanoid extends EchoSprite {
 
 	var shootTimer = new FlxTimer();
 
-	var killable = true;
+	public var killable = true;
 
 	public function new(x:Float, y:Float) {
 		super(x, y);

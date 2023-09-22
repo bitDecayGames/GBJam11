@@ -40,6 +40,10 @@ class Turret extends EchoSprite {
 		animation.add('pivot', [0, 1, 2, 3, 4]);
 	}
 
+	public function externallyControlled() {
+		bulletTimer = Math.POSITIVE_INFINITY;
+	}
+
 
 	override function makeBody():Body {
 		return this.add_body({
@@ -61,7 +65,7 @@ class Turret extends EchoSprite {
 	var baseFrame = 0;
 	var frameMod = 0;
 
-	var bulletTimer = 2.0;
+	public var bulletTimer = 2.0;
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
@@ -107,22 +111,25 @@ class Turret extends EchoSprite {
 			if (bulletTimer <= 0) {
 				bulletTimer += 2.0;
 
-				var BULLET_SPEED = 30;
-				var trajectory = FlxPoint.get(BULLET_SPEED, 0);
-				var offset = FlxPoint.get(10, 0);
-				var adjust = baseFrame * 22.5;
-
-				trajectory.rotateByDegrees(adjust);
-				offset.rotateByDegrees(adjust);
-				var bullet = BasicBullet.pool.recycle(BasicBullet);
-				// TODO Only fire when on camera
-				FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
-				bullet.spawn(body.x + offset.x, body.y + offset.y, trajectory);
-				PlayState.ME.addEnemyBullet(bullet);
+				shootBullet();
 			}
 		}
 
 		animation.frameIndex = baseFrame + frameMod;
+	}
+
+	public function shootBullet(speed:Float = 30) {
+		var trajectory = FlxPoint.get(speed, 0);
+		var offset = FlxPoint.get(10, 0);
+		var adjust = baseFrame * 22.5;
+
+		trajectory.rotateByDegrees(adjust);
+		offset.rotateByDegrees(adjust);
+		var bullet = BasicBullet.pool.recycle(BasicBullet);
+		// TODO Only fire when on camera
+		FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
+		bullet.spawn(body.x + offset.x, body.y + offset.y, trajectory);
+		PlayState.ME.addEnemyBullet(bullet);
 	}
 
 	override function handleEnter(other:Body, data:Array<CollisionData>) {

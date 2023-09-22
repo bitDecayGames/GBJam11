@@ -9,6 +9,7 @@ class AsepriteMacros {
 			for (tag in tags) {
 				Reflect.setField(map, clean(tag.name), tag.name);
 			}
+			Reflect.setField(map, "all_frames", "all_frames");
 			macro $v{map};
 		} catch (e) {
 			haxe.macro.Context.error('Failed to load json: $e', haxe.macro.Context.currentPos());

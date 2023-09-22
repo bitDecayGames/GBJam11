@@ -20,6 +20,7 @@ class RoverSpawner extends Trigger {
 			var spawnPoint = PlayState.ME.findGroundUnderPoint(FlxPoint.weak(x, y));
 			rover = new RoverBoss(spawnPoint.x, spawnPoint.y);
 			PlayState.ME.addEnemy(rover);
+			PlayState.ME.addEnemy(rover.turret);
 		}
 	}
 }

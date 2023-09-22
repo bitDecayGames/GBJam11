@@ -52,6 +52,7 @@ class PlayState extends FlxTransitionableState {
 	public var playerGroup = new FlxGroup();
 	public var terrainGroup = new FlxGroup();
 	public var terrainBodies:Array<Body> = [];
+	public var playerTerrainBodies:Array<Body> = [];
 	public var objects = new FlxGroup();
 	public var corpseGroup = new FlxGroup();
 	public var playerBullets = new FlxGroup();
@@ -194,6 +195,12 @@ class PlayState extends FlxTransitionableState {
 		}
 		terrainBodies = [];
 
+		for (body in playerTerrainBodies) {
+			FlxEcho.instance.world.remove(body);
+			body.dispose();
+		}
+		playerTerrainBodies = [];
+
 		level = new levels.ldtk.Level(levelID);
 
 		for (basic in level.updaters) {
@@ -236,6 +243,22 @@ class PlayState extends FlxTransitionableState {
 		// physics if they change color after they overlap with a valid color
 		// match.
 		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(playerGroup), terrainBodies, {
+			separate: true,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+			}
+		});
+
+		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(playerGroup), playerTerrainBodies, {
 			separate: true,
 			enter: (a, b, o) -> {
 				if (a.object is EchoSprite) {
@@ -408,7 +431,6 @@ class PlayState extends FlxTransitionableState {
 			],
 			kinematic: true,
 		});
-		addTerrain(left);
 		var right = new Body({
 			x: level.raw.pxWid + 5,
 			y: level.raw.pxHei / 2,
@@ -421,6 +443,7 @@ class PlayState extends FlxTransitionableState {
 			],
 			kinematic: true,
 		});
+		addTerrain(left);
 		addTerrain(right);
 	}
 
@@ -603,6 +626,11 @@ class PlayState extends FlxTransitionableState {
 
 	public function addTerrain(b:Body) {
 		terrainBodies.push(b);
+		FlxEcho.instance.world.add(b);
+	}
+
+	public function addPlayerTerrain(b:Body) {
+		playerTerrainBodies.push(b);
 		FlxEcho.instance.world.add(b);
 	}
 

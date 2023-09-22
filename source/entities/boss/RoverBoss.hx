@@ -1,22 +1,54 @@
 package entities.boss;
 
+import flixel.math.FlxRect;
+import entities.particle.Explosion;
+import entities.projectile.BasicBullet;
+import echo.data.Data.CollisionData;
+import echo.Shape;
+import loaders.AsepriteMacros;
+import flixel.FlxG;
+import flixel.math.FlxMath;
+import flixel.util.FlxTimer;
+import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import echo.Body;
-import flixel.util.FlxColor;
 import loaders.Aseprite;
 
 using echo.FlxEcho;
 
 class RoverBoss extends EchoSprite {
+	public static var anims = AsepriteMacros.tagNames("assets/aseprite/Rover.json");
+
+
+	public var turret:Turret;
+	var turretOffset = FlxPoint.get(0, 0);
+
+	var leftShield:Shape;
+	var rightShield:Shape;
+
+	var waitTime = 3.0;
+	var phases = [
+		"wait",
+		"shoot",
+		"dash",
+		"nothing",
+	];
+
+	var curPhase = 0;
+
 	public function new(x:Float, y:Float) {
-		super(x, y-20);
+		// 64x28
+		super(x, y-14);
+		health = 10;
 		
-		body.active = false;
+		// body.active = false;
+
+		turret = new Turret(this.x + turretOffset.x, this.y + turretOffset.y);
+		turret.externallyControlled();
 	} 
 
 	override function configSprite() {
-		// Aseprite.loadAllAnimations(this, AssetPaths.GroundLaser__json);
-		makeGraphic(40, 40, FlxColor.MAGENTA);
+		Aseprite.loadAllAnimations(this, AssetPaths.Rover__json);
 	}
 
 	override function makeBody():Body {
@@ -26,37 +58,83 @@ class RoverBoss extends EchoSprite {
 			shapes: [
 				{
 					type:RECT,
-					width: 40,
-					height: 40
+					width: 10,
+					height: 24
 				},
+				{
+					type:RECT,
+					width: 10,
+					height:20,
+					offset_x: -20
+				},
+				{
+					type:RECT,
+					width: 10,
+					height:20,
+					offset_x: 20
+				}
 			],
 			// kinematic: true,
 		});
+
+		leftShield = body.shapes[1];
+		rightShield = body.shapes[2];
 	}
 
 	var waiting = true;
-	var waitTime = 3.0;
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 
-		if (waiting) {
-			waitTime -= elapsed;
-			if (waitTime <= 0) {
-				waiting = false;
+		curPhase = curPhase % phases.length;
+
+		FlxG.watch.addQuick('roverPhase:', phases[curPhase]);
+
+		switch(curPhase) {
+			case 0: //wait
+				animation.stop();	
+				waitTime -= elapsed;
+				if (waitTime <= 0) {
+					waitTime = 3.0;
+					curPhase++;
+				}
+			case 1: //shoot
+				if (turret.health > 0) {
+					curPhase = 3; // XXX: do nothing until our timers finish
+					turret.shootBullet(60);
+					new FlxTimer().start(.25, (t) -> {
+						turret.shootBullet(60);
+
+						if (t.loopsLeft == 0) {
+							// TODO SFX: anticipation frames, screeching of moon tires?
+							animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
+							new FlxTimer().start(.5, (t) -> {
+								curPhase = 2;
+							});
+						}
+					}, 2);
+				} else {
+					animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
+					curPhase++;
+				}
+			case 2: //dash
+				curPhase = 3;
 				dashAcrossScreen();
-				waitTime = 3.0;
-			}
+			default:
 		}
+
+		turret.body.set_position(body.x + turretOffset.x, body.y + turretOffset.y);
 	}
 
 	function dashAcrossScreen() {
 		if (x > camera.getCenterPoint().x) {
 			// TODO: Need some sort of anticipation frames
-			FlxTween.tween(body, {x: camera.viewLeft - 20}, {
+			FlxTween.tween(body, {x: camera.viewLeft - 40}, {
 				onComplete: (t) -> {
+					animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
 					FlxTween.tween(body, {x: camera.viewLeft + 25}, {
 						onComplete: (t2) -> {
+							curPhase = 0;
 							waiting = true;
 						}
 					});
@@ -64,15 +142,45 @@ class RoverBoss extends EchoSprite {
 			});
 		} else {
 			// TODO: Need some sort of anticipation frames
-			FlxTween.tween(body, {x: camera.viewRight + 20}, {
+			FlxTween.tween(body, {x: camera.viewRight + 40}, {
 				onComplete: (t) -> {
+					animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
 					FlxTween.tween(body, {x: camera.viewRight - 25}, {
 						onComplete: (t2) -> {
+							curPhase = 0;
 							waiting = true;
 						}
 					});
 				}
 			});
+		}
+	}
+
+	override function handleEnter(other:Body, data:Array<CollisionData>) {
+		super.handleEnter(other, data);
+
+		if (other.object is BasicBullet) {
+			if (Math.abs(other.object.get_body().x - body.x) > 20) {
+				// TODO SFX: Dink as bullet hit shield instead of boss
+				return;
+			}
+
+			health--;
+			camera.shake(0.01, 0.1);
+			FmodManager.PlaySoundOneShot(FmodSFX.EnemyBossDamage);
+
+			if (health <= 0) {
+				body.active = false;
+				Explosion.death(10, FlxRect.weak(x, y, width, height), () -> {
+
+				});
+			} else {
+				// damageTimer.start(damageBlinkDuration, (t) -> {
+				// 	if (health > 0) {
+				// 		frameMod = 0;
+				// 	}
+				// });
+			}
 		}
 	}
 }

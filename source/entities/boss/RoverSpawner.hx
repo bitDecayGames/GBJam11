@@ -21,6 +21,7 @@ class RoverSpawner extends Trigger {
 			rover = new RoverBoss(spawnPoint.x, spawnPoint.y);
 			PlayState.ME.addEnemy(rover);
 			PlayState.ME.addEnemy(rover.turret);
+			PlayState.ME.addEnemy(rover.core);
 		}
 	}
 }

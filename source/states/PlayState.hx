@@ -135,7 +135,7 @@ class PlayState extends FlxTransitionableState {
 
 		var startLevel = "Level_0";
 		#if logan
-		startLevel = "Level_4";
+		startLevel = "Level_3";
 		#end
 
 		loadLevel(startLevel, Collected.getCheckpointID());
@@ -149,6 +149,7 @@ class PlayState extends FlxTransitionableState {
 		Collected.addTime(levelTime);
 		levelTime = 0;
 
+		nextCPCheck = 0;
 		Collected.setLastCheckpoint(levelID, null);
 
 		terrainDecorGroup.forEach((f) -> f.destroy());
@@ -533,10 +534,20 @@ class PlayState extends FlxTransitionableState {
 		addTerrain(right);
 	}
 
+	public function clearEnemiesForBoss() {
+		for (b in enemyBullets) {
+			b.kill();
+		}
+
+		for (e in enemies) {
+			e.kill();
+		}
+	}
+
 	function getLevelSpawnPoint(entityID:String = null):FlxPoint {
 		var spawnPoint = FlxPoint.get(50, 0);
 		if (entityID != null) {
-			var matches = level.raw.l_Entities.all_Checkpoint.filter((c) -> {return c.iid == entityID;});
+			var matches = level.checkpoints.filter((c) -> {return c.iid == entityID;});
 			// var matches = level.raw.l_Objects.all_Door.filter((d) -> {return d.iid == entityID;});
 			if (matches.length != 1) {
 				var msg = 'expected checkpoint in level with iid ${entityID}, but got ${matches.length} matches';
@@ -585,7 +596,7 @@ class PlayState extends FlxTransitionableState {
 		}
 
 		for (e in enemies) {
-			// e.kill();
+			e.kill();
 		}
 
 		camera.follow(null);
@@ -654,7 +665,7 @@ class PlayState extends FlxTransitionableState {
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
 
-		for (cp in level.raw.l_Entities.all_Checkpoint) {
+		for (cp in level.checkpoints) {
 			DebugDraw.ME.drawWorldCircle(cp.pixelX, cp.pixelY, 2, LEVEL);
 		}
 
@@ -673,7 +684,7 @@ class PlayState extends FlxTransitionableState {
 			return;
 		}
 
-		var cps = level.raw.l_Entities.all_Checkpoint;
+		var cps = level.checkpoints;
 		for (i in nextCPCheck...cps.length) {
 			if (player.body.x > cps[i].pixelX) {
 				Collected.setLastCheckpoint(level.raw.iid, cps[i].iid);
@@ -694,7 +705,7 @@ class PlayState extends FlxTransitionableState {
 
 		var cpID = Collected.getCheckpointID();
 		var respawnPoint = getLevelSpawnPoint();
-		var matches = level.raw.l_Entities.all_Checkpoint.filter((c) -> {return c.iid == cpID;});
+		var matches = level.checkpoints.filter((c) -> {return c.iid == cpID;});
 		if (matches != null && matches.length == 1) {
 			respawnPoint.set(matches[0].pixelX, matches[0].pixelY);
 			var needsReset = matches[0].f_Reset_Ents;

@@ -53,13 +53,15 @@ class Level {
 	public var rawOneWayTerrainLayer:levels.ldtk.LDTKProject.Layer_OneWay;
 	public var rawTerrainDecorLayer:levels.ldtk.LDTKProject.Layer_Decoration;
 
+	public var checkpoints:Array<levels.ldtk.LDTKProject.Entity_Checkpoint>;
+
 	public function new(nameOrIID:String) {
 		var level = project.all_worlds.Default.getLevel(nameOrIID);
 		raw = level;
 
 		bounds.width = level.pxWid;
 		bounds.height = level.pxHei;
-		
+
 		rawTerrainLayer = level.l_Solid;
 		rawOneWayTerrainLayer = level.l_OneWay;
 		rawTerrainDecorLayer = level.l_Decoration;
@@ -97,6 +99,14 @@ class Level {
 		parseCamTriggers(level);
 		parseAliens(level);
 		parseTurrets(level);
+		parseCheckpoints(level);
+	}
+
+	function parseCheckpoints(level:LDTKProject.LDTKProject_Level) {
+		checkpoints = level.l_Entities.all_Checkpoint.copy();
+		checkpoints.sort((a, b) -> {
+			return a.pixelX - b.pixelX;
+		});
 	}
 
 	function parseTurrets(level:LDTKProject.LDTKProject_Level) {

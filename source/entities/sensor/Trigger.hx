@@ -35,12 +35,18 @@ class Trigger extends FlxObject {
 	}
 
 	public function activate() {
+		if (ready) {
+			activateInner();
+		}
+		
 		ready = false;
 		if (once) {
 			kill();
 			// this.remove_object(true);
 		}
 	}
+
+	function activateInner() {}
 
 	public function resetTrigger() {
 		if (!once) {

@@ -18,8 +18,8 @@ class CameraTrigger extends Trigger {
 		camZoneID = associatedCameraZoneID;
 	}
 
-	override function activate() {
-		super.activate();
+	override function activateInner() {
+		PlayState.ME.clearEnemiesForBoss();
 		updateCameraLock();
 	}
 

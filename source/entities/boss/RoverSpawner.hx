@@ -10,13 +10,11 @@ class RoverSpawner extends Trigger {
 	var rover:RoverBoss;
 
 	public function new(x:Float, y:Float) {
-		super(null, FlxRect.get(x, y, 8, FlxG.height));
+		super(null, FlxRect.get(x, y, 8, FlxG.height), false);
 	}
 
-	override function activate() {
-		super.activate();
-
-		if (rover == null) {
+	override function activateInner() {
+		if (rover == null || !rover.alive) {
 			var spawnPoint = PlayState.ME.findGroundUnderPoint(FlxPoint.weak(x, y));
 			rover = new RoverBoss(spawnPoint.x, spawnPoint.y);
 			PlayState.ME.addEnemy(rover);

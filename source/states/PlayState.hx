@@ -1,5 +1,7 @@
 package states;
 
+import echo.data.Data.CollisionData;
+import echo.util.AABB;
 import states.substate.LevelSummary;
 import ui.Fader;
 import states.substate.LevelIntro;
@@ -51,7 +53,13 @@ class PlayState extends FlxTransitionableState {
 
 	public var playerGroup = new FlxGroup();
 	public var terrainGroup = new FlxGroup();
+	public var terrainDecorGroup = new FlxGroup();
+	public var terrainOneWayGroup = new FlxGroup();
+
 	public var terrainBodies:Array<Body> = [];
+	public var terrainOneWayBodies:Array<Body> = [];
+	public var allGroundingBodies:Array<Body> = [];
+
 	public var playerTerrainBodies:Array<Body> = [];
 	public var objects = new FlxGroup();
 	public var corpseGroup = new FlxGroup();
@@ -103,7 +111,9 @@ class PlayState extends FlxTransitionableState {
 
 		add(stars);
 		add(bg);
+		add(terrainDecorGroup);
 		add(terrainGroup);
+		add(terrainOneWayGroup);
 		add(corpseGroup);
 		add(objects);
 		add(enemies);
@@ -125,7 +135,7 @@ class PlayState extends FlxTransitionableState {
 
 		var startLevel = "Level_0";
 		#if logan
-		startLevel = "Level_1";
+		startLevel = "Level_2";
 		#end
 
 		loadLevel(startLevel, Collected.getCheckpointID());
@@ -141,8 +151,14 @@ class PlayState extends FlxTransitionableState {
 
 		Collected.setLastCheckpoint(levelID, null);
 
+		terrainDecorGroup.forEach((f) -> f.destroy());
+		terrainDecorGroup.clear();
+
 		terrainGroup.forEach((f) -> f.destroy());
 		terrainGroup.clear();
+
+		terrainOneWayGroup.forEach((f) -> f.destroy());
+		terrainOneWayGroup.clear();
 
 		objects.forEach((f) -> f.destroy());
 		objects.clear();
@@ -195,6 +211,12 @@ class PlayState extends FlxTransitionableState {
 		}
 		terrainBodies = [];
 
+		for (body in terrainOneWayBodies) {
+			FlxEcho.instance.world.remove(body);
+			body.dispose();
+		}
+		terrainOneWayBodies = [];
+
 		for (body in playerTerrainBodies) {
 			FlxEcho.instance.world.remove(body);
 			body.dispose();
@@ -211,7 +233,9 @@ class PlayState extends FlxTransitionableState {
 		camera.setScrollBoundsRect(0, 0, level.bounds.width, level.bounds.height);
 		FlxEcho.instance.world.set(0, 0, level.bounds.width, level.bounds.height);
 
+		terrainDecorGroup.add(level.terrainDecorGfx);
 		terrainGroup.add(level.terrainGfx);
+		terrainOneWayGroup.add(level.terrainOneWayGfx);
 
 		for (trigger in level.camTriggers) {
 			trigger.add_to_group(triggers);
@@ -221,10 +245,17 @@ class PlayState extends FlxTransitionableState {
 			scrollTriggers.add(trigger);
 		}
 
-		terrainBodies = terrainBodies.concat(TileMap.generate(level.rawTerrainInts, 8, 8, level.rawTerrainTilesWide, level.rawTerrainTilesWide));
+		terrainBodies = terrainBodies.concat(TileMap.generate(level.rawTerrainInts, 8, 8, level.rawTerrainTilesWide, level.rawTerrainTilesWide, 0, 0, 0));
 		for (body in terrainBodies) {
 			FlxEcho.instance.world.add(body);
 		}
+
+		terrainOneWayBodies = terrainOneWayBodies.concat(TileMap.generate(level.rawOneWayTerrainInts, 8, 8, level.rawTerrainTilesWide, level.rawTerrainTilesWide, 0, 0, 0));
+		for (body in terrainOneWayBodies) {
+			FlxEcho.instance.world.add(body);
+		}
+
+		allGroundingBodies = allGroundingBodies.concat(terrainBodies).concat(terrainOneWayBodies);
 		
 		// make sure the arrays exist so our listeners are functioning as intended
 		FlxEcho.add_group_bodies(playerGroup);
@@ -258,6 +289,23 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
+		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(playerGroup), terrainOneWayBodies, {
+			separate: true,
+			condition: oneWayCondition,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+			}
+		});
+
 		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(playerGroup), playerTerrainBodies, {
 			separate: true,
 			enter: (a, b, o) -> {
@@ -276,6 +324,23 @@ class PlayState extends FlxTransitionableState {
 
 		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(enemies), terrainBodies, {
 			separate: true,
+			enter: (a, b, o) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleEnter(b, o);
+				}
+			},
+			exit: (a, b) -> {
+				if (a.object is EchoSprite) {
+					var aSpr:EchoSprite = cast a.object;
+					aSpr.handleExit(b);
+				}
+			}
+		});
+
+		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(enemies), terrainOneWayBodies, {
+			separate: true,
+			condition: oneWayCondition,
 			enter: (a, b, o) -> {
 				if (a.object is EchoSprite) {
 					var aSpr:EchoSprite = cast a.object;
@@ -409,6 +474,22 @@ class PlayState extends FlxTransitionableState {
 				});
 			}));
 		});
+	}
+
+	var halfPi = Math.PI/2;
+	var tmpAABB = AABB.get();
+	var tmpAABB2 = AABB.get();
+	function oneWayCondition(a:Body, b:Body, data:Array<CollisionData>):Bool {
+		if (Math.abs(data[0].normal.radians - halfPi) < .1) {
+			if (a.velocity.y > 0) {
+				a.bounds(tmpAABB);
+				b.bounds(tmpAABB2);
+				if (Math.abs(tmpAABB.max_y - tmpAABB2.min_y) < 2) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	function createEndLevelTrigger() {

@@ -150,7 +150,7 @@ class BaseHumanoid extends EchoSprite {
 		var rayChecksPassed = 0;
 		echoTmp.set(tmpAABB.min_x, tmpAABB.max_y - 2);
 		var groundedCast = Line.get_from_vector(echoTmp, 90, 5);
-		var intersects = groundedCast.linecast_all(PlayState.ME.terrainBodies);
+		var intersects = groundedCast.linecast_all(PlayState.ME.allGroundingBodies);
 		DebugDraw.ME.drawWorldLine(echoTmp.x, echoTmp.y, groundedCast.end.x, groundedCast.end.y, DebugLayers.RAYCAST, intersects.length >= 1 ? FlxColor.MAGENTA : FlxColor.LIME);
 		groundedCast.put();
 		if (intersects.length >= 1) {
@@ -164,7 +164,7 @@ class BaseHumanoid extends EchoSprite {
 		echoTmp.set(tmpAABB.min_x, tmpAABB.max_y - 2);
 		echoTmp.x += tmpAABB.width/2;
 		groundedCast = Line.get_from_vector(echoTmp, 90, 12);
-		var intersectsMiddle = groundedCast.linecast_all(PlayState.ME.terrainBodies);
+		var intersectsMiddle = groundedCast.linecast_all(PlayState.ME.allGroundingBodies);
 		DebugDraw.ME.drawWorldLine(echoTmp.x, echoTmp.y, groundedCast.end.x, groundedCast.end.y, DebugLayers.RAYCAST, intersectsMiddle.length >= 1 ? FlxColor.MAGENTA : FlxColor.LIME);
 		groundedCast.put();
 		if (intersectsMiddle.length >= 1) {
@@ -178,7 +178,7 @@ class BaseHumanoid extends EchoSprite {
 		echoTmp.set(tmpAABB.min_x, tmpAABB.max_y - 2);
 		echoTmp.x += tmpAABB.width;
 		groundedCast = Line.get_from_vector(echoTmp, 90, 5);
-		var intersectsRight = groundedCast.linecast_all(PlayState.ME.terrainBodies);
+		var intersectsRight = groundedCast.linecast_all(PlayState.ME.allGroundingBodies);
 		DebugDraw.ME.drawWorldLine(echoTmp.x, echoTmp.y, groundedCast.end.x, groundedCast.end.y, DebugLayers.RAYCAST, intersectsRight.length >= 1 ? FlxColor.MAGENTA : FlxColor.LIME);
 		groundedCast.put();
 		if (intersectsRight.length >= 1) {

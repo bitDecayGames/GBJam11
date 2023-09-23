@@ -718,6 +718,11 @@ class PlayState extends FlxTransitionableState {
 			}
 		}
 
+		// XXX: We need to be able to reset bosses, specifically
+		for (trigger in level.bossSpawners) {
+			trigger.resetTrigger();
+		}
+
 		spawnPlayer(respawnPoint, true);
 	}
 

@@ -122,15 +122,18 @@ class RoverBoss extends EchoSprite {
 
 						if (t.loopsLeft == 0) {
 							// TODO SFX: anticipation frames, screeching of moon tires?
-							animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
+							animation.play(anims.Drive, false, x > camera.getCenterPoint().x ? false : true);
 							new FlxTimer().start(.5, (t) -> {
 								curPhase = 2;
 							});
 						}
 					}, 2);
 				} else {
-					animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
-					curPhase++;
+					// TODO SFX: anticipation frames, screeching of moon tires?
+					animation.play(anims.Drive, false, x > camera.getCenterPoint().x ? false : true);
+					new FlxTimer().start(.5, (t) -> {
+						curPhase++;
+					});
 				}
 			case 2: //dash
 				curPhase = 3;
@@ -153,7 +156,7 @@ class RoverBoss extends EchoSprite {
 						turret.visible = false;
 						core.visible = true;
 					}
-					animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
+					animation.play(anims.Drive, false, x > camera.getCenterPoint().x ? false : true);
 					FlxTween.tween(body, {x: camera.viewLeft + 25}, {
 						onComplete: (t2) -> {
 							curPhase = 0;
@@ -170,7 +173,7 @@ class RoverBoss extends EchoSprite {
 						turret.visible = false;
 						core.visible = true;
 					}
-					animation.play(anims.all_frames, false, x > camera.getCenterPoint().x ? false : true);
+					animation.play(anims.Drive, false, x > camera.getCenterPoint().x ? false : true);
 					FlxTween.tween(body, {x: camera.viewRight - 25}, {
 						onComplete: (t2) -> {
 							curPhase = 0;

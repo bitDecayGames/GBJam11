@@ -46,6 +46,7 @@ class Level {
 	public var camLockZones:Map<String, FlxRect> = [];
 
 	public var spawners:Array<Trigger> = [];
+	public var bossSpawners:Array<Trigger> = [];
 
 	public var updaters:Array<FlxBasic> = [];
 
@@ -139,7 +140,9 @@ class Level {
 		}
 
 		for (boss in level.l_Entities.all_RoverBoss) {
-			spawners.push(new RoverSpawner(boss.pixelX, boss.pixelY));
+			var spawner = new RoverSpawner(boss.pixelX, boss.pixelY);
+			bossSpawners.push(spawner);
+			spawners.push(spawner);
 		}
 	}
 

@@ -135,7 +135,7 @@ class PlayState extends FlxTransitionableState {
 
 		var startLevel = "Level_0";
 		#if logan
-		startLevel = "Level_2";
+		startLevel = "Level_4";
 		#end
 
 		loadLevel(startLevel, Collected.getCheckpointID());
@@ -323,7 +323,8 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
-		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(enemies), terrainBodies, {
+		// collide enemies as second group so they are always on the 'b' side of interaction
+		FlxEcho.instance.world.listen(terrainBodies, FlxEcho.get_group_bodies(enemies), {
 			separate: true,
 			enter: (a, b, o) -> {
 				if (a.object is EchoSprite) {
@@ -339,7 +340,8 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
-		FlxEcho.instance.world.listen(FlxEcho.get_group_bodies(enemies), terrainOneWayBodies, {
+		// collide enemies as second group so they are always on the 'b' side of interaction
+		FlxEcho.instance.world.listen(terrainOneWayBodies, FlxEcho.get_group_bodies(enemies), {
 			separate: true,
 			condition: oneWayCondition,
 			enter: (a, b, o) -> {
@@ -380,7 +382,8 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
-		FlxEcho.listen(enemies, playerBullets, {
+		// collide enemies as second group so they are always on the 'b' side of interaction
+		FlxEcho.listen(playerBullets, enemies, {
 			separate: false,
 			enter: (a, b, o) -> {
 				if (a.object is EchoSprite) {
@@ -404,6 +407,7 @@ class PlayState extends FlxTransitionableState {
 			}
 		});
 
+		// collide enemies as second group so they are always on the 'b' side of interaction
 		FlxEcho.listen(playerGroup, enemies, {
 			separate: false,
 			enter: (a, b, o) -> {
@@ -718,7 +722,7 @@ class PlayState extends FlxTransitionableState {
 
 	public function addBGTerrain(b:FlxSprite) {
 		// TODO: Do we need a separate group for things we want the player to collide with, but bullets NOT to?
-		b.add_to_group(terrainGroup);
+		b.add_to_group(terrainDecorGroup);
 	}
 
 	public function addEnemy(e:FlxSprite) {

@@ -2013,6 +2013,46 @@
 							"defUid": 22,
 							"px": [384,120],
 							"fieldInstances": []
+						},
+						{
+							"__identifier": "NextLevel",
+							"__grid": [117,0],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#733E39",
+							"__worldX": 936,
+							"__worldY": 160,
+							"iid": "b7779870-3b70-11ee-be83-1dc9af120497",
+							"width": 8,
+							"height": 144,
+							"defUid": 19,
+							"px": [936,0],
+							"fieldInstances": [{ "__identifier": "Entity_ref", "__type": "EntityRef", "__value": {
+								"entityIid": "c4bd4520-3b70-11ee-be83-3d1a47d75166",
+								"layerIid": "203a2021-3b70-11ee-be83-d9c08a925308",
+								"levelIid": "2039f910-3b70-11ee-be83-856fef9b5792",
+								"worldIid": "ded66c41-3b70-11ee-9c97-27b856925a1e"
+							}, "__tile": null, "defUid": 20, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["c4bd4520-3b70-11ee-be83-3d1a47d75166"]
+							}] }]
+						},
+						{
+							"__identifier": "Player_spawn",
+							"__grid": [1,9],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 5, "x": 48, "y": 1008, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"__worldX": 8,
+							"__worldY": 232,
+							"iid": "c7ab8b70-3b70-11ee-be83-5fb5ec2dd77b",
+							"width": 16,
+							"height": 16,
+							"defUid": 4,
+							"px": [8,72],
+							"fieldInstances": []
 						}
 					]
 				},
@@ -3721,6 +3761,22 @@
 							"defUid": 16,
 							"px": [88,120],
 							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Shooter", "__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [] }]
+						},
+						{
+							"__identifier": "Player_spawn",
+							"__grid": [1,2],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 5, "x": 48, "y": 1008, "w": 16, "h": 16 },
+							"__smartColor": "#BE4A2F",
+							"__worldX": 8,
+							"__worldY": 328,
+							"iid": "c4bd4520-3b70-11ee-be83-3d1a47d75166",
+							"width": 16,
+							"height": 16,
+							"defUid": 4,
+							"px": [8,16],
+							"fieldInstances": []
 						}
 					]
 				},

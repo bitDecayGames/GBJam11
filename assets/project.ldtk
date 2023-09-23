@@ -1680,18 +1680,18 @@
 						},
 						{
 							"__identifier": "Alien",
-							"__grid": [21,9],
+							"__grid": [21,11],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 },
 							"__smartColor": "#E4A672",
 							"__worldX": 168,
-							"__worldY": 232,
+							"__worldY": 248,
 							"iid": "3ddc1b40-3b70-11ee-957c-293ce039103e",
 							"width": 16,
 							"height": 16,
 							"defUid": 16,
-							"px": [168,72],
+							"px": [168,88],
 							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Shooter", "__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [] }]
 						},
 						{
@@ -1744,18 +1744,18 @@
 						},
 						{
 							"__identifier": "Alien",
-							"__grid": [57,15],
+							"__grid": [57,17],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 },
 							"__smartColor": "#E4A672",
 							"__worldX": 456,
-							"__worldY": 280,
+							"__worldY": 296,
 							"iid": "443b9380-3b70-11ee-957c-6195a2279c99",
 							"width": 16,
 							"height": 16,
 							"defUid": 16,
-							"px": [456,120],
+							"px": [456,136],
 							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Shooter", "__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [] }]
 						},
 						{
@@ -3744,22 +3744,6 @@
 							"height": 16,
 							"defUid": 16,
 							"px": [752,88],
-							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Shooter", "__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [] }]
-						},
-						{
-							"__identifier": "Alien",
-							"__grid": [14,2],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 },
-							"__smartColor": "#E4A672",
-							"__worldX": 112,
-							"__worldY": 328,
-							"iid": "94993430-3b70-11ee-be83-c7f1cff677a9",
-							"width": 16,
-							"height": 16,
-							"defUid": 16,
-							"px": [112,16],
 							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Shooter", "__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [] }]
 						},
 						{

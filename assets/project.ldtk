@@ -1680,18 +1680,18 @@
 						},
 						{
 							"__identifier": "Alien",
-							"__grid": [19,9],
+							"__grid": [21,9],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 },
 							"__smartColor": "#E4A672",
-							"__worldX": 152,
+							"__worldX": 168,
 							"__worldY": 232,
 							"iid": "3ddc1b40-3b70-11ee-957c-293ce039103e",
 							"width": 16,
 							"height": 16,
 							"defUid": 16,
-							"px": [152,72],
+							"px": [168,72],
 							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Shooter", "__tile": { "tilesetUid": 5, "x": 16, "y": 560, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [] }]
 						},
 						{
@@ -2052,6 +2052,22 @@
 							"height": 16,
 							"defUid": 4,
 							"px": [8,72],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "Turret",
+							"__grid": [86,8],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": { "tilesetUid": 5, "x": 80, "y": 544, "w": 16, "h": 16 },
+							"__smartColor": "#3E2731",
+							"__worldX": 688,
+							"__worldY": 224,
+							"iid": "0fbe51e0-3b70-11ee-be83-53f4f5dbed61",
+							"width": 16,
+							"height": 16,
+							"defUid": 22,
+							"px": [688,64],
 							"fieldInstances": []
 						}
 					]

@@ -255,6 +255,7 @@ class PlayState extends FlxTransitionableState {
 			FlxEcho.instance.world.add(body);
 		}
 
+		allGroundingBodies = [];
 		allGroundingBodies = allGroundingBodies.concat(terrainBodies).concat(terrainOneWayBodies);
 		
 		// make sure the arrays exist so our listeners are functioning as intended
@@ -631,7 +632,7 @@ class PlayState extends FlxTransitionableState {
 
 	public function findGroundUnderPoint(start:FlxPoint, into:FlxPoint = null):FlxPoint {
 		var groundCast = Line.get(start.x, start.y, start.x, start.y + 144);
-		var ground = groundCast.linecast(terrainBodies);
+		var ground = groundCast.linecast(allGroundingBodies);
 		if (ground != null) {
 			if (into == null) {
 				into = FlxPoint.get();

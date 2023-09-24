@@ -1,5 +1,6 @@
 package entities.boss;
 
+import states.PlayState;
 import flixel.FlxSprite;
 import flixel.math.FlxRect;
 import entities.particle.Explosion;
@@ -194,6 +195,11 @@ class RoverBoss extends EchoSprite {
 				return;
 			}
 
+			if (turret.health > 0) {
+				// must kill turret first
+				return;
+			}
+
 			health--;
 			camera.shake(0.01, 0.1);
 			FmodManager.PlaySoundOneShot(FmodSFX.EnemyBossDamage);
@@ -204,6 +210,9 @@ class RoverBoss extends EchoSprite {
 				Explosion.death(10, FlxRect.weak(x, y, width, height), () -> {
 					animation.play(anims.Broken);
 					Explosion.death(100, FlxRect.weak(camera.viewLeft, camera.viewTop, camera.width, camera.height), 10);
+					new FlxTimer().start(3, (t) -> {
+						PlayState.ME.playEndSequence();
+					});
 				});
 			} else {
 				core.animation.play(coreAnims.Damage);

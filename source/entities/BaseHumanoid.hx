@@ -1,5 +1,6 @@
 package entities;
 
+import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import debug.DebugLayers;
@@ -50,6 +51,8 @@ class BaseHumanoid extends EchoSprite {
 
 	public var killable = true;
 
+	public var forceGrounded = false;
+
 	public function new(x:Float, y:Float) {
 		super(x, y);
 
@@ -86,7 +89,9 @@ class BaseHumanoid extends EchoSprite {
 	}
 
 	function handleShoot() {
-		FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
+		if (Math.abs(body.x - camera.getCenterPoint().x) < FlxG.width * 2) {
+			FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
+		}
 		var trajectory = FlxPoint.weak(BULLET_SPEED, 0);
 		var vertOffset = 7;
 		var horizontalOffset = 0;
@@ -201,6 +206,10 @@ class BaseHumanoid extends EchoSprite {
 		} else if (!groundedCastLeft && !groundedCastMiddle && !groundedCastRight) {
 			checkGrounded = false;
 			grounded = false;
+		}
+
+		if (forceGrounded) {
+			grounded = true;
 		}
 	}
 

@@ -1,5 +1,7 @@
 package states;
 
+import flixel.tweens.FlxEase;
+import entities.Shuttle;
 import helpers.Analytics;
 import echo.data.Data.CollisionData;
 import echo.util.AABB;
@@ -232,7 +234,7 @@ class PlayState extends FlxTransitionableState {
 		camera.setScrollBoundsRect(0, 0, level.bounds.width, level.bounds.height);
 		FlxEcho.instance.world.set(0, 0, level.bounds.width, level.bounds.height);
 
-		terrainDecorGroup.add(level.terrainDecorGfx);
+		terrainDecorGroup.insert(0, level.terrainDecorGfx);
 		terrainGroup.add(level.terrainGfx);
 		terrainOneWayGroup.add(level.terrainOneWayGfx);
 
@@ -579,6 +581,58 @@ class PlayState extends FlxTransitionableState {
 		return spawnPoint;
 	}
 
+	public function playEndSequence() {
+		player.inControl = false;
+		// spawn ship, fly into screen
+		var shuttle = new Shuttle();
+		shuttle.setPosition(camera.viewLeft - shuttle.width, camera.viewTop - shuttle.height);
+		// XXX: adding it here to get render order correct
+		enemies.add(shuttle);
+		new FlxTimer().start(0.5, (timer) -> {
+			shuttle.doLanding();
+		});
+		FlxTween.tween(shuttle, {x: camera.viewLeft + 5, y: camera.viewTop + 25}, {
+			ease: FlxEase.sineOut,
+			onComplete: (t) -> {
+				new FlxTimer().start(0.5, (timer) -> {
+					// ship door opens
+					shuttle.openDoor(() -> {
+						new FlxTimer().start(1, (timer2) -> {
+							player.body.active = false;
+							FlxTween.tween(player.body, {x: shuttle.x + 90});
+							FlxTween.tween(player.body, {y: shuttle.y}, 0.7, {
+								ease: FlxEase.sineOut,
+								onComplete: (t2) -> {
+									FlxTween.tween(player.body, {y: shuttle.y + 35}, 0.3, {
+										ease: FlxEase.sineIn,
+										onComplete: (t3) -> {
+											player.visible = false;
+											shuttle.closeDoor(() -> {
+												shuttle.takeOff();
+												FlxTween.tween(shuttle, {x: camera.viewRight, y: camera.viewTop - shuttle.height}, {
+													ease: FlxEase.sineIn,
+													onComplete: (t4) -> {
+														fader.fadeOut(() -> FlxG.switchState(new CreditsState()));
+													}
+												});
+											});
+										}
+									});
+								}
+							});
+						});
+					});
+				});
+			}
+		});
+		// player jumps onto ship
+
+		// ship door closes
+		// ship flies away
+		// transition to end scene
+		// transition to credits
+	}
+
 	public function transitionToLevel(iid:String) {
 		player.inControl = false;
 		fader.fadeOut(() -> {
@@ -662,6 +716,12 @@ class PlayState extends FlxTransitionableState {
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		#if debug
+		if (FlxG.keys.justPressed.P) {
+			playEndSequence();
+		}
+		#end
 
 		for (cp in level.checkpoints) {
 			DebugDraw.ME.drawWorldCircle(cp.pixelX, cp.pixelY, 2, LEVEL);

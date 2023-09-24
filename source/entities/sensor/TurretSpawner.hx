@@ -23,9 +23,6 @@ class TurretSpawner extends Trigger {
 		spawnX = x;
 		spawnY = y;
 		this.maker = maker;
-
-		bg = new FlxSprite(x, y, AssetPaths.TurretBG__png);
-		PlayState.ME.addBGTerrain(bg);
 	}
 
 	override function activate() {
@@ -37,6 +34,7 @@ class TurretSpawner extends Trigger {
 
 		activeEnemy = maker(this);
 		PlayState.ME.addEnemy(activeEnemy);
+		PlayState.ME.addBGTerrain(activeEnemy.bg);
 	}
 
 	public function queueReset() {

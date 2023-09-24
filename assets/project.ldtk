@@ -5704,18 +5704,18 @@
 						},
 						{
 							"__identifier": "Player_spawn",
-							"__grid": [1,2],
+							"__grid": [3,2],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 48, "y": 1008, "w": 16, "h": 16 },
 							"__smartColor": "#BE4A2F",
-							"__worldX": 8,
+							"__worldX": 24,
 							"__worldY": 328,
 							"iid": "c4bd4520-3b70-11ee-be83-3d1a47d75166",
 							"width": 16,
 							"height": 16,
 							"defUid": 4,
-							"px": [8,16],
+							"px": [24,16],
 							"fieldInstances": []
 						},
 						{
@@ -5777,18 +5777,18 @@
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [32,4],
+							"__grid": [34,5],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
-							"__worldX": 256,
-							"__worldY": 344,
+							"__worldX": 272,
+							"__worldY": 352,
 							"iid": "fc03fda0-3b70-11ee-842e-dbcd317d8ce3",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [256,32],
+							"px": [272,40],
 							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
 						},
 						{
@@ -5809,18 +5809,18 @@
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [77,5],
+							"__grid": [79,5],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
-							"__worldX": 616,
+							"__worldX": 632,
 							"__worldY": 352,
 							"iid": "ff8498e0-3b70-11ee-842e-e132ccef1b69",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [616,40],
+							"px": [632,40],
 							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
 						},
 						{
@@ -6378,34 +6378,34 @@
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [103,11],
+							"__grid": [104,10],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
-							"__worldX": 824,
-							"__worldY": 400,
+							"__worldX": 832,
+							"__worldY": 392,
 							"iid": "cda39810-3b70-11ee-b1e6-0deb545b25cf",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [824,88],
+							"px": [832,80],
 							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
 						},
 						{
 							"__identifier": "Checkpoint",
-							"__grid": [135,12],
+							"__grid": [136,12],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 176, "y": 976, "w": 16, "h": 16 },
 							"__smartColor": "#EAD4AA",
-							"__worldX": 1080,
+							"__worldX": 1088,
 							"__worldY": 408,
 							"iid": "d0432220-3b70-11ee-b1e6-9d8abbe8acc5",
 							"width": 8,
 							"height": 8,
 							"defUid": 14,
-							"px": [1080,96],
+							"px": [1088,96],
 							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
 						},
 						{
@@ -6455,13 +6455,13 @@
 							"defUid": 14,
 							"px": [1560,56],
 							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [{
-								"entityIid": "d64ae4d0-3b70-11ee-b1e6-75a36dcd3c2f",
+								"entityIid": "d64b0be0-3b70-11ee-b1e6-191d0b2f6e4e",
 								"layerIid": "203a2021-3b70-11ee-be83-d9c08a925308",
 								"levelIid": "2039f910-3b70-11ee-be83-856fef9b5792",
 								"worldIid": "ded66c41-3b70-11ee-9c97-27b856925a1e"
 							}], "__tile": null, "defUid": 15, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["d64ae4d0-3b70-11ee-b1e6-75a36dcd3c2f"]
+								"params": ["d64b0be0-3b70-11ee-b1e6-191d0b2f6e4e"]
 							}] }]
 						},
 						{

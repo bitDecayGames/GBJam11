@@ -591,9 +591,11 @@ class PlayState extends FlxTransitionableState {
 		new FlxTimer().start(0.5, (timer) -> {
 			shuttle.doLanding();
 		});
+		player.flipX = player.body.x > shuttle.x + 90;
 		FlxTween.tween(shuttle, {x: camera.viewLeft + 5, y: camera.viewTop + 25}, {
 			ease: FlxEase.sineOut,
 			onComplete: (t) -> {
+				player.flipX = player.body.x > shuttle.x + 90;
 				new FlxTimer().start(0.5, (timer) -> {
 					// ship door opens
 					shuttle.openDoor(() -> {

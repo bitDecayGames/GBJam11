@@ -45,11 +45,11 @@ class RoverBoss extends EchoSprite {
 	public function new(x:Float, y:Float) {
 		// 64x28
 		super(x, y-14);
-		health = 10;
+		health = 5;
 
 		turret = new Turret(this.x + turretOffset.x, this.y + turretOffset.y);
 		turret.externallyControlled();
-		turret.health = 10;
+		turret.health = 5;
 
 		core = new FlxSprite();
 		Aseprite.loadAllAnimations(core, AssetPaths.Core__json);

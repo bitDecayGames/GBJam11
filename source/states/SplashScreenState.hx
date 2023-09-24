@@ -1,5 +1,6 @@
 package states;
 
+import ui.Fader;
 import config.Configure;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -24,17 +25,25 @@ class SplashScreenState extends FlxState {
 	var splashesOver:Bool = false;
 	var fadingOut:Bool = false;
 
+	var fade:Fader;
+
 	override public function create():Void {
 		super.create();
+
+		bgColor = Constants.LIGHTEST;
+
+		fade = new Fader();
 
 		// List splash screen image paths here
 		loadSplashImages([
 			new SplashImage(AssetPaths.bitdecaygamesinverted__png),
-			new SplashImage(AssetPaths.ld_logo__png)
+			new SplashImage(AssetPaths.gbjam_logo__png)
 		]);
 
 		timer = splashDuration;
-		currentTween = getFadeIn(index);
+		add(fade);
+
+		doFadeIn(index);
 	}
 
 	// A function that returns if the current splash should be skipped or not
@@ -64,25 +73,17 @@ class SplashScreenState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		super.update(elapsed);
 		timer -= elapsed;
-		var playerSkipped = !fadingOut && !splashesOver && Configure.config.splashScreens.allowClickToSkip && checkForSkip();
-		if (timer < 0 || playerSkipped) {
+		if (timer < 0) {
 			nextSplash();
 		}
 	}
 
-	private function getFadeIn(index:Int):VarTween {
+	private function doFadeIn(index:Int) {
 		var splash = splashImages[index];
-		var fadeInTween = FlxTween.tween(splash, {alpha: 1}, 1);
-		fadeInTween.onStart = (t) -> {
-			fadingOut = false;
-		};
-		if (splash.animation.getByName(PLAY_ANIMATION) != null) {
-			fadeInTween.onComplete = (t) -> splash.animation.play(PLAY_ANIMATION);
-			splash.animation.callback = (name, frameNumber, frameIndex) -> {
-				// Can add sfx or other things here
-			};
-		}
-		return fadeInTween;
+		splash.visible = true;
+		splash.alpha = 1;
+		fadingOut = false;
+		fade.fadeIn(()-> {});
 	}
 
 	public function nextSplash() {
@@ -91,24 +92,22 @@ class SplashScreenState extends FlxState {
 			return;
 		}
 
-		if (currentTween != null && !currentTween.finished) {
-			currentTween.cancel();
-		}
-
 		fadingOut = true;
-		currentTween = FlxTween.tween(splashImages[index], {alpha: 0}, 0.5);
-
-		index += 1;
 		timer = splashDuration;
+		fade.fadeOut(()-> {
+			var splash = splashImages[index];
+			splash.visible = false;
 
-		if (index < splashImages.length) {
-			currentTween.then(getFadeIn(index));
-		} else {
-			splashesOver = true;
-			currentTween.onComplete = (t) -> {
+			index += 1;
+			timer = splashDuration;
+
+			if (index < splashImages.length) {
+				doFadeIn(index);
+			} else {
+				splashesOver = true;
 				FmodFlxUtilities.TransitionToState(new MainMenuState());
-			};
-		}
+			}
+		});
 	}
 
 	override public function onFocusLost() {

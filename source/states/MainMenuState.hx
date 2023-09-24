@@ -1,5 +1,13 @@
 package states;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import ui.Fader;
+import input.SimpleController;
+import flixel.util.FlxSpriteUtil;
+import ui.font.BitmapText.TrooperLightest;
+import flixel.FlxSprite;
 import bitdecay.flixel.transitions.TransitionDirection;
 import bitdecay.flixel.transitions.SwirlTransition;
 import states.AchievementsState;
@@ -21,75 +29,47 @@ import lime.system.System;
 #end
 
 class MainMenuState extends FlxUIState {
-	var _btnPlay:FlxButton;
-	var _btnCredits:FlxButton;
-	var _btnExit:FlxButton;
-
-	var _txtTitle:FlxText;
+	var fade = new Fader();
+	var pressStart:TrooperLightest;
+	var handleInput = true;
 
 	override public function create():Void {
-		_xml_id = "main_menu";
-		if (Configure.config.menus.keyboardNavigation || Configure.config.menus.controllerNavigation) {
-			_makeCursor = true;
-		}
-
 		super.create();
 
-		if (_makeCursor) {
-			cursor.loadGraphic(AssetPaths.pointer__png, true, 32, 32);
-			cursor.animation.add("pointing", [0, 1], 3);
-			cursor.animation.play("pointing");
-
-			var keys:Int = 0;
-			if (Configure.config.menus.keyboardNavigation) {
-				keys |= FlxUICursor.KEYS_ARROWS | FlxUICursor.KEYS_WASD;
-			}
-			if (Configure.config.menus.controllerNavigation) {
-				keys |= FlxUICursor.GAMEPAD_DPAD;
-			}
-			cursor.setDefaultKeys(keys);
-		}
-
-		FmodManager.PlaySong(FmodSongs.LetsGo);
-		bgColor = FlxColor.TRANSPARENT;
+		// FmodManager.PlaySong(FmodSongs.LetsGo);
+		bgColor = Constants.DARKEST;
 		FlxG.camera.pixelPerfectRender = true;
-
-		#if !windows
-		// Hide exit button for non-windows targets
-		var test = _ui.getAsset("exit_button");
-		test.visible = false;
-		#end
 
 		// Trigger our focus logic as we are just creating the scene
 		this.handleFocus();
 
 		// we will handle transitions manually
 		transOut = null;
-	}
 
-	override public function getEvent(name:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
-		if (name == FlxUITypedButton.CLICK_EVENT) {
-			var button_action:String = params[0];
-			trace('Action: "${button_action}"');
+		var bg = new FlxSprite(0, -100, AssetPaths.Title__png);
+		add(bg);
 
-			if (button_action == "play") {
-				clickPlay();
+		pressStart = new TrooperLightest("press start");
+		pressStart.screenCenter(X);
+		pressStart.y = -100;
+		add(pressStart);
+
+		add(fade);
+
+		FlxTween.tween(bg, {y: 30}, {
+			ease: FlxEase.expoIn,
+			onComplete: (t) -> {
+				camera.shake(0.03, 0.1);
+				FlxTween.tween(pressStart, {y: FlxG.height - 30}, {
+					ease: FlxEase.expoIn,
+					onComplete: (t2) -> {
+						camera.shake(0.03, 0.1);
+						FlxSpriteUtil.flicker(pressStart, 0, 0.5);
+						handleInput = true;
+					}
+				});
 			}
-
-			if (button_action == "credits") {
-				clickCredits();
-			}
-
-			if (button_action == "achievements") {
-				clickAchievements();
-			}
-
-			#if windows
-			if (button_action == "exit") {
-				clickExit();
-			}
-			#end
-		}
+		});
 	}
 
 	override public function update(elapsed:Float):Void {
@@ -101,31 +81,22 @@ class MainMenuState extends FlxUIState {
 			FmodManager.PlaySoundOneShot(FmodSFX.MenuSelect);
 			trace("---------- Bitlytics Stopped ----------");
 		}
+
+		if (handleInput && SimpleController.just_pressed(START)) {
+			handleInput = false;
+			FlxSpriteUtil.flicker(pressStart, 0, 0.25);
+			new FlxTimer().start(1, (t) -> {
+				clickPlay();
+			});
+		}
 	}
 
 	function clickPlay():Void {
 		FmodManager.StopSong();
-		var swirlOut = new SwirlTransition(TransitionDirection.OUT, () -> {
-			// make sure our music is stopped;
-			FmodManager.StopSongImmediately();
+		fade.fadeOut(() -> {
 			FlxG.switchState(new PlayState());
-		}, FlxColor.GRAY, 0.75);
-		openSubState(swirlOut);
+		});
 	}
-
-	function clickCredits():Void {
-		FmodFlxUtilities.TransitionToState(new CreditsState());
-	}
-
-	function clickAchievements():Void {
-		FmodFlxUtilities.TransitionToState(new AchievementsState());
-	}
-
-	#if windows
-	function clickExit():Void {
-		System.exit(0);
-	}
-	#end
 
 	override public function onFocusLost() {
 		super.onFocusLost();

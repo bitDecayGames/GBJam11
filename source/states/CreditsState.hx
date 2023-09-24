@@ -45,7 +45,7 @@ class CreditsState extends FlxUIState {
 
 	var toolingImages = [
 		AssetPaths.FLStudioLogo__png,
-		AssetPaths.FmodLogoWhite__png,
+		AssetPaths.FmodLogoBlack__png,
 		AssetPaths.HaxeFlixelLogo__png,
 		AssetPaths.pyxel_edit__png
 	];

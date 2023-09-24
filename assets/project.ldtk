@@ -5853,7 +5853,15 @@
 							"height": 144,
 							"defUid": 10,
 							"px": [1720,0],
-							"fieldInstances": [{ "__identifier": "Area", "__type": "EntityRef", "__value": null, "__tile": null, "defUid": 11, "realEditorValues": [] }]
+							"fieldInstances": [{ "__identifier": "Area", "__type": "EntityRef", "__value": {
+								"entityIid": "d64ae4d0-3b70-11ee-b1e6-75a36dcd3c2f",
+								"layerIid": "203a2021-3b70-11ee-be83-d9c08a925308",
+								"levelIid": "2039f910-3b70-11ee-be83-856fef9b5792",
+								"worldIid": "ded66c41-3b70-11ee-9c97-27b856925a1e"
+							}, "__tile": null, "defUid": 11, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["d64ae4d0-3b70-11ee-b1e6-75a36dcd3c2f"]
+							}] }]
 						},
 						{
 							"__identifier": "RoverBoss",

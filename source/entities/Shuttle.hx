@@ -5,7 +5,7 @@ import loaders.Aseprite;
 import flixel.FlxSprite;
 
 class Shuttle extends FlxSprite {
-	public static var anims = AsepriteMacros.tagNames("assets/aseprite/shuttle.json");
+	public static var anims = AsepriteMacros.tagNames("assets/aseprite/Shuttle.json");
 
 	public var openCB:Void->Void = null;
 	public var closeCB:Void->Void = null;

@@ -382,6 +382,10 @@ class Player extends BaseHumanoid {
 	override function updateCurrentAnimation() {
 		var nextAnim = animation.curAnim.name;
 
+		if (grounded) {
+			animState.add(GROUNDED);
+		}
+
 		if (intentState.has(MOVE_RIGHT)) {
 			flipX = false;
 		} else if (intentState.has(MOVE_LEFT)) {

@@ -127,7 +127,9 @@ class Turret extends EchoSprite {
 		offset.rotateByDegrees(adjust);
 		var bullet = BasicBullet.pool.recycle(BasicBullet);
 		// TODO Only fire when on camera
-		FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
+		if (Math.abs(body.x - camera.getCenterPoint().x) < FlxG.width * 2) {
+			FmodManager.PlaySoundOneShot(FmodSFX.WeaponGunShoot);
+		}
 		bullet.spawn(body.x + offset.x, body.y + offset.y, trajectory);
 		PlayState.ME.addEnemyBullet(bullet);
 	}

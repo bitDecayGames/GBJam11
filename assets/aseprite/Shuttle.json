@@ -493,6 +493,15 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 163, "h": 71 },
     "sourceSize": { "w": 163, "h": 71 },
     "duration": 100
+   },
+   {
+    "filename": "Shuttle 55.aseprite",
+    "frame": { "x": 652, "y": 142, "w": 163, "h": 71 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 163, "h": 71 },
+    "sourceSize": { "w": 163, "h": 71 },
+    "duration": 100
    }
  ],
  "meta": {

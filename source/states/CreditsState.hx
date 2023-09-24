@@ -1,5 +1,8 @@
 package states;
 
+import ui.font.BitmapText.TrooperWhite;
+import com.bitdecay.analytics.Bitlytics;
+import helpers.Analytics;
 import progress.Collected;
 import ui.font.BitmapText.Trooper;
 import ui.Fader;
@@ -94,7 +97,11 @@ class CreditsState extends FlxUIState {
 
 		_allCreditElements = new Array<FlxSprite>();
 
-		_txtCreditsTitle = new Trooper(FlxG.width / 4, FlxG.height / 2 + FlxG.height, "Credits");
+		_txtCreditsTitle = new TrooperWhite(FlxG.width / 4, FlxG.height / 2 + FlxG.height, "Credits");
+		_txtCreditsTitle.color = Constants.DARK;
+		_txtCreditsTitle.borderStyle = OUTLINE;
+		_txtCreditsTitle.borderSize = 1;
+		_txtCreditsTitle.borderColor = Constants.DARK_TO_DARKEST_MULT;
 		center(_txtCreditsTitle);
 		add(_txtCreditsTitle);
 
@@ -139,24 +146,40 @@ class CreditsState extends FlxUIState {
 			_allCreditElements.push(display);
 		}
 
-		_txtThankYou = new Trooper(entryRightMargin, creditsVerticalOffset + FlxG.height / 2, "Thank you!");
+		_txtThankYou = new TrooperWhite(entryRightMargin, creditsVerticalOffset + FlxG.height / 2, "Thank you!");
 		_txtThankYou.alignment = FlxTextAlign.LEFT;
+		_txtThankYou.color = Constants.DARK;
+		_txtThankYou.borderStyle = OUTLINE;
+		_txtThankYou.borderSize = 1;
+		_txtThankYou.borderColor = Constants.DARK_TO_DARKEST_MULT;
 		add(_txtThankYou);
 		_allCreditElements.push(_txtThankYou);
 
-		_txtDeathToll = new Trooper('Soldiers Lost: ${Collected.getDeathCount()}');
+		_txtDeathToll = new TrooperWhite('Soldiers Lost: ${Collected.getDeathCount()}');
+		_txtDeathToll.color = Constants.DARK;
+		_txtDeathToll.borderStyle = OUTLINE;
+		_txtDeathToll.borderSize = 1;
+		_txtDeathToll.borderColor = Constants.DARK_TO_DARKEST_MULT;
 		_txtDeathToll.screenCenter(X);
 		_txtDeathToll.y = _txtThankYou.y + 35;
 		add(_txtDeathToll);
 		_allCreditElements.push(_txtDeathToll);
 
 		add(fader);
+
+		Analytics.reportWin(Collected.getDeathCount(), 0);
+		Bitlytics.Instance().ForceFlush();
+		Collected.gameComplete();
 	}
 
 	private function AddSectionToCreditsTextArrays(role:String, creators:Array<String>, finalRoleArray:Array<FlxBitmapText>,
 			finalCreatorsArray:Array<FlxBitmapText>) {
-		var roleText = new Trooper(0, 0, role);
+		var roleText = new TrooperWhite(0, 0, role);
+		roleText.color = Constants.DARK;
 		roleText.alignment = LEFT;
+		roleText.borderStyle = OUTLINE;
+		roleText.borderSize = 1;
+		roleText.borderColor = Constants.DARK_TO_DARKEST_MULT;
 		add(roleText);
 		finalRoleArray.push(roleText);
 		_allCreditElements.push(roleText);
@@ -169,8 +192,12 @@ class CreditsState extends FlxUIState {
 			// Make an offset entry for the roles array
 			finalRoleArray.push(new FlxBitmapText(" "));
 
-			var creatorText = new Trooper(0, 0, creator);
+			var creatorText = new TrooperWhite(0, 0, creator);
+			creatorText.color = Constants.DARK;
 			creatorText.alignment = LEFT;
+			creatorText.borderStyle = OUTLINE;
+			creatorText.borderSize = 1;
+			creatorText.borderColor = Constants.DARK_TO_DARKEST_MULT;
 			add(creatorText);
 			finalCreatorsArray.push(creatorText);
 			_allCreditElements.push(creatorText);

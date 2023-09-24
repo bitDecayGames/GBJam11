@@ -24,6 +24,23 @@ abstract PressStart(BitmapText) to BitmapText {
 }
 
 @:forward
+abstract TrooperWhite(BitmapText) to BitmapText {
+	static public var font(get, null):FlxBitmapFont = null;
+
+	inline public function new(x = 0.0, y = 0.0, text = "") {
+		this = new BitmapText(x, y, text.toUpperCase(), font);
+	}
+
+	inline static function get_font() {
+		if (font == null) {
+			@:privateAccess
+			font = BitmapText.createTrooperFont(AssetPaths.Font_White__png);
+		}
+		return font;
+	}
+}
+
+@:forward
 abstract Trooper(BitmapText) to BitmapText {
 	static public var font(get, null):FlxBitmapFont = null;
 

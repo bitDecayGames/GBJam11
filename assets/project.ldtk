@@ -5632,18 +5632,18 @@
 						},
 						{
 							"__identifier": "Alien",
-							"__grid": [11,16],
+							"__grid": [25,16],
 							"__pivot": [0,1],
 							"__tags": [],
 							"__tile": { "tilesetUid": 5, "x": 0, "y": 752, "w": 16, "h": 16 },
 							"__smartColor": "#E4A672",
-							"__worldX": 88,
+							"__worldX": 200,
 							"__worldY": 448,
 							"iid": "96f3c600-3b70-11ee-be83-f3a7529a9d97",
 							"width": 16,
 							"height": 16,
 							"defUid": 16,
-							"px": [88,136],
+							"px": [200,136],
 							"fieldInstances": [{ "__identifier": "Type", "__type": "LocalEnum.AlienType", "__value": "Runner", "__tile": { "tilesetUid": 5, "x": 0, "y": 752, "w": 16, "h": 16 }, "defUid": 18, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Runner"]

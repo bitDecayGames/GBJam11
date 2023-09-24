@@ -1,5 +1,6 @@
 package states.substate;
 
+import flixel.math.FlxMath;
 import input.SimpleController;
 import ui.font.BitmapText.Trooper;
 import ui.SoldierPortrait;
@@ -12,6 +13,7 @@ import flixel.FlxSubState;
 class SoldierIntro extends FlxSubState {
 	static var quips = [
 		"one for the core!",
+		"",
 		"we will not be stopped!",
 		"prepare yourself!"
 	];
@@ -38,10 +40,11 @@ class SoldierIntro extends FlxSubState {
 		add(banner);
 
 		var portrait = new SoldierPortrait(3, banner.y + 9);
+		portrait.animation.frameIndex = FlxG.random.int(1, 4, [2]);
 		portrait.scrollFactor.set();
 		add(portrait);
 
-		var quip = quips[FlxG.random.int(0, quips.length-1)];
+		var quip = quips[portrait.animation.frameIndex];
 		var flavorText = new Trooper(portrait.x + portrait.width + 10, portrait.y, quip);
 		flavorText.autoSize = false;
 		flavorText.fieldWidth = cast (FlxG.width - flavorText.x - 10);

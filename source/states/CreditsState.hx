@@ -1,5 +1,6 @@
 package states;
 
+import progress.Collected;
 import ui.font.BitmapText.Trooper;
 import ui.Fader;
 import flixel.util.FlxTimer;
@@ -32,6 +33,7 @@ class CreditsState extends FlxUIState {
 	var _txtThankYou:FlxBitmapText;
 	var _txtRole:Array<FlxBitmapText>;
 	var _txtCreator:Array<FlxBitmapText>;
+	var _txtDeathToll:FlxBitmapText;
 
 	// Quick appearance variables
 	private var backgroundColor = FlxColor.BLACK;
@@ -54,6 +56,10 @@ class CreditsState extends FlxUIState {
 
 	override public function create():Void {
 		super.create();
+
+		#if credits
+		Collected.initialize();
+		#end
 
 		fader = new Fader();
 		bgColor = Constants.DARKEST;
@@ -137,6 +143,12 @@ class CreditsState extends FlxUIState {
 		_txtThankYou.alignment = FlxTextAlign.LEFT;
 		add(_txtThankYou);
 		_allCreditElements.push(_txtThankYou);
+
+		_txtDeathToll = new Trooper('Soldiers Lost: ${Collected.getDeathCount()}');
+		_txtDeathToll.screenCenter(X);
+		_txtDeathToll.y = _txtThankYou.y + 35;
+		add(_txtDeathToll);
+		_allCreditElements.push(_txtDeathToll);
 
 		add(fader);
 	}

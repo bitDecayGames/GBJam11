@@ -1474,8 +1474,14 @@
 			"__bgPos": null,
 			"externalRelPath": null,
 			"fieldInstances": [
-				{ "__identifier": "mission_name", "__type": "String", "__value": null, "__tile": null, "defUid": 24, "realEditorValues": [] },
-				{ "__identifier": "mission_description", "__type": "String", "__value": null, "__tile": null, "defUid": 23, "realEditorValues": [] }
+				{ "__identifier": "mission_name", "__type": "String", "__value": "mission 1", "__tile": null, "defUid": 24, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["mission 1"]
+				}] },
+				{ "__identifier": "mission_description", "__type": "String", "__value": "infiltrate the base", "__tile": null, "defUid": 23, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["infiltrate the base"]
+				}] }
 			],
 			"layerInstances": [
 				{
@@ -5171,8 +5177,14 @@
 			"__bgPos": null,
 			"externalRelPath": null,
 			"fieldInstances": [
-				{ "__identifier": "mission_name", "__type": "String", "__value": null, "__tile": null, "defUid": 24, "realEditorValues": [] },
-				{ "__identifier": "mission_description", "__type": "String", "__value": null, "__tile": null, "defUid": 23, "realEditorValues": [] }
+				{ "__identifier": "mission_name", "__type": "String", "__value": "mission 2", "__tile": null, "defUid": 24, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["mission 2"]
+				}] },
+				{ "__identifier": "mission_description", "__type": "String", "__value": "disable the rover", "__tile": null, "defUid": 23, "realEditorValues": [{
+					"id": "V_String",
+					"params": ["disable the rover"]
+				}] }
 			],
 			"layerInstances": [
 				{
@@ -6389,15 +6401,7 @@
 							"height": 8,
 							"defUid": 14,
 							"px": [1560,56],
-							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [{
-								"entityIid": "d64b0be0-3b70-11ee-b1e6-191d0b2f6e4e",
-								"layerIid": "203a2021-3b70-11ee-be83-d9c08a925308",
-								"levelIid": "2039f910-3b70-11ee-be83-856fef9b5792",
-								"worldIid": "ded66c41-3b70-11ee-9c97-27b856925a1e"
-							}], "__tile": null, "defUid": 15, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["d64b0be0-3b70-11ee-b1e6-191d0b2f6e4e"]
-							}] }]
+							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
 						},
 						{
 							"__identifier": "Turret",
@@ -6445,7 +6449,15 @@
 							"height": 8,
 							"defUid": 14,
 							"px": [1632,104],
-							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [], "__tile": null, "defUid": 15, "realEditorValues": [] }]
+							"fieldInstances": [{ "__identifier": "Reset_Ents", "__type": "Array<EntityRef>", "__value": [{
+								"entityIid": "d64b0be0-3b70-11ee-b1e6-191d0b2f6e4e",
+								"layerIid": "203a2021-3b70-11ee-be83-d9c08a925308",
+								"levelIid": "2039f910-3b70-11ee-be83-856fef9b5792",
+								"worldIid": "ded66c41-3b70-11ee-9c97-27b856925a1e"
+							}], "__tile": null, "defUid": 15, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["d64b0be0-3b70-11ee-b1e6-191d0b2f6e4e"]
+							}] }]
 						}
 					]
 				},

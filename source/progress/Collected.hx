@@ -89,7 +89,7 @@ class Collected {
 		FlxG.save.flush();
 	}
 
-	public static function getDeathCount() {
+	public static function getDeathCount():Int {
 		return FlxG.save.data.game.checkpoint.deaths;
 	}
 

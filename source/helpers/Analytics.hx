@@ -14,9 +14,16 @@ class Analytics {
 	private static var METRIC_FAILURE_ITEM_COUNT = "failure_item_count";
 	private static var METRIC_FAILURE_TIME = "failure_time";
 
+	private static var METRIC_LEVEL_COMPLETE = "level_complete";
+
 	private static var METRIC_ACHIEVEMENT = "achievement";
 
 	private static var TAG_ACHIEVEMENT_NAME = "name_key";
+	private static var TAG_LEVEL_NUM = "level_num";
+
+	public static function reportLevelFinished(key:String, deaths:Int) {
+		Bitlytics.Instance().Queue(METRIC_LEVEL_COMPLETE, deaths, [new Tag(TAG_LEVEL_NUM, key)]);
+	}
 
 	public static function reportAchievement(key:String) {
 		Bitlytics.Instance().Queue(METRIC_ACHIEVEMENT, 1, [new Tag(TAG_ACHIEVEMENT_NAME, key)]);

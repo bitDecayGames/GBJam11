@@ -1,5 +1,6 @@
 package states;
 
+import helpers.Analytics;
 import echo.data.Data.CollisionData;
 import echo.util.AABB;
 import states.substate.LevelSummary;
@@ -128,12 +129,7 @@ class PlayState extends FlxTransitionableState {
 		add(updaters);
 		add(fader);
 
-		var cpLevel = Collected.getCheckpointLevel();
-		if (cpLevel == null) {
-			cpLevel = "Level_0";
-		}
-
-		var startLevel = "Level_0";
+		var startLevel = "Level_2";
 		#if logan
 		startLevel = "Level_3";
 		#end
@@ -144,6 +140,8 @@ class PlayState extends FlxTransitionableState {
 	@:access(echo.FlxEcho)
 	@:access(ldtk.Layer_Tiles)
 	public function loadLevel(levelID:String, ?entityID:String) {
+		Analytics.reportLevelFinished(level == null ? "initial_load" : level.raw.identifier, Collected.getDeathCount());
+
 		lastLevel = levelID;
 
 		Collected.addTime(levelTime);

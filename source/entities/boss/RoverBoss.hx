@@ -45,11 +45,10 @@ class RoverBoss extends EchoSprite {
 		// 64x28
 		super(x, y-14);
 		health = 10;
-		
-		// body.active = false;
 
 		turret = new Turret(this.x + turretOffset.x, this.y + turretOffset.y);
 		turret.externallyControlled();
+		turret.health = 10;
 
 		core = new FlxSprite();
 		Aseprite.loadAllAnimations(core, AssetPaths.Core__json);
@@ -131,8 +130,9 @@ class RoverBoss extends EchoSprite {
 				} else {
 					// TODO SFX: anticipation frames, screeching of moon tires?
 					animation.play(anims.Drive, false, x > camera.getCenterPoint().x ? false : true);
+					curPhase = 3; // XXX: do nothing until our timers finish
 					new FlxTimer().start(.5, (t) -> {
-						curPhase++;
+						curPhase = 2;
 					});
 				}
 			case 2: //dash
@@ -203,6 +203,7 @@ class RoverBoss extends EchoSprite {
 				body.active = false;
 				Explosion.death(10, FlxRect.weak(x, y, width, height), () -> {
 					animation.play(anims.Broken);
+					Explosion.death(100, FlxRect.weak(camera.viewLeft, camera.viewTop, camera.width, camera.height), 10);
 				});
 			} else {
 				core.animation.play(coreAnims.Damage);

@@ -36,7 +36,7 @@
    { "name": "Turret2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 100, "w": 20, "h": 18 } }] },
    { "name": "GroundLaser", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 127, "w": 52, "h": 17 } }] },
    { "name": "dead_platform", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 119, "w": 52, "h": 8 } }] },
-   { "name": "death_roof", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 5, "y": 73, "w": 47, "h": 9 } }] }
+   { "name": "death_roof", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 5, "y": -97, "w": 47, "h": 179 } }, { "frame": 1, "bounds": {"x": 5, "y": -71, "w": 47, "h": 155 } }] }
   ]
  }
 }

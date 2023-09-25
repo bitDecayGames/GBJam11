@@ -12,6 +12,7 @@ import flixel.FlxSubState;
 
 class SoldierIntro extends FlxSubState {
 	static var quips = [
+		"",
 		"one for the core!",
 		"",
 		"we will not be stopped!",
